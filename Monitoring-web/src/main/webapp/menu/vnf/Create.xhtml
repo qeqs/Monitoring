@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VnfCreateDlg" widgetVar="VnfCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVnfTitle}">
+            <h:form id="VnfCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVnfLabel_idVnf}" for="idVnf" />
+                        <p:inputText id="idVnf" value="#{vnfController.selected.idVnf}" title="#{bundle.CreateVnfTitle_idVnf}" required="true" requiredMessage="#{bundle.CreateVnfRequiredMessage_idVnf}"/>
+                        <p:outputLabel value="#{bundle.CreateVnfLabel_dateVnf}" for="dateVnf" />
+                        <p:calendar id="dateVnf" pattern="MM/dd/yyyy" value="#{vnfController.selected.dateVnf}" title="#{bundle.EditVnfTitle_dateVnf}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVnfLabel_typeVnf}" for="typeVnf" />
+                        <p:inputText id="typeVnf" value="#{vnfController.selected.typeVnf}" title="#{bundle.CreateVnfTitle_typeVnf}" />
+                        <p:outputLabel value="#{bundle.CreateVnfLabel_script}" for="script" />
+                        <p:inputText id="script" value="#{vnfController.selected.script}" title="#{bundle.CreateVnfTitle_script}" />
+                        <p:outputLabel value="#{bundle.CreateVnfLabel_idVm}" for="idVm" />
+                        <p:selectOneMenu id="idVm" value="#{vnfController.selected.idVm}" >
+                            <f:selectItems value="#{vmController.itemsAvailableSelectOne}"
+                                           var="idVmItem"
+                                           itemValue="#{idVmItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vnfController.create}" value="#{bundle.Save}" update="display,:VnfListForm:datalist,:growl" oncomplete="handleSubmit(args,'VnfCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VnfCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

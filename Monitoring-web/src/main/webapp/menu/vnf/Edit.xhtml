@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VnfEditDlg" widgetVar="VnfEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditVnfTitle}">
+            <h:form id="VnfEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditVnfLabel_idVnf}" for="idVnf" />
+                        <p:inputText id="idVnf" value="#{vnfController.selected.idVnf}" title="#{bundle.EditVnfTitle_idVnf}" required="true" requiredMessage="#{bundle.EditVnfRequiredMessage_idVnf}"/>
+                        <p:outputLabel value="#{bundle.EditVnfLabel_dateVnf}" for="dateVnf" />
+                        <p:calendar id="dateVnf" pattern="MM/dd/yyyy" value="#{vnfController.selected.dateVnf}" title="#{bundle.EditVnfTitle_dateVnf}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVnfLabel_typeVnf}" for="typeVnf" />
+                        <p:inputText id="typeVnf" value="#{vnfController.selected.typeVnf}" title="#{bundle.EditVnfTitle_typeVnf}" />
+                        <p:outputLabel value="#{bundle.EditVnfLabel_script}" for="script" />
+                        <p:inputText id="script" value="#{vnfController.selected.script}" title="#{bundle.EditVnfTitle_script}" />
+                        <p:outputLabel value="#{bundle.EditVnfLabel_idVm}" for="idVm" />
+                        <p:selectOneMenu id="idVm" value="#{vnfController.selected.idVm}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vmController.itemsAvailableSelectOne}"
+                                           var="idVmItem"
+                                           itemValue="#{idVmItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vnfController.update}" value="#{bundle.Save}" update="display,:VnfListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VnfEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VnfEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SnmpParamsCreateDlg" widgetVar="SnmpParamsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSnmpParamsTitle}">
+            <h:form id="SnmpParamsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{snmpParamsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSnmpParamsLabel_idSnmpParams}" for="idSnmpParams" />
+                        <p:inputText id="idSnmpParams" value="#{snmpParamsController.selected.idSnmpParams}" title="#{bundle.CreateSnmpParamsTitle_idSnmpParams}" required="true" requiredMessage="#{bundle.CreateSnmpParamsRequiredMessage_idSnmpParams}"/>
+                        <p:outputLabel value="#{bundle.CreateSnmpParamsLabel_udpheader}" for="udpheader" />
+                        <p:inputText id="udpheader" value="#{snmpParamsController.selected.udpheader}" title="#{bundle.CreateSnmpParamsTitle_udpheader}" />
+                        <p:outputLabel value="#{bundle.CreateSnmpParamsLabel_community}" for="community" />
+                        <p:inputText id="community" value="#{snmpParamsController.selected.community}" title="#{bundle.CreateSnmpParamsTitle_community}" />
+                        <p:outputLabel value="#{bundle.CreateSnmpParamsLabel_pduType}" for="pduType" />
+                        <p:inputText id="pduType" value="#{snmpParamsController.selected.pduType}" title="#{bundle.CreateSnmpParamsTitle_pduType}" />
+                        <p:outputLabel value="#{bundle.CreateSnmpParamsLabel_idMetricType}" for="idMetricType" />
+                        <p:selectOneMenu id="idMetricType" value="#{snmpParamsController.selected.idMetricType}" >
+                            <f:selectItems value="#{metricTypeController.itemsAvailableSelectOne}"
+                                           var="idMetricTypeItem"
+                                           itemValue="#{idMetricTypeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{snmpParamsController.create}" value="#{bundle.Save}" update="display,:SnmpParamsListForm:datalist,:growl" oncomplete="handleSubmit(args,'SnmpParamsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SnmpParamsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

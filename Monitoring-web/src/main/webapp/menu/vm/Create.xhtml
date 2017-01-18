@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VmCreateDlg" widgetVar="VmCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVmTitle}">
+            <h:form id="VmCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vmController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVmLabel_idVm}" for="idVm" />
+                        <p:inputText id="idVm" value="#{vmController.selected.idVm}" title="#{bundle.CreateVmTitle_idVm}" required="true" requiredMessage="#{bundle.CreateVmRequiredMessage_idVm}"/>
+                        <p:outputLabel value="#{bundle.CreateVmLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{vmController.selected.name}" title="#{bundle.CreateVmTitle_name}" />
+                        <p:outputLabel value="#{bundle.CreateVmLabel_dateVm}" for="dateVm" />
+                        <p:calendar id="dateVm" pattern="MM/dd/yyyy" value="#{vmController.selected.dateVm}" title="#{bundle.EditVmTitle_dateVm}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVmLabel_ip}" for="ip" />
+                        <p:inputText id="ip" value="#{vmController.selected.ip}" title="#{bundle.CreateVmTitle_ip}" />
+                        <p:outputLabel value="#{bundle.CreateVmLabel_image}" for="image" />
+                        <p:inputText id="image" value="#{vmController.selected.image}" title="#{bundle.CreateVmTitle_image}" />
+                        <p:outputLabel value="#{bundle.CreateVmLabel_extId}" for="extId" />
+                        <p:inputText id="extId" value="#{vmController.selected.extId}" title="#{bundle.CreateVmTitle_extId}" />
+                        <p:outputLabel value="#{bundle.CreateVmLabel_idPm}" for="idPm" />
+                        <p:selectOneMenu id="idPm" value="#{vmController.selected.idPm}" >
+                            <f:selectItems value="#{pmController.itemsAvailableSelectOne}"
+                                           var="idPmItem"
+                                           itemValue="#{idPmItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVmLabel_idProfile}" for="idProfile" />
+                        <p:selectOneMenu id="idProfile" value="#{vmController.selected.idProfile}" >
+                            <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
+                                           var="idProfileItem"
+                                           itemValue="#{idProfileItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vmController.create}" value="#{bundle.Save}" update="display,:VmListForm:datalist,:growl" oncomplete="handleSubmit(args,'VmCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VmCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

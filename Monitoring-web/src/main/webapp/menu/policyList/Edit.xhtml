@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PolicyListEditDlg" widgetVar="PolicyListEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPolicyListTitle}">
+            <h:form id="PolicyListEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idPolicyList}" for="idPolicyList" />
+                        <p:inputText id="idPolicyList" value="#{policyListController.selected.idPolicyList}" title="#{bundle.EditPolicyListTitle_idPolicyList}" required="true" requiredMessage="#{bundle.EditPolicyListRequiredMessage_idPolicyList}"/>
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idProfile}" for="idProfile" />
+                        <p:selectOneMenu id="idProfile" value="#{policyListController.selected.idProfile}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
+                                           var="idProfileItem"
+                                           itemValue="#{idProfileItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{policyListController.update}" value="#{bundle.Save}" update="display,:PolicyListListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyListEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PolicyListEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

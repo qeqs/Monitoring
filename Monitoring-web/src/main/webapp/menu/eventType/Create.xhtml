@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EventTypeCreateDlg" widgetVar="EventTypeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEventTypeTitle}">
+            <h:form id="EventTypeCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{eventTypeController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateEventTypeLabel_idEventType}" for="idEventType" />
+                        <p:inputText id="idEventType" value="#{eventTypeController.selected.idEventType}" title="#{bundle.CreateEventTypeTitle_idEventType}" required="true" requiredMessage="#{bundle.CreateEventTypeRequiredMessage_idEventType}"/>
+                        <p:outputLabel value="#{bundle.CreateEventTypeLabel_type}" for="type" />
+                        <p:inputText id="type" value="#{eventTypeController.selected.type}" title="#{bundle.CreateEventTypeTitle_type}" />
+                        <p:outputLabel value="#{bundle.CreateEventTypeLabel_priority}" for="priority" />
+                        <p:inputText id="priority" value="#{eventTypeController.selected.priority}" title="#{bundle.CreateEventTypeTitle_priority}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{eventTypeController.create}" value="#{bundle.Save}" update="display,:EventTypeListForm:datalist,:growl" oncomplete="handleSubmit(args,'EventTypeCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EventTypeCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
