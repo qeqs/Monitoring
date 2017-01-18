@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TreshholdCreateDlg" widgetVar="TreshholdCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTreshholdTitle}">
+            <h:form id="TreshholdCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{treshholdController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTreshholdLabel_sign}" for="sign" />
+                        <p:inputText id="sign" value="#{treshholdController.selected.sign}" title="#{bundle.CreateTreshholdTitle_sign}" />
+                        <p:outputLabel value="#{bundle.CreateTreshholdLabel_value}" for="value" />
+                        <p:inputText id="value" value="#{treshholdController.selected.value}" title="#{bundle.CreateTreshholdTitle_value}" />
+                        <p:outputLabel value="#{bundle.CreateTreshholdLabel_metricType}" for="metricType" />
+                        <p:selectOneMenu id="metricType" value="#{treshholdController.selected.metricType}" required="true" requiredMessage="#{bundle.EditTreshholdRequiredMessage_metricType}">
+                            <f:selectItems value="#{metricTypeController.itemsAvailableSelectOne}"
+                                           var="metricTypeItem"
+                                           itemValue="#{metricTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTreshholdLabel_policy}" for="policy" />
+                        <p:selectOneMenu id="policy" value="#{treshholdController.selected.policy}" required="true" requiredMessage="#{bundle.EditTreshholdRequiredMessage_policy}">
+                            <f:selectItems value="#{policyController.itemsAvailableSelectOne}"
+                                           var="policyItem"
+                                           itemValue="#{policyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{treshholdController.create}" value="#{bundle.Save}" update="display,:TreshholdListForm:datalist,:growl" oncomplete="handleSubmit(args,'TreshholdCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TreshholdCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

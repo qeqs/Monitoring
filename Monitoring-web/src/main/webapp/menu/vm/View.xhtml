@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VmViewDlg" widgetVar="VmViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewVmTitle}">
+            <h:form id="VmViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{vmController.selected != null}">
+                        <h:outputText value="#{bundle.ViewVmLabel_idVm}"/>
+                        <h:outputText value="#{vmController.selected.idVm}" title="#{bundle.ViewVmTitle_idVm}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_name}"/>
+                        <h:outputText value="#{vmController.selected.name}" title="#{bundle.ViewVmTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_dateVm}"/>
+                        <h:outputText value="#{vmController.selected.dateVm}" title="#{bundle.ViewVmTitle_dateVm}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewVmLabel_ip}"/>
+                        <h:outputText value="#{vmController.selected.ip}" title="#{bundle.ViewVmTitle_ip}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_image}"/>
+                        <h:outputText value="#{vmController.selected.image}" title="#{bundle.ViewVmTitle_image}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_extId}"/>
+                        <h:outputText value="#{vmController.selected.extId}" title="#{bundle.ViewVmTitle_extId}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_idPm}"/>
+                        <h:outputText value="#{vmController.selected.idPm}" title="#{bundle.ViewVmTitle_idPm}"/>
+                        <h:outputText value="#{bundle.ViewVmLabel_idProfile}"/>
+                        <h:outputText value="#{vmController.selected.idProfile}" title="#{bundle.ViewVmTitle_idProfile}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="VmViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

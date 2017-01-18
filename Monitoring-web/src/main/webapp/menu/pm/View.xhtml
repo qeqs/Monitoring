@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PmViewDlg" widgetVar="PmViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPmTitle}">
+            <h:form id="PmViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pmController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPmLabel_idPm}"/>
+                        <h:outputText value="#{pmController.selected.idPm}" title="#{bundle.ViewPmTitle_idPm}"/>
+                        <h:outputText value="#{bundle.ViewPmLabel_ip}"/>
+                        <h:outputText value="#{pmController.selected.ip}" title="#{bundle.ViewPmTitle_ip}"/>
+                        <h:outputText value="#{bundle.ViewPmLabel_datePm}"/>
+                        <h:outputText value="#{pmController.selected.datePm}" title="#{bundle.ViewPmTitle_datePm}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PmViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

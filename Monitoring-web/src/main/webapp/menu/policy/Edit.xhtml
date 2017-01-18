@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PolicyEditDlg" widgetVar="PolicyEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPolicyTitle}">
+            <h:form id="PolicyEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idPolicy}" for="idPolicy" />
+                        <p:inputText id="idPolicy" value="#{policyController.selected.idPolicy}" title="#{bundle.EditPolicyTitle_idPolicy}" required="true" requiredMessage="#{bundle.EditPolicyRequiredMessage_idPolicy}"/>
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_treshhold}" for="treshhold" />
+                        <p:selectOneMenu id="treshhold" value="#{policyController.selected.treshhold}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{treshholdController.itemsAvailableSelectOne}"
+                                           var="treshholdItem"
+                                           itemValue="#{treshholdItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idEventType}" for="idEventType" />
+                        <p:selectOneMenu id="idEventType" value="#{policyController.selected.idEventType}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{eventTypeController.itemsAvailableSelectOne}"
+                                           var="idEventTypeItem"
+                                           itemValue="#{idEventTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idMetricType}" for="idMetricType" />
+                        <p:selectOneMenu id="idMetricType" value="#{policyController.selected.idMetricType}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{metricTypeController.itemsAvailableSelectOne}"
+                                           var="idMetricTypeItem"
+                                           itemValue="#{idMetricTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idPolicyList}" for="idPolicyList" />
+                        <p:selectOneMenu id="idPolicyList" value="#{policyController.selected.idPolicyList}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{policyListController.itemsAvailableSelectOne}"
+                                           var="idPolicyListItem"
+                                           itemValue="#{idPolicyListItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{policyController.update}" value="#{bundle.Save}" update="display,:PolicyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PolicyEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

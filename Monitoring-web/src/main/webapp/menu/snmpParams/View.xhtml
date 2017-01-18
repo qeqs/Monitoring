@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SnmpParamsViewDlg" widgetVar="SnmpParamsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSnmpParamsTitle}">
+            <h:form id="SnmpParamsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{snmpParamsController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSnmpParamsLabel_idSnmpParams}"/>
+                        <h:outputText value="#{snmpParamsController.selected.idSnmpParams}" title="#{bundle.ViewSnmpParamsTitle_idSnmpParams}"/>
+                        <h:outputText value="#{bundle.ViewSnmpParamsLabel_udpheader}"/>
+                        <h:outputText value="#{snmpParamsController.selected.udpheader}" title="#{bundle.ViewSnmpParamsTitle_udpheader}"/>
+                        <h:outputText value="#{bundle.ViewSnmpParamsLabel_community}"/>
+                        <h:outputText value="#{snmpParamsController.selected.community}" title="#{bundle.ViewSnmpParamsTitle_community}"/>
+                        <h:outputText value="#{bundle.ViewSnmpParamsLabel_pduType}"/>
+                        <h:outputText value="#{snmpParamsController.selected.pduType}" title="#{bundle.ViewSnmpParamsTitle_pduType}"/>
+                        <h:outputText value="#{bundle.ViewSnmpParamsLabel_idMetricType}"/>
+                        <h:outputText value="#{snmpParamsController.selected.idMetricType}" title="#{bundle.ViewSnmpParamsTitle_idMetricType}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SnmpParamsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PolicyViewDlg" widgetVar="PolicyViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPolicyTitle}">
+            <h:form id="PolicyViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idPolicy}"/>
+                        <h:outputText value="#{policyController.selected.idPolicy}" title="#{bundle.ViewPolicyTitle_idPolicy}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_treshhold}"/>
+                        <h:outputText value="#{policyController.selected.treshhold}" title="#{bundle.ViewPolicyTitle_treshhold}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idEventType}"/>
+                        <h:outputText value="#{policyController.selected.idEventType}" title="#{bundle.ViewPolicyTitle_idEventType}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idMetricType}"/>
+                        <h:outputText value="#{policyController.selected.idMetricType}" title="#{bundle.ViewPolicyTitle_idMetricType}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idPolicyList}"/>
+                        <h:outputText value="#{policyController.selected.idPolicyList}" title="#{bundle.ViewPolicyTitle_idPolicyList}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PolicyViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
