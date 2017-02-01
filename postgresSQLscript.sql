@@ -88,3 +88,15 @@ id_vm INT,
 constraint PK_VNF primary key (id_vnf),
 constraint FK_VM foreign key (id_vm) references VM(id_vm)
 );
+
+CREATE TABLE Settings
+(
+id_settings INT,
+uid character(100),
+keystone_endpoint character(100),
+celiometer_endpoint character(100),
+tenant_name character(100),
+os_username character(100),
+os_password character(100),
+constraint PK_SETTINGS primary key(id_settings)
+);

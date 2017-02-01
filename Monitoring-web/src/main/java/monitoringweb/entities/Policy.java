@@ -57,7 +57,7 @@ public class Policy implements Serializable {
     private Event idEvent;
     @JoinColumn(name = "id_meter", referencedColumnName = "id_meters")
     @ManyToOne
-    private Meters idMeter;
+    private Meter idMeter;
     @JoinColumn(name = "id_policylist", referencedColumnName = "id_policylist")
     @ManyToOne
     private PolicyList idPolicylist;
@@ -133,11 +133,11 @@ public class Policy implements Serializable {
         this.idEvent = idEvent;
     }
 
-    public Meters getIdMeter() {
+    public Meter getIdMeter() {
         return idMeter;
     }
 
-    public void setIdMeter(Meters idMeter) {
+    public void setIdMeter(Meter idMeter) {
         this.idMeter = idMeter;
     }
 

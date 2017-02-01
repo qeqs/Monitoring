@@ -50,7 +50,7 @@ public class Measure implements Serializable {
     private String resource;
     @JoinColumn(name = "id_meter", referencedColumnName = "id_meters")
     @ManyToOne
-    private Meters idMeter;
+    private Meter idMeter;
 
     public Measure() {
     }
@@ -99,11 +99,11 @@ public class Measure implements Serializable {
         this.resource = resource;
     }
 
-    public Meters getIdMeter() {
+    public Meter getIdMeter() {
         return idMeter;
     }
 
-    public void setIdMeter(Meters idMeter) {
+    public void setIdMeter(Meter idMeter) {
         this.idMeter = idMeter;
     }
 

@@ -3,10 +3,10 @@ package monitoringweb.dao;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import monitoringweb.entities.Meters;
+import monitoringweb.entities.Meter;
 
 @Stateless
-public class MetersFacade extends AbstractFacade<Meters> {
+public class MetersFacade extends AbstractFacade<Meter> {
 
     @PersistenceContext(unitName = "virtualizationapp_Monitoring-web_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -17,7 +17,7 @@ public class MetersFacade extends AbstractFacade<Meters> {
     }
 
     public MetersFacade() {
-        super(Meters.class);
+        super(Meter.class);
     }
 
 }

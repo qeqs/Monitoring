@@ -1,4 +1,4 @@
-package monitoringweb.entities;
+package entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Meters.findByType", query = "SELECT m FROM Meters m WHERE m.type = :type")
     , @NamedQuery(name = "Meters.findByUnit", query = "SELECT m FROM Meters m WHERE m.unit = :unit")
     , @NamedQuery(name = "Meters.findByDescription", query = "SELECT m FROM Meters m WHERE m.description = :description")})
-public class Meters implements Serializable {
+public class Meter implements Serializable {
+
+    @Size(max = 100)
+    @Column(name = "name")
+    private String name;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,10 +50,10 @@ public class Meters implements Serializable {
     @OneToMany(mappedBy = "idMeter")
     private List<Policy> policyList;
 
-    public Meters() {
+    public Meter() {
     }
 
-    public Meters(String idMeters) {
+    public Meter(String idMeters) {
         this.idMeters = idMeters;
     }
 
@@ -95,10 +99,10 @@ public class Meters implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Meters)) {
+        if (!(object instanceof Meter)) {
             return false;
         }
-        Meters other = (Meters) object;
+        Meter other = (Meter) object;
         if ((this.idMeters == null && other.idMeters != null) || (this.idMeters != null && !this.idMeters.equals(other.idMeters))) {
             return false;
         }
@@ -107,7 +111,15 @@ public class Meters implements Serializable {
 
     @Override
     public String toString() {
-        return "monitoringweb.entities.Meters[ idMeters=" + idMeters + " ]";
+        return "entities.Meters[ idMeters=" + idMeters + " ]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
