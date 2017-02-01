@@ -1,4 +1,4 @@
-package monitoringweb.entities;
+package entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -114,7 +114,7 @@ public class PolicyList implements Serializable {
 
     @Override
     public String toString() {
-        return "monitoringweb.entities.PolicyList[ idPolicylist=" + idPolicylist + " ]";
+        return "entities.PolicyList[ idPolicylist=" + idPolicylist + " ]";
     }
 
 }

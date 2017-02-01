@@ -1,4 +1,4 @@
-package monitoringweb.entities;
+package entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -171,7 +171,7 @@ public class Policy implements Serializable {
 
     @Override
     public String toString() {
-        return "monitoringweb.entities.Policy[ idPolicy=" + idPolicy + " ]";
+        return "entities.Policy[ idPolicy=" + idPolicy + " ]";
     }
 
 }

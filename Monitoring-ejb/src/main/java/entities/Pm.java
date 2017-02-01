@@ -1,4 +1,4 @@
-package monitoringweb.entities;
+package entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -105,7 +105,7 @@ public class Pm implements Serializable {
 
     @Override
     public String toString() {
-        return "monitoringweb.entities.Pm[ idPm=" + idPm + " ]";
+        return "entities.Pm[ idPm=" + idPm + " ]";
     }
 
 }

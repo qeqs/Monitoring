@@ -2,6 +2,8 @@ package adapters;
 
 import adapters.entities.Access;
 import adapters.entities.Meter;
+import adapters.entities.Network;
+import adapters.entities.Token;
 import adapters.entities.Wrapper;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class OpenStackAdapter implements Adapter{
     private final String KEYSTONE_REST_SERVICE_URL = "http://8.43.86.2:5000/v2.0/";
     private WebTarget webTarget;
     private Client client;
-    private Object token;    
+    private Token token;    
     private WebTarget metrics;
     private WebTarget keystone;
     
@@ -30,7 +32,7 @@ public class OpenStackAdapter implements Adapter{
         client = JerseyClientBuilder.createClient();
         webTarget = client.target(REST_SERVICE_URL);
         keystone = client.target(KEYSTONE_REST_SERVICE_URL);
-        metrics = webTarget.path("/v2/meters/");
+        metrics = webTarget.path("meters");
         
         StringBuilder form = new StringBuilder()
                  .append("{\"auth\": {\"passwordCredentials\":{\"username\": \"")
@@ -45,6 +47,7 @@ public class OpenStackAdapter implements Adapter{
         Access access = wrapper.getAccess();
         token = access.getToken();
         
+        System.out.println("adapters.OpenStackAdapter.init() - resault: "+access.getToken().getId());
     }
     
     public List<Meter> getMeters(){
@@ -57,6 +60,17 @@ public class OpenStackAdapter implements Adapter{
         return meterList;
     }
     public Meter getMeter(String name){
-        return metrics.path(name).request(MediaType.APPLICATION_JSON_TYPE).header("X-Auth-Token", token).get(Meter.class);
+        return metrics.path(name)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("X-Auth-Token", token)
+                .get(Meter.class);
+    }
+    public Network getNetwork(){
+        return client.target("http://8.43.86.2:9696")
+                .path("/v2.0/networks")
+                .path("721d4378-a212-45fc-8b33-eb0baed69fb6")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header("X-Auth-Token", token)
+                .get(Network.class);
     }
 }
