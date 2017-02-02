@@ -100,3 +100,12 @@ os_username character(100),
 os_password character(100),
 constraint PK_SETTINGS primary key(id_settings)
 );
+
+CREATE TABLE Users(
+username VARCHAR(255) PRIMARY KEY, 
+passwd VARCHAR(255));
+
+CREATE TABLE UserRoles(
+username VARCHAR(255), 
+role VARCHAR(32),
+primary key (username,role)); 
