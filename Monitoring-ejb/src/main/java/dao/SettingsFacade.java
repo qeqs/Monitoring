@@ -19,5 +19,9 @@ public class SettingsFacade extends AbstractFacade<Settings> {
     public SettingsFacade() {
         super(Settings.class);
     }
+    
+    public Settings findByUid(String uid){
+        return (Settings) em.createNamedQuery("Settings.findByUid").getSingleResult();
+    }
 
 }

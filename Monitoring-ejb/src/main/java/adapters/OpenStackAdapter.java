@@ -7,9 +7,12 @@ import adapters.entities.Token;
 import adapters.entities.Wrapper;
 import dao.SettingsFacade;
 import entities.Measure;
+import entities.Settings;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
@@ -26,25 +29,39 @@ public class OpenStackAdapter implements Adapter {
 
     private final String REST_SERVICE_URL = "http://x86.trystack.org:8777";
     private final String KEYSTONE_REST_SERVICE_URL = "http://8.43.86.2:5000/v2.0/";
-    
-    @EJB private SettingsFacade settingsFacade;
+
+    @EJB
+    private SettingsFacade settingsFacade;
     private WebTarget webTarget;
     private Client client;
     private Token token;
     private WebTarget metrics;
     private WebTarget keystone;
+    private Settings settings;
 
-    public void init(String login, String pass) {///todo:change with settings
+    @PostConstruct
+    public void init() {
         client = JerseyClientBuilder.createClient();
-        webTarget = client.target(REST_SERVICE_URL);
-        keystone = client.target(KEYSTONE_REST_SERVICE_URL);
+    }
+    @PreDestroy
+    public void close() {
+        client.close();
+    }
+    public void setUser(String uid){        
+        settings = settingsFacade.findByUid(uid);
+        webTarget = client.target(settings.getCeliometerEndpoint());
+        keystone = client.target(settings.getKeystoneEndpoint());
         metrics = webTarget.path("meters");
+        getToken(uid);
+    }
+    private Token getToken(String uid) {
+
 
         StringBuilder form = new StringBuilder()
                 .append("{\"auth\": {\"passwordCredentials\":{\"username\": \"")
-                .append(login)
+                .append(settings.getOsUsername())
                 .append("\",\"password\":  \"")
-                .append(pass)
+                .append(settings.getOsPassword())
                 .append("\"}}}");
 
         Wrapper wrapper = keystone.path("tokens")
@@ -52,11 +69,7 @@ public class OpenStackAdapter implements Adapter {
                 .post(Entity.entity(form.toString(), MediaType.APPLICATION_JSON_TYPE), Wrapper.class);
         Access access = wrapper.getAccess();
         token = access.getToken();
-
-        System.out.println("adapters.OpenStackAdapter.init() - resault: " + access.getToken().getId());
-    }
-    public void close(){
-        client.close();
+        return token;
     }
 
     public List<Meter> getMeters() {
@@ -97,12 +110,12 @@ public class OpenStackAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(entities.Meter meter, String uid) {
-        return getMeasure(meter, uid,new Date());
+        return getMeasure(meter, uid, new Date());
     }
 
     @Override
     public Measure getMeasure(entities.Meter meter, String uid, Date timestamp) {
-        
+
         Sample sample = getOsSample(meter.getName(), timestamp);
 
         Measure measure = new Measure();

@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Policy;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,5 +20,9 @@ public class PolicyFacade extends AbstractFacade<Policy> {
     public PolicyFacade() {
         super(Policy.class);
     }
+    
+    public List<Policy> findAllByUserAndMeter(String idMeter,String uid){
+        return em.createNamedQuery("Policy.findByUsersAndMeter").getResultList();
+    } 
 
 }

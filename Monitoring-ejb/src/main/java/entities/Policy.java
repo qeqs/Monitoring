@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Policy.findByTreshhold", query = "SELECT p FROM Policy p WHERE p.treshhold = :treshhold")
     , @NamedQuery(name = "Policy.findBySign", query = "SELECT p FROM Policy p WHERE p.sign = :sign")
     , @NamedQuery(name = "Policy.findByEnabled", query = "SELECT p FROM Policy p WHERE p.enabled = :enabled")
-    , @NamedQuery(name = "Policy.findByGroups", query = "SELECT p FROM Policy p WHERE p.groups = :groups")})
+    , @NamedQuery(name = "Policy.findByGroups", query = "SELECT p FROM Policy p WHERE p.groups = :groups")
+    , @NamedQuery(name = "Policy.findByUsersAndMeter",query = "SELECT p FROM Policy p WHERE p.idMeter = :idMeter and p.users = :uid")})
 public class Policy implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +38,7 @@ public class Policy implements Serializable {
     private String idPolicy;
     @Size(max = 40)
     @Column(name = "users")
-    private String users;
+    private String uid;
     @Size(max = 40)
     @Column(name = "resource")
     private String resource;
@@ -77,12 +78,12 @@ public class Policy implements Serializable {
         this.idPolicy = idPolicy;
     }
 
-    public String getUsers() {
-        return users;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUsers(String users) {
-        this.users = users;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getResource() {
