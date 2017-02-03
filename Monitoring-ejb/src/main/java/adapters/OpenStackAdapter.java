@@ -27,9 +27,6 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 @Stateless
 public class OpenStackAdapter implements Adapter {
 
-    private final String REST_SERVICE_URL = "http://x86.trystack.org:8777";
-    private final String KEYSTONE_REST_SERVICE_URL = "http://8.43.86.2:5000/v2.0/";
-
     @EJB
     private SettingsFacade settingsFacade;
     private WebTarget webTarget;
@@ -53,9 +50,9 @@ public class OpenStackAdapter implements Adapter {
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
         metrics = webTarget.path("meters");
-        getToken(uid);
+        getToken();
     }
-    private Token getToken(String uid) {
+    private Token getToken() {
 
 
         StringBuilder form = new StringBuilder()
