@@ -102,7 +102,8 @@ constraint PK_SETTINGS primary key(id_settings)
 );
 
 CREATE TABLE Users(
-username VARCHAR(255) PRIMARY KEY, 
+uid VARCHAR(255) PRIMARY KEY,
+username VARCHAR(255), 
 passwd VARCHAR(255));
 
 CREATE TABLE UserRoles(
