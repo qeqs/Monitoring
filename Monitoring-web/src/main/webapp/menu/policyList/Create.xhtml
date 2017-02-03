@@ -12,14 +12,14 @@
             <h:form id="PolicyListCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_idPolicyList}" for="idPolicyList" />
-                        <p:inputText id="idPolicyList" value="#{policyListController.selected.idPolicyList}" title="#{bundle.CreatePolicyListTitle_idPolicyList}" required="true" requiredMessage="#{bundle.CreatePolicyListRequiredMessage_idPolicyList}"/>
-                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_idProfile}" for="idProfile" />
-                        <p:selectOneMenu id="idProfile" value="#{policyListController.selected.idProfile}" >
-                            <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
-                                           var="idProfileItem"
-                                           itemValue="#{idProfileItem}"/>
-                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_idPolicylist}" for="idPolicylist" />
+                        <p:inputText id="idPolicylist" value="#{policyListController.selected.idPolicylist}" title="#{bundle.CreatePolicyListTitle_idPolicylist}" required="true" requiredMessage="#{bundle.CreatePolicyListRequiredMessage_idPolicylist}"/>
+                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_enabled}" for="enabled" />
+                        <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
+                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{policyListController.selected.name}" title="#{bundle.CreatePolicyListTitle_name}" />
+                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_uid}" for="uid" />
+                        <p:inputText id="uid" value="#{policyListController.selected.uid}" title="#{bundle.CreatePolicyListTitle_uid}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{policyListController.create}" value="#{bundle.Save}" update="display,:PolicyListListForm:datalist,:growl" oncomplete="handleSubmit(args,'PolicyListCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyListCreateDialog.hide()"/>

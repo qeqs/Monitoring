@@ -15,6 +15,8 @@ public class Controller {
     @EJB
     private PolicySolver solver;
 
+    
+    
     public void storeMeasure(Measure measure) {
 
         measureFacade.create(measure);

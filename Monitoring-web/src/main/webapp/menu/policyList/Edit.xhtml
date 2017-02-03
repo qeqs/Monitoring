@@ -12,15 +12,14 @@
             <h:form id="PolicyListEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idPolicyList}" for="idPolicyList" />
-                        <p:inputText id="idPolicyList" value="#{policyListController.selected.idPolicyList}" title="#{bundle.EditPolicyListTitle_idPolicyList}" required="true" requiredMessage="#{bundle.EditPolicyListRequiredMessage_idPolicyList}"/>
-                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idProfile}" for="idProfile" />
-                        <p:selectOneMenu id="idProfile" value="#{policyListController.selected.idProfile}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
-                                           var="idProfileItem"
-                                           itemValue="#{idProfileItem}"/>
-                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idPolicylist}" for="idPolicylist" />
+                        <p:inputText id="idPolicylist" value="#{policyListController.selected.idPolicylist}" title="#{bundle.EditPolicyListTitle_idPolicylist}" required="true" requiredMessage="#{bundle.EditPolicyListRequiredMessage_idPolicylist}"/>
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_enabled}" for="enabled" />
+                        <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{policyListController.selected.name}" title="#{bundle.EditPolicyListTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_uid}" for="uid" />
+                        <p:inputText id="uid" value="#{policyListController.selected.uid}" title="#{bundle.EditPolicyListTitle_uid}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{policyListController.update}" value="#{bundle.Save}" update="display,:PolicyListListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyListEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyListEditDialog.hide()"/>

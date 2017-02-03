@@ -14,33 +14,38 @@
                     <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
                         <p:outputLabel value="#{bundle.EditPolicyLabel_idPolicy}" for="idPolicy" />
                         <p:inputText id="idPolicy" value="#{policyController.selected.idPolicy}" title="#{bundle.EditPolicyTitle_idPolicy}" required="true" requiredMessage="#{bundle.EditPolicyRequiredMessage_idPolicy}"/>
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_users}" for="users" />
+                        <p:inputText id="users" value="#{policyController.selected.users}" title="#{bundle.EditPolicyTitle_users}" />
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_resource}" for="resource" />
+                        <p:inputText id="resource" value="#{policyController.selected.resource}" title="#{bundle.EditPolicyTitle_resource}" />
                         <p:outputLabel value="#{bundle.EditPolicyLabel_treshhold}" for="treshhold" />
-                        <p:selectOneMenu id="treshhold" value="#{policyController.selected.treshhold}" >
+                        <p:inputText id="treshhold" value="#{policyController.selected.treshhold}" title="#{bundle.EditPolicyTitle_treshhold}" />
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_sign}" for="sign" />
+                        <p:inputText id="sign" value="#{policyController.selected.sign}" title="#{bundle.EditPolicyTitle_sign}" />
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_enabled}" for="enabled" />
+                        <p:selectBooleanCheckbox id="enabled" value="#{policyController.selected.enabled}" />
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_groups}" for="groups" />
+                        <p:inputText id="groups" value="#{policyController.selected.groups}" title="#{bundle.EditPolicyTitle_groups}" />
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idEvent}" for="idEvent" />
+                        <p:selectOneMenu id="idEvent" value="#{policyController.selected.idEvent}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{treshholdController.itemsAvailableSelectOne}"
-                                           var="treshholdItem"
-                                           itemValue="#{treshholdItem}"/>
+                            <f:selectItems value="#{eventController.itemsAvailableSelectOne}"
+                                           var="idEventItem"
+                                           itemValue="#{idEventItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditPolicyLabel_idEventType}" for="idEventType" />
-                        <p:selectOneMenu id="idEventType" value="#{policyController.selected.idEventType}" >
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idMeter}" for="idMeter" />
+                        <p:selectOneMenu id="idMeter" value="#{policyController.selected.idMeter}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{eventTypeController.itemsAvailableSelectOne}"
-                                           var="idEventTypeItem"
-                                           itemValue="#{idEventTypeItem}"/>
+                            <f:selectItems value="#{meterController.itemsAvailableSelectOne}"
+                                           var="idMeterItem"
+                                           itemValue="#{idMeterItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditPolicyLabel_idMetricType}" for="idMetricType" />
-                        <p:selectOneMenu id="idMetricType" value="#{policyController.selected.idMetricType}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{metricTypeController.itemsAvailableSelectOne}"
-                                           var="idMetricTypeItem"
-                                           itemValue="#{idMetricTypeItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditPolicyLabel_idPolicyList}" for="idPolicyList" />
-                        <p:selectOneMenu id="idPolicyList" value="#{policyController.selected.idPolicyList}" >
+                        <p:outputLabel value="#{bundle.EditPolicyLabel_idPolicylist}" for="idPolicylist" />
+                        <p:selectOneMenu id="idPolicylist" value="#{policyController.selected.idPolicylist}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{policyListController.itemsAvailableSelectOne}"
-                                           var="idPolicyListItem"
-                                           itemValue="#{idPolicyListItem}"/>
+                                           var="idPolicylistItem"
+                                           itemValue="#{idPolicylistItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{policyController.update}" value="#{bundle.Save}" update="display,:PolicyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyEditDialog');"/>

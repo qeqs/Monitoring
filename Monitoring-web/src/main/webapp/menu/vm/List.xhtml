@@ -67,15 +67,15 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListVmTitle_idPm}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idPm}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListVmTitle_idProfile}"/>
                             </f:facet>
                             <h:outputText value="#{item.idProfile}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListVmTitle_idPm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPm}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{vmController.prepareCreate}" update=":VmCreateForm" oncomplete="PF('VmCreateDialog').show()"/>

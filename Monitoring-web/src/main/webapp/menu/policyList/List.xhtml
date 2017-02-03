@@ -19,7 +19,7 @@
                     <p:dataTable id="datalist" value="#{policyListController.items}" var="item"
                                  selectionMode="single" selection="#{policyListController.selected}"
                                  paginator="true"
-                                 rowKey="#{item.idPolicyList}"
+                                 rowKey="#{item.idPolicylist}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
@@ -29,15 +29,27 @@
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPolicyListTitle_idPolicyList}"/>
+                                <h:outputText value="#{bundle.ListPolicyListTitle_idPolicylist}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idPolicyList}"/>
+                            <h:outputText value="#{item.idPolicylist}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPolicyListTitle_idProfile}"/>
+                                <h:outputText value="#{bundle.ListPolicyListTitle_enabled}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idProfile}"/>
+                            <p:selectBooleanCheckbox value="#{item.enabled}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyListTitle_name}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.name}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyListTitle_uid}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.uid}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{policyListController.prepareCreate}" update=":PolicyListCreateForm" oncomplete="PF('PolicyListCreateDialog').show()"/>

@@ -35,27 +35,57 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyTitle_users}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.users}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyTitle_resource}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resource}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPolicyTitle_treshhold}"/>
                             </f:facet>
                             <h:outputText value="#{item.treshhold}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPolicyTitle_idEventType}"/>
+                                <h:outputText value="#{bundle.ListPolicyTitle_sign}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idEventType}"/>
+                            <h:outputText value="#{item.sign}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPolicyTitle_idMetricType}"/>
+                                <h:outputText value="#{bundle.ListPolicyTitle_enabled}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idMetricType}"/>
+                            <p:selectBooleanCheckbox value="#{item.enabled}" disabled="true"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPolicyTitle_idPolicyList}"/>
+                                <h:outputText value="#{bundle.ListPolicyTitle_groups}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idPolicyList}"/>
+                            <h:outputText value="#{item.groups}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyTitle_idEvent}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEvent}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyTitle_idMeter}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMeter}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPolicyTitle_idPolicylist}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPolicylist}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{policyController.prepareCreate}" update=":PolicyCreateForm" oncomplete="PF('PolicyCreateDialog').show()"/>

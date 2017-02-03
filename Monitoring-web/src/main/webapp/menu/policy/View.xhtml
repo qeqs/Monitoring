@@ -14,14 +14,24 @@
                     <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
                         <h:outputText value="#{bundle.ViewPolicyLabel_idPolicy}"/>
                         <h:outputText value="#{policyController.selected.idPolicy}" title="#{bundle.ViewPolicyTitle_idPolicy}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_users}"/>
+                        <h:outputText value="#{policyController.selected.users}" title="#{bundle.ViewPolicyTitle_users}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_resource}"/>
+                        <h:outputText value="#{policyController.selected.resource}" title="#{bundle.ViewPolicyTitle_resource}"/>
                         <h:outputText value="#{bundle.ViewPolicyLabel_treshhold}"/>
                         <h:outputText value="#{policyController.selected.treshhold}" title="#{bundle.ViewPolicyTitle_treshhold}"/>
-                        <h:outputText value="#{bundle.ViewPolicyLabel_idEventType}"/>
-                        <h:outputText value="#{policyController.selected.idEventType}" title="#{bundle.ViewPolicyTitle_idEventType}"/>
-                        <h:outputText value="#{bundle.ViewPolicyLabel_idMetricType}"/>
-                        <h:outputText value="#{policyController.selected.idMetricType}" title="#{bundle.ViewPolicyTitle_idMetricType}"/>
-                        <h:outputText value="#{bundle.ViewPolicyLabel_idPolicyList}"/>
-                        <h:outputText value="#{policyController.selected.idPolicyList}" title="#{bundle.ViewPolicyTitle_idPolicyList}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_sign}"/>
+                        <h:outputText value="#{policyController.selected.sign}" title="#{bundle.ViewPolicyTitle_sign}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_enabled}"/>
+                        <p:selectBooleanCheckbox value="#{policyController.selected.enabled}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_groups}"/>
+                        <h:outputText value="#{policyController.selected.groups}" title="#{bundle.ViewPolicyTitle_groups}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idEvent}"/>
+                        <h:outputText value="#{policyController.selected.idEvent}" title="#{bundle.ViewPolicyTitle_idEvent}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idMeter}"/>
+                        <h:outputText value="#{policyController.selected.idMeter}" title="#{bundle.ViewPolicyTitle_idMeter}"/>
+                        <h:outputText value="#{bundle.ViewPolicyLabel_idPolicylist}"/>
+                        <h:outputText value="#{policyController.selected.idPolicylist}" title="#{bundle.ViewPolicyTitle_idPolicylist}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PolicyViewDialog.hide()"/>
                 </h:panelGroup>

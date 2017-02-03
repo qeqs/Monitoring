@@ -24,19 +24,14 @@
                         <p:inputText id="image" value="#{vmController.selected.image}" title="#{bundle.EditVmTitle_image}" />
                         <p:outputLabel value="#{bundle.EditVmLabel_extId}" for="extId" />
                         <p:inputText id="extId" value="#{vmController.selected.extId}" title="#{bundle.EditVmTitle_extId}" />
+                        <p:outputLabel value="#{bundle.EditVmLabel_idProfile}" for="idProfile" />
+                        <p:inputText id="idProfile" value="#{vmController.selected.idProfile}" title="#{bundle.EditVmTitle_idProfile}" />
                         <p:outputLabel value="#{bundle.EditVmLabel_idPm}" for="idPm" />
                         <p:selectOneMenu id="idPm" value="#{vmController.selected.idPm}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{pmController.itemsAvailableSelectOne}"
                                            var="idPmItem"
                                            itemValue="#{idPmItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditVmLabel_idProfile}" for="idProfile" />
-                        <p:selectOneMenu id="idProfile" value="#{vmController.selected.idProfile}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
-                                           var="idProfileItem"
-                                           itemValue="#{idProfileItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{vmController.update}" value="#{bundle.Save}" update="display,:VmListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VmEditDialog');"/>

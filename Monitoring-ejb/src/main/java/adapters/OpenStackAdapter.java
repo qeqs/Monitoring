@@ -47,7 +47,8 @@ public class OpenStackAdapter implements Adapter {
     public void close() {
         client.close();
     }
-    public void setUser(String uid){        
+    public void setUser(String uid){     
+        if(settingsFacade==null)settingsFacade = new SettingsFacade();
         settings = settingsFacade.findByUid(uid);
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
