@@ -9,7 +9,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import rest.Controller;
 
-public class RestMeasuresJob implements Job{
+public class MeasuresJob implements Job{
 
     
     private adapters.Adapter adapter;

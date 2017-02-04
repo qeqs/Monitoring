@@ -1,6 +1,7 @@
 package scheduler;
 
 import adapters.OpenStackAdapter;
+import adapters.TestAdapter;
 import dao.MetersFacade;
 import dao.UsersFacade;
 import java.util.HashMap;
@@ -36,6 +37,9 @@ public class JobScheduler {
     private UsersFacade usersFacade;
     @EJB
     private Controller controller;
+    
+    @EJB
+    private TestAdapter testAdapter;
 
     @PostConstruct
     public void start() {
@@ -48,17 +52,29 @@ public class JobScheduler {
                             .repeatForever()
                             .withIntervalInSeconds(2))
                     .build();
+            
             Map<String,Object> params = new HashMap<>();
             params.put("adapter", restAdapter);
             params.put("users", usersFacade.findAll());
             params.put("meters", metersFacade.findAll());
             params.put("controller", controller);
-            JobDetail job = JobBuilder.newJob(RestMeasuresJob.class)
-                    .withIdentity("Measures", "Rest")
+            JobDetail jobRest = JobBuilder.newJob(MeasuresJob.class)
+                    .withIdentity("Rest", "Measures")
+                    .setJobData(new JobDataMap(params))
+                    .build();
+            
+            params = new HashMap<>();
+            params.put("adapter", testAdapter);
+            params.put("users", usersFacade.findAll());
+            params.put("meters", metersFacade.findAll());
+            params.put("controller", controller);
+            JobDetail jobTest = JobBuilder.newJob(MeasuresJob.class)
+                    .withIdentity("Test", "Measures")
                     .setJobData(new JobDataMap(params))
                     .build();
 
-            scheduler.scheduleJob(job, trigger);
+            scheduler.scheduleJob(jobRest, trigger);
+            scheduler.scheduleJob(jobTest,trigger);
         } catch (SchedulerException ex) {
             Logger.getLogger(JobScheduler.class.getName()).log(Level.SEVERE, null, ex);
         }
