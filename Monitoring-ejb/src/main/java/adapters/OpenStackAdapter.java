@@ -44,6 +44,7 @@ public class OpenStackAdapter implements Adapter {
     public void close() {
         client.close();
     }
+    @Override
     public void setUser(String uid){     
         if(settingsFacade==null)settingsFacade = new SettingsFacade();
         settings = settingsFacade.findByUid(uid);
@@ -107,12 +108,12 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter, String uid) {
-        return getMeasure(meter, uid, new Date());
+    public Measure getMeasure(entities.Meter meter) {
+        return getMeasure(meter,new Date());
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter, String uid, Date timestamp) {
+    public Measure getMeasure(entities.Meter meter, Date timestamp) {
 
         Sample sample = getOsSample(meter.getName(), timestamp);
 
@@ -120,7 +121,7 @@ public class OpenStackAdapter implements Adapter {
         measure.setIdMeter(meter);
         measure.setResource(sample.getSource());
         measure.setTstamp(sample.getRecorded_at());
-        measure.setUserId(uid);
+        measure.setUserId(settings.getUid());
         measure.setValue((double) sample.getVolume());
 
         return measure;

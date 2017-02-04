@@ -1,22 +1,36 @@
 package scheduler;
 
-import dao.MetersFacade;
+import adapters.Adapter;
 import entities.Meter;
+import entities.Users;
 import java.util.List;
-import javax.ejb.EJB;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import rest.Controller;
 
 public class RestMeasuresJob implements Job{
 
-    @EJB
-    private MetersFacade metersFacade;
+    
+    private adapters.Adapter adapter;
+    private List<Meter> meters;
+    private List<Users> users;
+    private Controller controller;
     
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-        List<Meter> meters = metersFacade.findAll();
+        adapter = (Adapter) jec.get("adapter");
+        meters =  (List<Meter>) jec.get("meters");
+        users =  (List<Users>) jec.get("users");
+        controller = (Controller) jec.get("controller");
         
+        
+        for (Users user : users) {
+            for (Meter meter : meters) {
+                adapter.setUser(user.getUid());
+                controller.storeMeasure(adapter.getMeasure(meter));
+            }
+        }
     }
     
 }
