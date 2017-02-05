@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Policy.findAll", query = "SELECT p FROM Policy p")
     , @NamedQuery(name = "Policy.findByIdPolicy", query = "SELECT p FROM Policy p WHERE p.idPolicy = :idPolicy")
-    , @NamedQuery(name = "Policy.findByUsers", query = "SELECT p FROM Policy p WHERE p.users = :users")
+    , @NamedQuery(name = "Policy.findByUsers", query = "SELECT p FROM Policy p WHERE p.uid = :users")
     , @NamedQuery(name = "Policy.findByResource", query = "SELECT p FROM Policy p WHERE p.resource = :resource")
     , @NamedQuery(name = "Policy.findByTreshhold", query = "SELECT p FROM Policy p WHERE p.treshhold = :treshhold")
     , @NamedQuery(name = "Policy.findBySign", query = "SELECT p FROM Policy p WHERE p.sign = :sign")
     , @NamedQuery(name = "Policy.findByEnabled", query = "SELECT p FROM Policy p WHERE p.enabled = :enabled")
     , @NamedQuery(name = "Policy.findByGroups", query = "SELECT p FROM Policy p WHERE p.groups = :groups")
-    , @NamedQuery(name = "Policy.findByUsersAndMeter",query = "SELECT p FROM Policy p WHERE p.idMeter = :idMeter and p.users = :uid")})
+    , @NamedQuery(name = "Policy.findByUsersAndMeter",query = "SELECT p FROM Policy p WHERE p.idMeter = :idMeter and p.uid = :uid")})
 public class Policy implements Serializable {
 
     private static final long serialVersionUID = 1L;
