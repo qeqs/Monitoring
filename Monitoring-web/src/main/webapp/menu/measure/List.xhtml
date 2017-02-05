@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMeasureTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="MeasureListForm">
+                <p:panel header="#{bundle.ListMeasureTitle}">
+                    <p:dataTable id="datalist" value="#{measureController.items}" var="item"
+                                 selectionMode="single" selection="#{measureController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idMeasure}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_idMeasure}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMeasure}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_value}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.value}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_tstamp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tstamp}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_userId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.userId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_resource}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.resource}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMeasureTitle_idMeter}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMeter}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{measureController.prepareCreate}" update=":MeasureCreateForm" oncomplete="PF('MeasureCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":MeasureViewForm" oncomplete="PF('MeasureViewDialog').show()" disabled="#{empty measureController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MeasureEditForm" oncomplete="PF('MeasureEditDialog').show()" disabled="#{empty measureController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{measureController.destroy}" update=":growl,datalist" disabled="#{empty measureController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

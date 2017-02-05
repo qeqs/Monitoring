@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MeasureViewDlg" widgetVar="MeasureViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMeasureTitle}">
+            <h:form id="MeasureViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{measureController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMeasureLabel_idMeasure}"/>
+                        <h:outputText value="#{measureController.selected.idMeasure}" title="#{bundle.ViewMeasureTitle_idMeasure}"/>
+                        <h:outputText value="#{bundle.ViewMeasureLabel_value}"/>
+                        <h:outputText value="#{measureController.selected.value}" title="#{bundle.ViewMeasureTitle_value}"/>
+                        <h:outputText value="#{bundle.ViewMeasureLabel_tstamp}"/>
+                        <h:outputText value="#{measureController.selected.tstamp}" title="#{bundle.ViewMeasureTitle_tstamp}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMeasureLabel_userId}"/>
+                        <h:outputText value="#{measureController.selected.userId}" title="#{bundle.ViewMeasureTitle_userId}"/>
+                        <h:outputText value="#{bundle.ViewMeasureLabel_resource}"/>
+                        <h:outputText value="#{measureController.selected.resource}" title="#{bundle.ViewMeasureTitle_resource}"/>
+                        <h:outputText value="#{bundle.ViewMeasureLabel_idMeter}"/>
+                        <h:outputText value="#{measureController.selected.idMeter}" title="#{bundle.ViewMeasureTitle_idMeter}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MeasureViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
