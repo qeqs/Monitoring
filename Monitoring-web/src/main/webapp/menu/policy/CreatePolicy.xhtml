@@ -31,7 +31,7 @@
                         </p:selectOneMenu>
                         
                     </p:panelGrid>
-                    <p:commandButton id="createBut" actionListener="#{policyController.create}" value="#{bundle.Save}" update="display,PoliciesForm:datalist" oncomplete="handleSubmit(args,'PolicyCreateDialog');"/>
+                    <p:commandButton id="createBut" action="#{policyController.create}" value="#{bundle.Save}" update="display,PoliciesForm:datalist" oncomplete="handleSubmit(args,'PolicyCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
