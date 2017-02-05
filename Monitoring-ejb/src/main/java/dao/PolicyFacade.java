@@ -22,7 +22,10 @@ public class PolicyFacade extends AbstractFacade<Policy> {
     }
     
     public List<Policy> findAllByUserAndMeter(String idMeter,String uid){
-        return em.createNamedQuery("Policy.findByUsersAndMeter").getResultList();
+        return em.createNamedQuery("Policy.findByUsersAndMeter")
+                .setParameter("idMeter", idMeter)
+                .setParameter("uid", uid)
+                .getResultList();
     } 
 
 }

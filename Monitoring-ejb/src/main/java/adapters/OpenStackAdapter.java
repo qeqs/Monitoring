@@ -27,9 +27,6 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 @Stateless
 public class OpenStackAdapter implements Adapter {
 
-    private final String REST_SERVICE_URL = "http://x86.trystack.org:8777";
-    private final String KEYSTONE_REST_SERVICE_URL = "http://8.43.86.2:5000/v2.0/";
-
     @EJB
     private SettingsFacade settingsFacade;
     private WebTarget webTarget;
@@ -47,14 +44,16 @@ public class OpenStackAdapter implements Adapter {
     public void close() {
         client.close();
     }
-    public void setUser(String uid){        
+    @Override
+    public void setUser(String uid){     
+        if(settingsFacade==null)settingsFacade = new SettingsFacade();
         settings = settingsFacade.findByUid(uid);
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
         metrics = webTarget.path("meters");
-        getToken(uid);
+        getToken();
     }
-    private Token getToken(String uid) {
+    private Token getToken() {
 
 
         StringBuilder form = new StringBuilder()
@@ -109,12 +108,12 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter, String uid) {
-        return getMeasure(meter, uid, new Date());
+    public Measure getMeasure(entities.Meter meter) {
+        return getMeasure(meter,new Date());
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter, String uid, Date timestamp) {
+    public Measure getMeasure(entities.Meter meter, Date timestamp) {
 
         Sample sample = getOsSample(meter.getName(), timestamp);
 
@@ -122,7 +121,7 @@ public class OpenStackAdapter implements Adapter {
         measure.setIdMeter(meter);
         measure.setResource(sample.getSource());
         measure.setTstamp(sample.getRecorded_at());
-        measure.setUserId(uid);
+        measure.setUserId(settings.getUid());
         measure.setValue((double) sample.getVolume());
 
         return measure;
