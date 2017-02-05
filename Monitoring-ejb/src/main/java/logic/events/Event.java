@@ -6,6 +6,7 @@ import entities.Policy;
 import java.util.Date;
 
 public class Event {
+
     private Meter meter;
     private Measure measure;
     private EventPriority priority;
@@ -58,5 +59,11 @@ public class Event {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    private static class EventPriority {
+
+        public EventPriority() {
+        }
     }
 }
