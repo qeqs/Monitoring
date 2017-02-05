@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="virtualizationapp_Monitoring-web_war_1.0-SNAPSHOTPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:jboss/datasources/MonitoringResource</jta-data-source>
+    <class>monitoringweb.entities.Event</class>
+    <class>monitoringweb.entities.Measure</class>
+    <class>monitoringweb.entities.Meter</class>
+    <class>monitoringweb.entities.Pm</class>
+    <class>monitoringweb.entities.Policy</class>
+    <class>monitoringweb.entities.PolicyList</class>
+    <class>monitoringweb.entities.Vm</class>
+    <class>monitoringweb.entities.Vnf</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.deploy-on-startup" value="True"/>
+    </properties>
+  </persistence-unit>
+</persistence>
