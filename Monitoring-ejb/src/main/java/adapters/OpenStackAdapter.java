@@ -27,9 +27,12 @@ import org.glassfish.jersey.client.JerseyClientBuilder;
 @Stateless
 public class OpenStackAdapter implements Adapter {
 
+<<<<<<< HEAD
     private final String REST_SERVICE_URL = "http://x86.trystack.org:8777";
     private final String KEYSTONE_REST_SERVICE_URL = "http://8.43.86.2:5000/v2.0/";
 
+=======
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
     @EJB
     private SettingsFacade settingsFacade;
     private WebTarget webTarget;
@@ -47,14 +50,26 @@ public class OpenStackAdapter implements Adapter {
     public void close() {
         client.close();
     }
+<<<<<<< HEAD
     public void setUser(String uid){        
+=======
+    @Override
+    public void setUser(String uid){     
+        if(settingsFacade==null)settingsFacade = new SettingsFacade();
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
         settings = settingsFacade.findByUid(uid);
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
         metrics = webTarget.path("meters");
+<<<<<<< HEAD
         getToken(uid);
     }
     private Token getToken(String uid) {
+=======
+        getToken();
+    }
+    private Token getToken() {
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
 
 
         StringBuilder form = new StringBuilder()
@@ -109,12 +124,21 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
+<<<<<<< HEAD
     public Measure getMeasure(entities.Meter meter, String uid) {
         return getMeasure(meter, uid, new Date());
     }
 
     @Override
     public Measure getMeasure(entities.Meter meter, String uid, Date timestamp) {
+=======
+    public Measure getMeasure(entities.Meter meter) {
+        return getMeasure(meter,new Date());
+    }
+
+    @Override
+    public Measure getMeasure(entities.Meter meter, Date timestamp) {
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
 
         Sample sample = getOsSample(meter.getName(), timestamp);
 
@@ -122,7 +146,11 @@ public class OpenStackAdapter implements Adapter {
         measure.setIdMeter(meter);
         measure.setResource(sample.getSource());
         measure.setTstamp(sample.getRecorded_at());
+<<<<<<< HEAD
         measure.setUserId(uid);
+=======
+        measure.setUserId(settings.getUid());
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
         measure.setValue((double) sample.getVolume());
 
         return measure;

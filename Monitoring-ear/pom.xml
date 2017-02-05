@@ -47,5 +47,13 @@
             <version>1.0-SNAPSHOT</version>
             <type>ejb</type>
         </dependency>
+<<<<<<< HEAD
+=======
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Monitoring-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
     </dependencies>
 </project>

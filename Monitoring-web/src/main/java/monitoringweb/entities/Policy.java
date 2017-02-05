@@ -68,7 +68,7 @@ public class Policy implements Serializable {
     public Policy(String idPolicy) {
         this.idPolicy = idPolicy;
     }
-    
+
     public String getIdPolicy() {
         return idPolicy;
     }

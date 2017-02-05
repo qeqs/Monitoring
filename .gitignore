@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 /Monitoring-ejb/target/
+=======
+/Monitoring-ejb/target/
+/Monitoring-web/src/main/java/monitoringweb/beans/generatedControllers/classes/
+/Monitoring-web/src/main/java/monitoringweb/beans/generatedControllers/
+/Monitoring-web/src/main/webapp/menu/
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1

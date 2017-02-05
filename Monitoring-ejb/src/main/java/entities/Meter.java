@@ -14,7 +14,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07237b412a26df4fd2d1bc9fbca716d8e13a54a1
 @Entity
 @Table(name = "meters")
 @XmlRootElement
@@ -23,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Meters.findByIdMeters", query = "SELECT m FROM Meter m WHERE m.idMeters = :idMeters")
     , @NamedQuery(name = "Meters.findByType", query = "SELECT m FROM Meter m WHERE m.type = :type")
     , @NamedQuery(name = "Meters.findByUnit", query = "SELECT m FROM Meter m WHERE m.unit = :unit")
-    , @NamedQuery(name = "Meters.findByDescription", query = "SELECT m FROM Meter m WHERE m.description = :description")})
+    , @NamedQuery(name = "Meters.findByDescription", query = "SELECT m FROM Meter m WHERE m.description = :description")})    
 public class Meter implements Serializable {
 
     @Size(max = 100)

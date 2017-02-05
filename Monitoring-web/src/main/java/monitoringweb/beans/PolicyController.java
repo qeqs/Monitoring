@@ -6,6 +6,7 @@
 package monitoringweb.beans;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -60,7 +61,6 @@ public class PolicyController implements Serializable {
     }
 
     public Policy prepareCreate() {
-   
         selected = new Policy();
         initializeEmbeddableKey();
         return selected;
@@ -72,6 +72,16 @@ public class PolicyController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
 
+    }
+    public void go(){
+        try{
+    PrintWriter writer = new PrintWriter("coolcoolfile.txt", "UTF-8");
+    writer.println("The first line");
+    writer.println("The second line");
+    writer.close();
+} catch (IOException e) {
+   // do something
+}
     }
 
     public void update() {
