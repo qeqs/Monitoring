@@ -1,4 +1,4 @@
-package monitoringweb.beans;
+package monitoringweb.beans.folder;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;

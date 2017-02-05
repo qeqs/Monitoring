@@ -1,10 +1,17 @@
-package monitoringweb.beans;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package monitoringweb.beans.folder;
 
-
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -13,30 +20,32 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import monitoringweb.beans.util.JsfUtil;
-import monitoringweb.dao.MetersFacade;
-import monitoringweb.entities.Meter;
+import monitoringweb.beans.util.JsfUtil.PersistAction;
+import monitoringweb.dao.PolicyFacade;
+import monitoringweb.entities.Policy;
 
-
-@Named("meterController")
+@Named("policyController")
 @SessionScoped
-public class MeterController implements Serializable {
+public class PolicyController implements Serializable {
 
     @EJB
-    private monitoringweb.dao.MetersFacade ejbFacade;
-    private List<Meter> items = null;
-    private Meter selected;
-    private static final Logger LOG = Logger.getLogger("Meter");
+    private monitoringweb.dao.PolicyFacade ejbFacade;
+    private List<Policy> items = null;
+    private Policy selected;
+  private static final Logger LOG = Logger.getLogger("Policy");
 
-    public MeterController() {
+    public PolicyController() {
+       
     }
 
-    public Meter getSelected() {
+    public Policy getSelected() {
         return selected;
     }
 
-    public void setSelected(Meter selected) {
+    public void setSelected(Policy selected) {
         this.selected = selected;
     }
 
@@ -46,50 +55,58 @@ public class MeterController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private MetersFacade getFacade() {
+    private PolicyFacade getFacade() {
         return ejbFacade;
     }
 
-    public Meter prepareCreate() {
-        selected = new Meter();
+    public Policy prepareCreate() {
+   
+        selected = new Policy();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MeterCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PolicyCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+
     }
 
     public void update() {
-        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MeterUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PolicyUpdated"));
     }
 
     public void destroy() {
-        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MeterDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PolicyDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Meter> getItems() {     
+    public List<Policy> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
 
-    private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
+    private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != JsfUtil.PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
+                switch (persistAction) {
+                    case DELETE:
+                        getFacade().remove(selected);
+                        break;
+                    case CREATE:
+                        getFacade().create(selected);
+                        break;
+                    case UPDATE:
+                        getFacade().edit(selected);
+                        break;
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -110,29 +127,29 @@ public class MeterController implements Serializable {
         }
     }
 
-    public Meter getMeter(java.lang.Integer id) {
+    public Policy getPolicy(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Meter> getItemsAvailableSelectMany() {
+    public List<Policy> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Meter> getItemsAvailableSelectOne() {
+    public List<Policy> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Meter.class)
-    public static class MeterControllerConverter implements Converter {
+    @FacesConverter(forClass = Policy.class)
+    public static class PolicyControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            MeterController controller = (MeterController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "meterController");
-            return controller.getMeter(getKey(value));
+            PolicyController controller = (PolicyController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "policyController");
+            return controller.getPolicy(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -152,12 +169,12 @@ public class MeterController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Meter) {
-                Meter o = (Meter) object;
+            if (object instanceof Policy) {
+                Policy o = (Policy) object;
                 // здесь поменяла со  return getStringKey(o.getIdPolicy());
-                return o.getIdMeters(); 
+                return o.getIdPolicy(); 
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Meter.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Policy.class.getName()});
                 return null;
             }
         }
@@ -165,3 +182,4 @@ public class MeterController implements Serializable {
     }
 
 }
+

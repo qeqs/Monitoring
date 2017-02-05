@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monitoringweb.beans;
+package monitoringweb.beans.folder;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -20,32 +17,30 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import monitoringweb.beans.util.JsfUtil;
 import monitoringweb.beans.util.JsfUtil.PersistAction;
-import monitoringweb.dao.PolicyFacade;
-import monitoringweb.entities.Policy;
+import monitoringweb.dao.EventFacade;
+import monitoringweb.entities.Event;
 
-@Named("policyController")
+
+@Named("eventController")
 @SessionScoped
-public class PolicyController implements Serializable {
+public class EventController implements Serializable {
 
     @EJB
-    private monitoringweb.dao.PolicyFacade ejbFacade;
-    private List<Policy> items = null;
-    private Policy selected;
-  private static final Logger LOG = Logger.getLogger("Policy");
+    private monitoringweb.dao.EventFacade ejbFacade;
+    private List<Event> items = null;
+    private Event selected;
 
-    public PolicyController() {
-       
+    public EventController() {
     }
 
-    public Policy getSelected() {
+    public Event getSelected() {
         return selected;
     }
 
-    public void setSelected(Policy selected) {
+    public void setSelected(Event selected) {
         this.selected = selected;
     }
 
@@ -55,38 +50,36 @@ public class PolicyController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private PolicyFacade getFacade() {
+    private EventFacade getFacade() {
         return ejbFacade;
     }
 
-    public Policy prepareCreate() {
-   
-        selected = new Policy();
+    public Event prepareCreate() {
+        selected = new Event();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PolicyCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
-
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PolicyUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EventUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PolicyDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EventDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Policy> getItems() {
+    public List<Event> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -97,16 +90,10 @@ public class PolicyController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                switch (persistAction) {
-                    case DELETE:
-                        getFacade().remove(selected);
-                        break;
-                    case CREATE:
-                        getFacade().create(selected);
-                        break;
-                    case UPDATE:
-                        getFacade().edit(selected);
-                        break;
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -127,29 +114,29 @@ public class PolicyController implements Serializable {
         }
     }
 
-    public Policy getPolicy(java.lang.Integer id) {
+    public Event getEvent(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Policy> getItemsAvailableSelectMany() {
+    public List<Event> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Policy> getItemsAvailableSelectOne() {
+    public List<Event> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Policy.class)
-    public static class PolicyControllerConverter implements Converter {
+    @FacesConverter(forClass = Event.class)
+    public static class EventControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            PolicyController controller = (PolicyController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "policyController");
-            return controller.getPolicy(getKey(value));
+           EventController controller = (EventController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "eventController");
+            return controller.getEvent(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -169,12 +156,12 @@ public class PolicyController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Policy) {
-                Policy o = (Policy) object;
+            if (object instanceof Event) {
+                Event o = (Event) object;
                 // здесь поменяла со  return getStringKey(o.getIdPolicy());
-                return o.getIdPolicy(); 
+                return o.getIdEvent(); 
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Policy.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Event.class.getName()});
                 return null;
             }
         }

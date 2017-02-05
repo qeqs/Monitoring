@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package monitoringweb.beans;
+package monitoringweb.beans.folder;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,28 +15,28 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 import monitoringweb.beans.util.JsfUtil;
-import monitoringweb.beans.util.JsfUtil.PersistAction;
-import monitoringweb.dao.EventFacade;
-import monitoringweb.entities.Event;
+import monitoringweb.dao.MetersFacade;
+import monitoringweb.entities.Meter;
 
 
-@Named("eventController")
+@Named("meterController")
 @SessionScoped
-public class EventController implements Serializable {
+public class MeterController implements Serializable {
 
     @EJB
-    private monitoringweb.dao.EventFacade ejbFacade;
-    private List<Event> items = null;
-    private Event selected;
+    private monitoringweb.dao.MetersFacade ejbFacade;
+    private List<Meter> items = null;
+    private Meter selected;
+    private static final Logger LOG = Logger.getLogger("Meter");
 
-    public EventController() {
+    public MeterController() {
     }
 
-    public Event getSelected() {
+    public Meter getSelected() {
         return selected;
     }
 
-    public void setSelected(Event selected) {
+    public void setSelected(Meter selected) {
         this.selected = selected;
     }
 
@@ -50,47 +46,47 @@ public class EventController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private EventFacade getFacade() {
+    private MetersFacade getFacade() {
         return ejbFacade;
     }
 
-    public Event prepareCreate() {
-        selected = new Event();
+    public Meter prepareCreate() {
+        selected = new Meter();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));
+        persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MeterCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("EventUpdated"));
+        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MeterUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("EventDeleted"));
+        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MeterDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Event> getItems() {
+    public List<Meter> getItems() {     
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
+    private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != PersistAction.DELETE) {
+                if (persistAction != JsfUtil.PersistAction.DELETE) {
                     getFacade().edit(selected);
                 } else {
                     getFacade().remove(selected);
@@ -114,29 +110,29 @@ public class EventController implements Serializable {
         }
     }
 
-    public Event getEvent(java.lang.Integer id) {
+    public Meter getMeter(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Event> getItemsAvailableSelectMany() {
+    public List<Meter> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Event> getItemsAvailableSelectOne() {
+    public List<Meter> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Event.class)
-    public static class EventControllerConverter implements Converter {
+    @FacesConverter(forClass = Meter.class)
+    public static class MeterControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-           EventController controller = (EventController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "eventController");
-            return controller.getEvent(getKey(value));
+            MeterController controller = (MeterController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "meterController");
+            return controller.getMeter(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -156,12 +152,12 @@ public class EventController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Event) {
-                Event o = (Event) object;
+            if (object instanceof Meter) {
+                Meter o = (Meter) object;
                 // здесь поменяла со  return getStringKey(o.getIdPolicy());
-                return o.getIdEvent(); 
+                return o.getIdMeters(); 
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Event.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Meter.class.getName()});
                 return null;
             }
         }
@@ -169,4 +165,3 @@ public class EventController implements Serializable {
     }
 
 }
-
