@@ -73,7 +73,7 @@ public class JobScheduler {
                     .setJobData(new JobDataMap(params))
                     .build();
 
-            scheduler.scheduleJob(jobRest, trigger);
+            //scheduler.scheduleJob(jobRest, trigger);
             scheduler.scheduleJob(jobTest,trigger);
         } catch (SchedulerException ex) {
             Logger.getLogger(JobScheduler.class.getName()).log(Level.SEVERE, null, ex);
