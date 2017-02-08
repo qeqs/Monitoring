@@ -14,7 +14,6 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -24,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
-@Stateless
 public class OpenStackAdapter implements Adapter {
 
     @EJB

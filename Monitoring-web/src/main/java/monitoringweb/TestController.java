@@ -7,10 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import logic.events.Event;
-import rest.Controller;
+import rest.ControllerLocal;
 import rest.Listener;
-import scheduler.JobScheduler;
+import scheduler.JobSchedulerLocal;
 
 
 @Named("testController")
@@ -18,20 +17,23 @@ import scheduler.JobScheduler;
 public class TestController implements Serializable{
 
     @EJB
-    private JobScheduler scheduler;
+    private JobSchedulerLocal scheduler;
     @EJB
-    private Controller controller;
-    private List<Event> events = new ArrayList<>();
+    private ControllerLocal controller;
+    private List<logic.events.Event> events = new ArrayList<>();
 
-    public List<Event> getEvents() {
+    public List<logic.events.Event> getEvents() {
         return events;
     }
     @PostConstruct
     public void initialize(){
+        
+        
+        
         scheduler.start();
         controller.addListener(new Listener() {
             @Override
-            public void onStoreEvent(Event event) {
+            public void onStoreEvent(logic.events.Event event) {
                 events.add(event);
             }
         });

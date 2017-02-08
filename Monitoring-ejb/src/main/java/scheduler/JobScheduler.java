@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import org.quartz.JobBuilder;
@@ -22,23 +21,23 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-import rest.Controller;
+import rest.ControllerLocal;
 
 @Singleton
-public class JobScheduler {
+public class JobScheduler implements JobSchedulerLocal{
+
 
     private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
     private Scheduler scheduler;
-    @EJB
     OpenStackAdapter restAdapter;
     @EJB
     private MetersFacade metersFacade;
     @EJB
     private UsersFacade usersFacade;
     @EJB
-    private Controller controller;
+    private ControllerLocal controller;
     
-    @EJB
+    
     private TestAdapter testAdapter;
 
     @PostConstruct
@@ -78,9 +77,5 @@ public class JobScheduler {
         } catch (SchedulerException ex) {
             Logger.getLogger(JobScheduler.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    @PreDestroy
-    public void stop() throws SchedulerException{
-        scheduler.clear();
     }
 }

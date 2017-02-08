@@ -7,9 +7,7 @@ import entities.Settings;
 import java.util.Date;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
-@Stateless
 public class TestAdapter implements Adapter{
 
     @EJB
