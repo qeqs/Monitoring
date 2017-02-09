@@ -21,8 +21,9 @@ public class SettingsFacade extends AbstractFacade<Settings> {
     }
     
     public Settings findByUid(String uid){
+        if(em==null)return null;
         return em.createNamedQuery("Settings.findByUid",Settings.class)
-                .setParameter(0, uid)
+                .setParameter("uid", uid)
                 .getSingleResult();
     }
 

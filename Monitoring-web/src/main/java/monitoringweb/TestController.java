@@ -9,17 +9,16 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import rest.ControllerLocal;
 import rest.Listener;
-import scheduler.JobSchedulerLocal;
 
 
 @Named("testController")
 @SessionScoped
 public class TestController implements Serializable{
 
-    @EJB
-    private JobSchedulerLocal scheduler;
+    
     @EJB
     private ControllerLocal controller;
+    
     private List<logic.events.Event> events = new ArrayList<>();
 
     public List<logic.events.Event> getEvents() {
@@ -27,10 +26,6 @@ public class TestController implements Serializable{
     }
     @PostConstruct
     public void initialize(){
-        
-        
-        
-        scheduler.start();
         controller.addListener(new Listener() {
             @Override
             public void onStoreEvent(logic.events.Event event) {

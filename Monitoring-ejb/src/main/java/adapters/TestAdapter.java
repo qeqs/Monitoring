@@ -7,7 +7,11 @@ import entities.Settings;
 import java.util.Date;
 import java.util.Random;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
+@Stateless
+@LocalBean
 public class TestAdapter implements Adapter{
 
     @EJB

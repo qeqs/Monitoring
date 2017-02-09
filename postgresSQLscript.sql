@@ -33,7 +33,7 @@ constraint PK_Event primary key (id_event)
 CREATE TABLE Policy_List
 (
 id_policyList character(40),
-enabled BIT,
+enabled boolean,
 name character(40),
 uid character(40),
 constraint PK_Policy_List primary key (id_policyList)
@@ -48,7 +48,7 @@ users character(40),
 resource character(40),
 treshhold float,
 sign character(40),
-enabled BIT,
+enabled boolean,
 id_policyList character(40),
 groups character(40),
 constraint PK_Policy primary key (id_policy),

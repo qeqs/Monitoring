@@ -3,7 +3,9 @@ package adapters;
 import entities.Measure;
 import entities.Meter;
 import java.util.Date;
+import javax.ejb.Local;
 
+@Local({TestAdapter.class,OpenStackAdapter.class})
 public interface Adapter {
     Meter getMeter(String name);//??? 
     Measure getMeasure(Meter meter);//timestamp = current time

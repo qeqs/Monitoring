@@ -14,6 +14,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -23,6 +25,9 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
+
+@Stateless
+@LocalBean
 public class OpenStackAdapter implements Adapter {
 
     @EJB
@@ -61,7 +66,7 @@ public class OpenStackAdapter implements Adapter {
                 .append(settings.getOsPassword())
                 .append("\"}}}");
 
-        Wrapper wrapper = keystone.path("tokens")
+        Wrapper wrapper = keystone.path("/tokens/")
                 .request()
                 .post(Entity.entity(form.toString(), MediaType.APPLICATION_JSON_TYPE), Wrapper.class);
         Access access = wrapper.getAccess();
@@ -134,6 +139,21 @@ public class OpenStackAdapter implements Adapter {
         meter.setUnit(osMeter.getUnit());
         meter.setIdMeters(osMeter.getMeter_id());
         return meter;
+    }
+    
+    public void test(){
+        settings = new Settings();
+        settings.setKeystoneEndpoint("95.30.222.111:5000");
+         settings.setCeliometerEndpoint("95.30.222.111:8777");
+         settings.setOsUsername("admin");
+         settings.setOsPassword("root");
+         
+        client = JerseyClientBuilder.createClient();
+        webTarget = client.target(settings.getCeliometerEndpoint());
+        keystone = client.target(settings.getKeystoneEndpoint());
+        //metrics = webTarget.path("/meters/");
+         getToken();
+         
     }
 
 }

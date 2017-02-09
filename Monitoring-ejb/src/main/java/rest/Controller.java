@@ -18,12 +18,14 @@ public class Controller implements ControllerLocal {
 
     ArrayList<Listener> listeners = new ArrayList<>();
 
+    @Override
     public void storeMeasure(Measure measure) {
 
         measureFacade.create(measure);
         solver.solve(measure);
     }
 
+    @Override
     public void storeEvent(Event event) {
         for (Listener listener : listeners) {
             listener.onStoreEvent(event);
@@ -31,6 +33,7 @@ public class Controller implements ControllerLocal {
         //todo: change smth on vnf side or send event somewhere
     }
 
+    @Override
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
