@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SettingsEditDlg" widgetVar="SettingsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Edit">
+            <h:form id="SettingsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{settingsController.selected != null}">
+                        <p:outputLabel value="Keystone Endpoint" for="keystoneEndpoint" />
+                        <p:inputText id="keystoneEndpoint" value="#{settingsController.selected.keystoneEndpoint}" title="Keystone Endpoint}"/>
+                        
+                        <p:outputLabel value="Celiometer Endpoint" for="celiometerEndpoint" />
+                        <p:inputText id="celiometerEndpoint" value="#{settingsController.selected.celiometerEndpoint}" />
+                        
+                        <p:outputLabel value="Open Stack Username" for="openStackUsername" />
+                        <p:inputText id="openStackUsername" value="#{settingsController.selected.osUsername}" />
+                        
+                        <p:outputLabel value="Open Stack Password" for="openStackPass" />
+                        <p:inputText id="openStackPass" value="#{settingsController.selected.osPassword}" />
+                        
+                        <p:outputLabel value="Tenant Name" for="tenantName" />
+                        <p:inputText id="tenantName" value="#{settingsController.selected.tenantName}" />
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{settingsController.update}" value="#{bundle.Save}" update="display,:SettingsForm:datalist" oncomplete="handleSubmit(args, 'SettingsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SettingsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

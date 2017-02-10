@@ -40,7 +40,7 @@ public class Measure implements Serializable {
     @Column(name = "value")
     private Double value;
     @Column(name = "tstamp")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date tstamp;
     @Size(max = 40)
     @Column(name = "user_id")

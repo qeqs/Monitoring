@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MeasureCreateDlg" widgetVar="MeasureCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMeasureTitle}">
+            <h:form id="MeasureCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{measureController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_idMeasure}" for="idMeasure" />
+                        <p:inputText id="idMeasure" value="#{measureController.selected.idMeasure}" title="#{bundle.CreateMeasureTitle_idMeasure}" required="true" requiredMessage="#{bundle.CreateMeasureRequiredMessage_idMeasure}"/>
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_value}" for="value" />
+                        <p:inputText id="value" value="#{measureController.selected.value}" title="#{bundle.CreateMeasureTitle_value}" />
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_tstamp}" for="tstamp" />
+                        <p:calendar id="tstamp" pattern="MM/dd/yyyy" value="#{measureController.selected.tstamp}" title="#{bundle.EditMeasureTitle_tstamp}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_userId}" for="userId" />
+                        <p:inputText id="userId" value="#{measureController.selected.userId}" title="#{bundle.CreateMeasureTitle_userId}" />
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_resource}" for="resource" />
+                        <p:inputText id="resource" value="#{measureController.selected.resource}" title="#{bundle.CreateMeasureTitle_resource}" />
+                        <p:outputLabel value="#{bundle.CreateMeasureLabel_idMeter}" for="idMeter" />
+                        <p:selectOneMenu id="idMeter" value="#{measureController.selected.idMeter}" >
+                            <f:selectItems value="#{meterController.itemsAvailableSelectOne}"
+                                           var="idMeterItem"
+                                           itemValue="#{idMeterItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{measureController.create}" value="#{bundle.Save}" update="display,:MeasureListForm:datalist,:growl" oncomplete="handleSubmit(args,'MeasureCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MeasureCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

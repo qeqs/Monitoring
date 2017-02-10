@@ -11,7 +11,7 @@ CREATE TABLE Measure
 (
 id_Measure character(40),
 value float,
-tstamp DATE,
+tstamp timestamp,
 id_meter character(40),
 user_id character(40),
 resource character(40),

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="http://momentjs.com/downloads/moment.min.js"></script>
+<script src="http://momentjs.com/downloads/moment-timezone-with-data-2010-2020.min.js"></script>
+
+    <h:head>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+    </h:head>
+    
+    <h:body>
+       <h:outputStylesheet library="css" name="maincss.css"/>
+         <p:layout fullPage="true" styleClass="headerstyle">
+           <h:form id="mainmenuform">
+            <p:layoutUnit position="north" >
+                 <p:menubar> 
+                     <p:menuitem icon="ui-icon-home" value="#{bundle.Home}"/>
+                     <p:submenu   icon="ui-icon-person" label="NotCoolUser">      
+                            <p:menuitem icon="ui-icon-gear" value="Setting" outcome="/menu/settings/ViewSettings.xhtml"/>  
+                            <p:menuitem icon="ui-icon-extlink" value="Log out"/>   
+                     </p:submenu>
+                 </p:menubar>
+                </p:layoutUnit >
+             <p:layoutUnit position="west" style="min-width:180px" >
+                      <p:menu styleClass="menuheader" style="min-width:170px" >
+                          <p:submenu label="My menu"  styleClass="menuheader">
+                                 <p:menuitem icon="ui-icon-document" value="Policies" outcome="/menu/policy/policies.xhtml" />
+                                 <p:menuitem value="Physical Machines" icon="ui-icon-print"/>
+                                 <p:menuitem value="Virtual Machines" icon="ui-icon-newwin"/> 
+                                 <p:menuitem value="Graphics" icon="ui-icon-image" outcome="/menu/graphics/graphics.xhtml" />   
+                          </p:submenu> 
+                          
+                          <p:submenu label="Common menu"  styleClass="menuheader">
+                                <p:menuitem value="Events" outcome="/menu/event/Events.xhtml"  />
+                                <p:menuitem value="Meters" outcome="/menu/meter/Meters.xhtml" />
+                          </p:submenu >             
+                      </p:menu>
+       
+             </p:layoutUnit>
+           </h:form>
+                <p:layoutUnit position="center">
+                     <ui:insert name="body"/>
+                </p:layoutUnit>
+         </p:layout>
+ 
+    </h:body>
+</html>

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="virtualizationapp_Monitoring-ejb_ejb_1.0-SNAPSHOTPU" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>      
-    <jta-data-source>MonitoringResource</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>    
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:jboss/datasources/MonitoringResource</jta-data-source>
+    <class>entities.Event</class>
+    <class>entities.Measure</class>
+    <class>entities.Meter</class>
+    <class>entities.Pm</class>
+    <class>entities.Policy</class>
+    <class>entities.PolicyList</class>
+    <class>entities.Settings</class>
+    <class>entities.Userroles</class>
+    <class>entities.Users</class>
+    <class>entities.Vm</class>
+    <class>entities.Vnf</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <property name="eclipselink.deploy-on-startup" value="True" />
+      <property name="eclipselink.deploy-on-startup" value="True"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SettingsCreateDlg" widgetVar="SettingsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Create">
+            <h:form id="SettingsCreateForm">
+                <h:panelGroup id="display">
+                  
+                    <p:panelGrid columns="2" rendered="#{settingsController.selected != null}">
+                        <p:outputLabel value="Keystone Endpoint" for="keystoneEndpoint" />
+                        <p:inputText id="keystoneEndpoint" value="#{settingsController.selected.keystoneEndpoint}" title="Keystone Endpoint"/>
+                        
+                        <p:outputLabel value="Celiometer Endpoint" for="celiometerEndpoint" />
+                        <p:inputText id="celiometerEndpoint" value="#{settingsController.selected.celiometerEndpoint}"  title="Keystone Endpoint" />
+                        
+                        <p:outputLabel value="Open Stack Username" for="openStackUsername" />
+                        <p:inputText id="openStackUsername" value="#{settingsController.selected.osUsername}"  />
+                        
+                        <p:outputLabel value="Open Stack Password" for="openStackPass" />
+                        <p:inputText id="openStackPass" value="#{settingsController.selected.osPassword}" />
+                        
+                        <p:outputLabel value="Tenant Name" for="tenantName" />
+                        <p:inputText id="tenantName" value="#{settingsController.selected.tenantName}" />
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{settingsController.create}" value="#{bundle.Save}" update="display,:SettingsForm:datalist" oncomplete="handleSubmit(args,'SettingsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SettingsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
