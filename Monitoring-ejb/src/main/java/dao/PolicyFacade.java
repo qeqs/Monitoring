@@ -1,5 +1,6 @@
 package dao;
 
+import entities.Meter;
 import entities.Policy;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -21,7 +22,7 @@ public class PolicyFacade extends AbstractFacade<Policy> {
         super(Policy.class);
     }
     
-    public List<Policy> findAllByUserAndMeter(String idMeter,String uid){
+    public List<Policy> findAllByUserAndMeter(Meter idMeter,String uid){
         return em.createNamedQuery("Policy.findByUsersAndMeter")
                 .setParameter("idMeter", idMeter)
                 .setParameter("uid", uid)

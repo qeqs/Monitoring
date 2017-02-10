@@ -48,13 +48,14 @@ public class OpenStackAdapter implements Adapter {
         client.close();
     }
     @Override
-    public void setUser(String uid){     
+    public Adapter setUser(String uid){     
         if(settingsFacade==null)settingsFacade = new SettingsFacade();
         settings = settingsFacade.findByUid(uid);
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
         metrics = webTarget.path("meters");
         getToken();
+        return OpenStackAdapter.this;
     }
     private Token getToken() {
 

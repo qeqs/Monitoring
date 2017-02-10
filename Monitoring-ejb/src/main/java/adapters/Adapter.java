@@ -10,5 +10,5 @@ public interface Adapter {
     Meter getMeter(String name);//??? 
     Measure getMeasure(Meter meter);//timestamp = current time
     Measure getMeasure(Meter meter,Date timestamp);
-    void setUser(String uid);
+    Adapter setUser(String uid);
 }

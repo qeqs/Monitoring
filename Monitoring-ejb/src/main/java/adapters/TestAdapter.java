@@ -37,6 +37,7 @@ public class TestAdapter implements Adapter{
     public Measure getMeasure(Meter meter, Date timestamp) {
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
+        measure.setIdMeasure(String.valueOf(random.nextLong()));
         measure.setIdMeter(meter);
         measure.setResource("test");
         measure.setTstamp(timestamp);
@@ -48,8 +49,9 @@ public class TestAdapter implements Adapter{
     }
 
     @Override
-    public void setUser(String uid) {
+    public Adapter setUser(String uid) {
         settings = settingsFacade.findByUid(uid);
+        return TestAdapter.this;
     }
 
 }

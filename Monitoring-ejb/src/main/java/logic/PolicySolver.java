@@ -7,7 +7,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import logic.events.EventBuilder;
-import rest.Controller;
+import rest.DependencyBean;
 
 @Stateless
 public class PolicySolver {
@@ -15,10 +15,10 @@ public class PolicySolver {
     @EJB
     PolicyFacade policyFacade;
     @EJB
-    Controller controller;
+    DependencyBean controller;
 
     public void solve(Measure measure) {
-        List<Policy> policies = policyFacade.findAllByUserAndMeter(measure.getIdMeter().getIdMeters(), measure.getUserId());
+        List<Policy> policies = policyFacade.findAllByUserAndMeter(measure.getIdMeter(), measure.getUserId());
         for (Policy policy : policies) {
             if (policy.getEnabled() && policy.getIdPolicylist().getEnabled()) {
                 double treshhold = policy.getTreshhold();
