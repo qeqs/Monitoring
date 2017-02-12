@@ -3,6 +3,7 @@ package dao;
 import entities.Measure;
 import entities.Meter;
 import entities.Vm;
+import entities.Pm;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -45,12 +46,23 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
-     public List<Measure> findAllVmOrderedByTime(Vm vm) {
-
+    
+    public List<Measure> findByVmAndMetOrderedByTime(Vm vm,Meter met) {
+        
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
-        cq.where(cb.equal(e.get("resource"),vm.getIdVm()));
+        cq.where(cb.equal(e.get("resource"),vm.getIdVm()),cb.equal(e.get("idMeter"),met));
+        cq.orderBy(cb.desc(e.get("tstamp")));
+        Query query = em.createQuery(cq);
+        return query.getResultList();
+    }
+    public List<Measure> findByPmAndMetOrderedByTime(Pm pm,Meter met) {
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery();
+        Root e = cq.from(Measure.class);
+        cq.where(cb.equal(e.get("resource"),pm.getIdPm()),cb.equal(e.get("idMeter"),met));
         cq.orderBy(cb.desc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
