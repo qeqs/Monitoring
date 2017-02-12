@@ -38,6 +38,7 @@ public class JSONController implements Serializable {
     private Pm pm;
     private StringBuilder title;
     private List<List<Measure>> measureLists;
+    private boolean valueChanged;
 
    
     @EJB
@@ -46,10 +47,12 @@ public class JSONController implements Serializable {
     private MetersFacade meterFacade;
     
     public JSONController() {
-        json=new JSONObject();
-        title=new StringBuilder();
-        measureLists=new ArrayList<>();
+        json = new JSONObject();
+        title = new StringBuilder();
+        measureLists = new ArrayList<>();
+        valueChanged = false;
     }
+    
      public void setMeter(Meter meter) {
         this.meter = meter;
     }
@@ -112,22 +115,27 @@ public class JSONController implements Serializable {
     
     public JSONObject getJson() throws JSONException
     {
+        if (json.length() == 0 || valueChanged) {
+            changeJSON();
+        }
+        return json;
+    }
+    
+    public void changeJSON() throws JSONException
+    {
         setMeasureList();
         json.put("title", createTitle());
         json.put("chart", createChart());
         json.put("xAxis", createX());
         json.put("series", createSeries());
         json.put("plotOptions", createPlotOptions());
-         return json;             
     }
     
-    public void changeJSON() throws JSONException
+    public void changeValue()
     {
-//        Iterator keys = json.keys();
-//        while(keys.hasNext())
-//            json.remove(keys.next().toString());
-        this.getJson();
+          this.valueChanged = true;
     }
+    
     private void setMeasureList(){
         measureLists.clear();
         if(meter==null)
@@ -139,13 +147,6 @@ public class JSONController implements Serializable {
         {
              measureLists.add( measureFacade.findAllForMeterOrderedByTime(meter));
         }
-//        
-//         List<Measure> values=new ArrayList();
-//        if(vm==null)
-//         values=measureFacade.findAllOrderedByTime();
-//        else 
-//          values=measureFacade.findAllVmOrderedByTime(vm);
-        
         
     }
     
@@ -169,9 +170,6 @@ public class JSONController implements Serializable {
     public JSONObject createX() throws JSONException{
         JSONObject x = new JSONObject();
         x.put("type", "datetime");
-        //JSONObject format = new JSONObject();
-       // format.put("second", "%H:%M:%S");
-        //x.put("dateTimeLabelFormats", format);
         return x;
     
     }
