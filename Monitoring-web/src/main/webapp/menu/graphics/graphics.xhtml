@@ -19,7 +19,7 @@
                                            var="itemMet"
                                            itemValue="#{itemMet}"
                                            itemLabel="#{itemMet.name}"/>
-                        <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm" />
+                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm" />
                     </p:selectOneMenu>
                     <p:outputLabel for="pmId" value="Physical Machine" />
                     <p:selectOneMenu id="pmId" value="#{jsonController.pm}"  >
@@ -28,10 +28,18 @@
                                            var="itemPM"
                                            itemValue="#{itemPM}"
                                            itemLabel="#{itemPM.idPm}"/>
-                    <f:ajax event="change" listener="#{jsonController.changeJSON}"  immediate="true" execute="@form" render=":GraphicsForm" />
+                    <f:ajax event="change" listener="#{jsonController.changeJSON}"  immediate="true" execute="@form" render="@all" />
                     </p:selectOneMenu>
                     <p:outputLabel for="vmId" value="Virtual Machine" />
-                    <p:selectOneMenu id="vmId" value="#{jsonController.vm}">
+                    <p:selectOneMenu id="vmId" value="#{jsonController.vm}" rendered="#{not empty jsonController.pm}">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{vmController.getItemsByPm(jsonController.pm)}"
+                                           var="itemVM"
+                                           itemValue="#{itemVM}"
+                                           itemLabel="#{itemVM.name}"/>
+                     <f:ajax event="change" listener="#{jsonController.changeJSON}"  immediate="true" execute="@form" render=":GraphicsForm" />
+                    </p:selectOneMenu>
+                     <p:selectOneMenu id="vmId1" value="#{jsonController.vm}" rendered="#{empty jsonController.pm}">
                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                         <f:selectItems value="#{vmController.itemsAvailableSelectOne}"
                                            var="itemVM"
@@ -39,7 +47,6 @@
                                            itemLabel="#{itemVM.name}"/>
                      <f:ajax event="change" listener="#{jsonController.changeJSON}"  immediate="true" execute="@form" render=":GraphicsForm" />
                     </p:selectOneMenu>
-                  
 
                  </h:panelGrid>
             </h:form>

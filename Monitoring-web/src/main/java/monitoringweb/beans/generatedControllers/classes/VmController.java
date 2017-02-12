@@ -1,6 +1,7 @@
 package monitoringweb.beans.generatedControllers.classes;
 
 import entities.Vm;
+import entities.Pm;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.VmFacade;
@@ -120,7 +121,10 @@ public class VmController implements Serializable {
     public List<Vm> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
+    public List<Vm> getItemsByPm(Pm pm) {
+        return getFacade().findByPm(pm);
+    }
+    
     @FacesConverter(forClass = Vm.class)
     public static class VmControllerConverter implements Converter {
 
