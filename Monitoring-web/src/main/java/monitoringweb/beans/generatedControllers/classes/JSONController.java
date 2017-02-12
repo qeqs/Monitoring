@@ -152,7 +152,7 @@ public class JSONController implements Serializable {
     
     private JSONObject createTitle() throws JSONException
     {
-       JSONObject jstitle=new JSONObject();
+        JSONObject jstitle=new JSONObject();
         jstitle.put("text", getTitle());
         jstitle.put("x", new Integer(-20));
         return jstitle;
