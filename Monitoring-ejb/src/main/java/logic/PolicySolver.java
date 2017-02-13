@@ -7,7 +7,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import logic.events.EventBuilder;
-import rest.DependencyBean;
 
 @Stateless
 public class PolicySolver {
@@ -15,7 +14,7 @@ public class PolicySolver {
     @EJB
     PolicyFacade policyFacade;
     @EJB
-    DependencyBean controller;
+    EventController controller;
 
     public void solve(Measure measure) {
         List<Policy> policies = policyFacade.findAllByUserAndMeter(measure.getIdMeter(), measure.getUserId());

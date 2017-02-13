@@ -11,7 +11,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
-import rest.ControllerLocal;
+import logic.MeasureController;
 
 @PersistJobDataAfterExecution
 public class MeasuresJob implements Job {
@@ -20,7 +20,7 @@ public class MeasuresJob implements Job {
    private adapters.Adapter adapter;
    private List<Meter> meters;
    private List<Users> users;
-   private ControllerLocal controller;
+   private MeasureController controller;
 
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
@@ -41,7 +41,7 @@ public class MeasuresJob implements Job {
         adapter = (Adapter) jdm.get("adapter");
         meters = (List<Meter>) jdm.get("meters");
         users = (List<Users>) jdm.get("users");
-        controller = (ControllerLocal) jdm.get("controller");
+        controller = (MeasureController) jdm.get("controller");
         
         for (Users user : users) {
             for (Meter meter : meters) {

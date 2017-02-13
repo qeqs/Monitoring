@@ -4,6 +4,7 @@ import entities.Measure;
 import entities.Meter;
 import entities.Vm;
 import entities.Pm;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 @Stateless
@@ -66,5 +68,15 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         cq.orderBy(cb.desc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
+    }
+    public List<Measure> findByDate(Date dateFrom,Date dateTo){        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery();
+        Root e = cq.from(Measure.class);
+        ParameterExpression<Date> parameter = cb.parameter(Date.class);
+        cq.where(cb.between(parameter,dateFrom,dateTo));
+        Query query = em.createQuery(cq);
+        return query.getResultList();
+        
     }
 }

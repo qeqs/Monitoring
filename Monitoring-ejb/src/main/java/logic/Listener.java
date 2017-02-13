@@ -1,5 +1,6 @@
-package rest;
+package logic;
 
+import entities.Measure;
 import logic.events.Event;
 
 
@@ -10,4 +11,6 @@ public interface Listener {
      * @param event
      */
     void onStoreEvent(Event event);
+    void onStoreMeasure(Measure measure);
+
 }

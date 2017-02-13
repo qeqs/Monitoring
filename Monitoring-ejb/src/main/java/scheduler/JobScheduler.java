@@ -20,11 +20,11 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-import rest.ControllerLocal;
+import logic.MeasureController;
 
 @Startup
 @Singleton
-@DependsOn({"Controller"})
+@DependsOn({"MeasureController"})
 public class JobScheduler {
 
     @EJB
@@ -36,7 +36,7 @@ public class JobScheduler {
     @EJB
     private UsersFacade usersFacade;
     @EJB
-    private ControllerLocal controller;
+    private MeasureController controller;
     Scheduler scheduler;
 
     @PostConstruct
