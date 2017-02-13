@@ -38,6 +38,7 @@ public class JSONController implements Serializable {
     private Pm pm;
     private StringBuilder title;
     private List<List<Measure>> measureLists;
+    private boolean valueChanged;
 
    
     @EJB
@@ -46,10 +47,12 @@ public class JSONController implements Serializable {
     private MetersFacade meterFacade;
     
     public JSONController() {
-        json=new JSONObject();
-        title=new StringBuilder();
-        measureLists=new ArrayList<>();
+        json = new JSONObject();
+        title = new StringBuilder();
+        measureLists = new ArrayList<>();
+        valueChanged = false;
     }
+    
      public void setMeter(Meter meter) {
         this.meter = meter;
     }
@@ -112,46 +115,75 @@ public class JSONController implements Serializable {
     
     public JSONObject getJson() throws JSONException
     {
+        if (json.length() == 0 || valueChanged) {
+            changeJSON();
+        }
+        return json;
+    }
+    
+    public void changeJSON() throws JSONException
+    {
         setMeasureList();
         json.put("title", createTitle());
         json.put("chart", createChart());
         json.put("xAxis", createX());
         json.put("series", createSeries());
         json.put("plotOptions", createPlotOptions());
-         return json;             
     }
     
-    public void changeJSON() throws JSONException
+    public void changeValue()
     {
-//        Iterator keys = json.keys();
-//        while(keys.hasNext())
-//            json.remove(keys.next().toString());
-        this.getJson();
+          this.valueChanged = true;
     }
-    private void setMeasureList(){
+    
+    private void setMeasureList() {
         measureLists.clear();
-        if(meter==null)
-        {
-            for(Meter m : meterFacade.findAll())
-                measureLists.add( measureFacade.findAllForMeterOrderedByTime(m));
+        List<Measure> current = new ArrayList();
+        if (meter == null && pm == null && vm == null) {
+            for (Meter m : meterFacade.findAll()) {
+                current = measureFacade.findAllForMeterOrderedByTime(m);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }
+            }
+        } else if (meter == null && pm != null && vm != null) {
+            for (Meter met : meterFacade.findAll()) {
+                current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }
+            }
+        } else if (meter == null && pm != null && vm == null) {
+            for (Meter met : meterFacade.findAll()) {
+                current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }
+            }
+        } else if (meter != null && pm == null && vm == null) {
+            current = measureFacade.findAllForMeterOrderedByTime(meter);
+            if (!current.isEmpty()) {
+                measureLists.add(current);
+            }
+        } else if (meter != null && pm != null && vm == null) {
+            current = measureFacade.findByPmAndMetOrderedByTime(pm, meter);
+            if (!current.isEmpty()) {
+                measureLists.add(current);
+            }
+        } //пока не знаю, нужен ли этот кейс, показывать список всех vm без pm
+        //или его следует разбить на два, тк может быть метрика, у которой в recource будет pm
+        else if (meter != null && vm != null) {
+            current = measureFacade.findByVmAndMetOrderedByTime(vm, meter);
+            if (!current.isEmpty()) {
+                measureLists.add(current);
+            }
         }
-        else
-        {
-             measureLists.add( measureFacade.findAllForMeterOrderedByTime(meter));
-        }
-//        
-//         List<Measure> values=new ArrayList();
-//        if(vm==null)
-//         values=measureFacade.findAllOrderedByTime();
-//        else 
-//          values=measureFacade.findAllVmOrderedByTime(vm);
-        
         
     }
     
     private JSONObject createTitle() throws JSONException
     {
-       JSONObject jstitle=new JSONObject();
+        JSONObject jstitle=new JSONObject();
         jstitle.put("text", getTitle());
         jstitle.put("x", new Integer(-20));
         return jstitle;
@@ -169,9 +201,6 @@ public class JSONController implements Serializable {
     public JSONObject createX() throws JSONException{
         JSONObject x = new JSONObject();
         x.put("type", "datetime");
-        //JSONObject format = new JSONObject();
-       // format.put("second", "%H:%M:%S");
-        //x.put("dateTimeLabelFormats", format);
         return x;
     
     }
