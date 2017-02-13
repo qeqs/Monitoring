@@ -4,6 +4,7 @@ import dao.SettingsFacade;
 import entities.Measure;
 import entities.Meter;
 import entities.Settings;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 import javax.ejb.EJB;
@@ -30,7 +31,7 @@ public class TestAdapter implements Adapter{
 
     @Override
     public Measure getMeasure(Meter meter) {
-        return getMeasure(meter,new Date());
+        return getMeasure(meter,new Timestamp(new Date().getTime()));
     }
 
     @Override

@@ -8,6 +8,7 @@ import adapters.entities.Wrapper;
 import dao.SettingsFacade;
 import entities.Measure;
 import entities.Settings;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,7 +114,7 @@ public class OpenStackAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(entities.Meter meter) {
-        return getMeasure(meter,new Date());
+        return getMeasure(meter,new Timestamp(new Date().getTime()));
     }
 
     @Override
