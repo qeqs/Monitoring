@@ -51,7 +51,7 @@ public class JobScheduler {
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                             .repeatForever()
-                            .withIntervalInSeconds(2))
+                            .withIntervalInSeconds(5))
                     .build();
 
             JobDataMap params = new JobDataMap();
@@ -64,8 +64,6 @@ public class JobScheduler {
                     .setJobData(new JobDataMap(params))
                     .build();
 
-            System.out.println("AAAAAAAA users = " + usersFacade.findAll() + " meters = " + metersFacade.findAll() + " adapter =" + String.valueOf(testAdapter != null) + " controller =" + String.valueOf(controller != null));
-
             JobDetail jobTest = JobBuilder.newJob(MeasuresJob.class)
                     .withIdentity("Test", "Measures")
                     .build();
@@ -74,18 +72,15 @@ public class JobScheduler {
             jobTest.getJobDataMap().put("meters", metersFacade.findAll());
             jobTest.getJobDataMap().put("controller", controller);
 
-            System.out.println("scheduler.JobScheduler.start() = " + jobTest.getJobDataMap().size());
             
             //scheduler.scheduleJob(jobRest, trigger);
             scheduler.scheduleJob(jobTest, trigger);
             scheduler.start();
             
             System.out.println("scheduler.JobScheduler.start()  " + scheduler.isStarted());
-            System.out.println("scheduler.JobScheduler.start()  " + scheduler.checkExists(jobTest.getKey()));
 
         } catch (SchedulerException ex) {
 
-            System.out.println("ERORORORORORRORO");
         }
 
     }
