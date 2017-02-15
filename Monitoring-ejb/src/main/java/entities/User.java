@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByUid", query = "SELECT u FROM Users u WHERE u.uid = :uid")
-    , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")
-    , @NamedQuery(name = "Users.findByPasswd", query = "SELECT u FROM Users u WHERE u.passwd = :passwd")})
-public class Users implements Serializable {
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u")
+    , @NamedQuery(name = "Users.findByUid", query = "SELECT u FROM User u WHERE u.uid = :uid")
+    , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
+    , @NamedQuery(name = "Users.findByPasswd", query = "SELECT u FROM User u WHERE u.passwd = :passwd")})
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,10 +36,10 @@ public class Users implements Serializable {
     @Column(name = "passwd")
     private String passwd;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(String uid) {
+    public User(String uid) {
         this.uid = uid;
     }
 
@@ -77,10 +77,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Users other = (Users) object;
+        User other = (User) object;
         if ((this.uid == null && other.uid != null) || (this.uid != null && !this.uid.equals(other.uid))) {
             return false;
         }

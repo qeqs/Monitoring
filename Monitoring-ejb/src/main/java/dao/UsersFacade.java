@@ -1,12 +1,12 @@
 package dao;
 
-import entities.Users;
+import entities.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class UsersFacade extends AbstractFacade<Users> {
+public class UsersFacade extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "virtualizationapp_Monitoring-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -17,7 +17,7 @@ public class UsersFacade extends AbstractFacade<Users> {
     }
 
     public UsersFacade() {
-        super(Users.class);
+        super(User.class);
     }
 
 }

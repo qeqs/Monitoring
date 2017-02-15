@@ -153,7 +153,7 @@ public class OpenStackAdapter implements Adapter {
         client = JerseyClientBuilder.createClient();
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
-        //metrics = webTarget.path("/meters/");
+        //metrics = webTarget.path("/meters");
          getToken();
          
     }

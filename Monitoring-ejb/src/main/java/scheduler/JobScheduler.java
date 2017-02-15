@@ -21,12 +21,18 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import logic.MeasureController;
+import org.quartz.TriggerKey;
 
 @Startup
 @Singleton
 @DependsOn({"MeasureController"})
 public class JobScheduler {
-
+    
+    public static final String TRIGGER_NAME = "trigger1";
+    public static final String REST_JOB_NAME = "Rest";
+    public static final String TEST_JOB_NAME = "Test";
+    public static final String JOB_GROUP_NAME = "Measures";
+    
     @EJB
     private OpenStackAdapter openStackAdapter;
     @EJB
@@ -37,17 +43,24 @@ public class JobScheduler {
     private UsersFacade usersFacade;
     @EJB
     private MeasureController controller;
-    Scheduler scheduler;
+    private Scheduler scheduler;
+
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+    
+    public Trigger getTrigger() throws SchedulerException {
+        return scheduler.getTrigger(new TriggerKey(TRIGGER_NAME));
+    }
 
     @PostConstruct
     public void start() {
-        System.out.println("AAAAAAAAA");
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
         try {
             scheduler = schedulerFactory.getScheduler();
             Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity("trigger1")
+                    .withIdentity(TRIGGER_NAME)
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                             .repeatForever()
@@ -60,23 +73,22 @@ public class JobScheduler {
             params.put("meters", metersFacade.findAll());
             params.put("controller", controller);
             JobDetail jobRest = JobBuilder.newJob(MeasuresJob.class)
-                    .withIdentity("Rest", "Measures")
+                    .withIdentity(REST_JOB_NAME, JOB_GROUP_NAME)
                     .setJobData(new JobDataMap(params))
                     .build();
 
             JobDetail jobTest = JobBuilder.newJob(MeasuresJob.class)
-                    .withIdentity("Test", "Measures")
+                    .withIdentity(TEST_JOB_NAME, JOB_GROUP_NAME)
                     .build();
             jobTest.getJobDataMap().put("adapter", testAdapter);
             jobTest.getJobDataMap().put("users", usersFacade.findAll());
             jobTest.getJobDataMap().put("meters", metersFacade.findAll());
             jobTest.getJobDataMap().put("controller", controller);
 
-            
-            //scheduler.scheduleJob(jobRest, trigger);
+            scheduler.scheduleJob(jobRest, trigger);
             scheduler.scheduleJob(jobTest, trigger);
             scheduler.start();
-            
+
             System.out.println("scheduler.JobScheduler.start()  " + scheduler.isStarted());
 
         } catch (SchedulerException ex) {
@@ -88,7 +100,9 @@ public class JobScheduler {
     @PreDestroy
     public void stop() {
         try {
-            if(scheduler==null)return;
+            if (scheduler == null) {
+                return;
+            }
             scheduler.shutdown();
         } catch (SchedulerException ex) {
         }
