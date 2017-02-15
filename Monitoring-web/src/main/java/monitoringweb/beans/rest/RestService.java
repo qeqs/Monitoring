@@ -33,7 +33,7 @@ public class RestService {
     MeasureFacade measureFacade;
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN  )
+    @Produces(MediaType.TEXT_PLAIN)
     public String getMessages(){
         return "Hello world!";
     }
@@ -42,15 +42,16 @@ public class RestService {
     @GET
     @Path("meters")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getSupportedMeters() {
-        Response response;
+    public List<Meter> getSupportedMeters() {
+        //Response response;
         List<Meter> meters = metersFacade.findAll();
-        if (meters == null) {
-            response = Response.noContent().build();
-        } else {
-            response = Response.ok(meters).build();
-        }
-        return response;
+        //if (meters == null) {
+        //    response = Response.noContent().build();
+        //} else {
+        //    response = Response.ok(meters).build();
+        //}
+        //return response;
+        return meters;
     }
 
     @GET
