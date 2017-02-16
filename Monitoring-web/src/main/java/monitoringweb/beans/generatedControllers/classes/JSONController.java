@@ -39,6 +39,7 @@ public class JSONController implements Serializable {
     private StringBuilder title;
     private List<List<Measure>> measureLists;
     private boolean valueChanged;
+    private GraphicType type;
 
    
     @EJB
@@ -51,6 +52,7 @@ public class JSONController implements Serializable {
         title = new StringBuilder();
         measureLists = new ArrayList<>();
         valueChanged = false;
+        type=GraphicType.line;
     }
     
      public void setMeter(Meter meter) {
@@ -113,7 +115,15 @@ public class JSONController implements Serializable {
         this.meterFacade = meterFacade;
     }
     
-    public JSONObject getJson() throws JSONException
+    public void setType(GraphicType type) {
+        this.type = type;
+    }
+
+    public GraphicType getType() {
+        return type;
+    }
+    
+   public JSONObject getJson() throws JSONException
     {
         if (json.length() == 0 || valueChanged) {
             changeJSON();
@@ -135,6 +145,15 @@ public class JSONController implements Serializable {
     {
           this.valueChanged = true;
     }
+    
+     public List<GraphicType> AvailableTypes()
+    {
+        List<GraphicType> list=new ArrayList();
+        list.add(GraphicType.line);
+        list.add(GraphicType.column);
+        return list;
+    }
+
     
     private void setMeasureList() {
         measureLists.clear();
@@ -189,12 +208,26 @@ public class JSONController implements Serializable {
         return jstitle;
     }
     
-    private JSONObject createChart() throws JSONException
-    {
-       JSONObject chart=new JSONObject();
+    private JSONObject createChart() throws JSONException {
+        JSONObject chart = new JSONObject();
         chart.put("zoomType", "x");
+        switch(type){
+            case line:
+                chart.put("type", "line");
+                break;
+            case column:    
+                chart.put("type", "column");
+                break;
+            default:
+                chart.put("type", "column");
+                break;
+        }
+        
+        chart.put("type", "line");
+     
         return chart;
     }
+
     
     
     
@@ -224,7 +257,17 @@ public class JSONController implements Serializable {
        }
 
         line.put("data", points);
-        line.put("type","line");
+          switch(type){
+            case line:
+               line.put("type", "line");
+               break;
+            case column:    
+               line.put("type", "column");
+               break;
+            default:
+                line.put("type", "column");
+                break;
+        }
         line.put("name", "");
         series.put(line);
         }
@@ -241,8 +284,27 @@ public class JSONController implements Serializable {
         plotOptions.put("line", line);
         return plotOptions;
     }
-    
-    
-    
-    
+      
+public enum GraphicType{
+    line,
+    column
 }
+}
+
+class JSONFunction implements JSONString {
+
+    private String string;
+
+    public JSONFunction(String string) {
+        this.string = string;
+    }
+
+    @Override
+    public String toJSONString() {
+        return string;
+    }
+
+}
+
+
+
