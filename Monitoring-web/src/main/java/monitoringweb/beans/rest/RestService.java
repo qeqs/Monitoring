@@ -43,29 +43,14 @@ public class RestService {
     @Path("meters")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Meter> getSupportedMeters() {
-        //Response response;
-        List<Meter> meters = metersFacade.findAll();
-        //if (meters == null) {
-        //    response = Response.noContent().build();
-        //} else {
-        //    response = Response.ok(meters).build();
-        //}
-        //return response;
-        return meters;
+        return metersFacade.findAll();
     }
 
     @GET
     @Path("events")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getSupportedEvents() {
-        Response response;
-        List<Event> events = eventFacade.findAll();
-        if (events == null) {
-            response = Response.noContent().build();
-        } else {
-            response = Response.ok(events).build();
-        }
-        return response;
+    public List<Event> getSupportedEvents() {       
+        return eventFacade.findAll();
     }
 
     @POST

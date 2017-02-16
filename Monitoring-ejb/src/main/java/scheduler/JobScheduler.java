@@ -85,7 +85,7 @@ public class JobScheduler {
             jobTest.getJobDataMap().put("meters", metersFacade.findAll());
             jobTest.getJobDataMap().put("controller", controller);
 
-            scheduler.scheduleJob(jobRest, trigger);
+            //scheduler.scheduleJob(jobRest, trigger);
             scheduler.scheduleJob(jobTest, trigger);
             scheduler.start();
 
