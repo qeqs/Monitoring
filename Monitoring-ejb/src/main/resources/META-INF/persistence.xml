@@ -11,7 +11,7 @@
     <class>entities.PolicyList</class>
     <class>entities.Settings</class>
     <class>entities.Userroles</class>
-    <class>entities.Users</class>
+    <class>entities.User</class>
     <class>entities.Vm</class>
     <class>entities.Vnf</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
