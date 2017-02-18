@@ -50,6 +50,14 @@ public class JobScheduler {
     private Trigger triggerTemplate;
     private Integer timeBeforeExpired = 1000*60*60*2;  //millisecs
 
+    public Integer getTimeBeforeExpired() {
+        return timeBeforeExpired;
+    }
+
+    public void setTimeBeforeExpired(Integer timeBeforeExpired) {
+        this.timeBeforeExpired = timeBeforeExpired;
+    }
+
     public Scheduler getScheduler() {
         return scheduler;
     }
