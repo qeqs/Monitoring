@@ -26,7 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Measure.findByValue", query = "SELECT m FROM Measure m WHERE m.value = :value")
     , @NamedQuery(name = "Measure.findByTstamp", query = "SELECT m FROM Measure m WHERE m.tstamp = :tstamp")
     , @NamedQuery(name = "Measure.findByUserId", query = "SELECT m FROM Measure m WHERE m.userId = :userId")
-    , @NamedQuery(name = "Measure.findByResource", query = "SELECT m FROM Measure m WHERE m.resource = :resource")})
+    , @NamedQuery(name = "Measure.findByResource", query = "SELECT m FROM Measure m WHERE m.resource = :resource")
+    , @NamedQuery(name ="Measure.deleteAll", query = "DELETE FROM Measure")
+    , @NamedQuery(name ="Measure.deleteAllByUser", query = "DELETE FROM Measure m WHERE m.userId = :userId")
+    , @NamedQuery(name ="Measure.deleteAllBeforeDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date")})
 public class Measure implements Serializable {
 
     private static final long serialVersionUID = 1L;

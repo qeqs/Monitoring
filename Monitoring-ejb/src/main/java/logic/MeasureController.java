@@ -2,11 +2,12 @@ package logic;
 
 import dao.MeasureFacade;
 import entities.Measure;
+import entities.User;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import logic.PolicySolver;
-import logic.events.Event;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Singleton
 public class MeasureController {
@@ -26,13 +27,16 @@ public class MeasureController {
         measureFacade.create(measure);
         solver.solve(measure);
     }
-
-    public void storeEvent(Event event) {
-        for (Listener listener : listeners) {
-            listener.onStoreEvent(event);
-        }
-        //todo: change smth on vnf side or send event somewhere
+    public void clearMeasures(){
+        measureFacade.deleteAll();
     }
+    public void clearMeasures(User user){
+        measureFacade.deleteAllByUser(user);
+    }
+    public void clearMeasuresBefore(Date date){
+        measureFacade.deleteAllBeforeDate(date);
+    }
+
 
     public void addListener(Listener listener) {
         listeners.add(listener);

@@ -1,9 +1,6 @@
 package scheduler;
 
-import adapters.entities.Meter;
-import entities.User;
 import java.text.ParseException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.quartz.SchedulerException;
@@ -29,8 +26,8 @@ public class SchedulerController {
         setMainTriggerRepeatInterval(seconds, null);
     }
 
-    private void setMainTrigger(String triggerName, int seconds, String jobName, String groupName, String calendarName) throws SchedulerException {
-        scheduler.getScheduler().rescheduleJob(new TriggerKey(TRIGGER_NAME), TriggerBuilder.newTrigger()
+    private void setTrigger(String triggerName, int seconds, String jobName, String groupName, String calendarName) throws SchedulerException {
+        scheduler.getScheduler().rescheduleJob(new TriggerKey(TRIGGER_NAME+jobName), TriggerBuilder.newTrigger()
                 .withIdentity(triggerName)
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
@@ -42,14 +39,8 @@ public class SchedulerController {
     }
 
     private void setMainTriggerRepeatInterval(int seconds, String calendarName) throws SchedulerException {
-        setMainTrigger(TRIGGER_NAME, seconds, JobScheduler.TEST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
-        setMainTrigger(TRIGGER_NAME, seconds, JobScheduler.REST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
-    }
-
-
-    public void addNewTriggerForMeters(List<Meter> meters,User user) {
-            //todo: let user create his own monitoring plan
-            throw new UnsupportedOperationException("addNewTriggerForMeters() not implemented yet");
+        setTrigger(TRIGGER_NAME, seconds, JobScheduler.TEST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
+        setTrigger(TRIGGER_NAME, seconds, JobScheduler.REST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
     }
 
     public void stopMainTrigger() throws SchedulerException {
@@ -58,6 +49,9 @@ public class SchedulerController {
 
     public void startMainTrigger() throws SchedulerException {
         scheduler.getScheduler().resumeTrigger(TriggerKey.triggerKey(TRIGGER_NAME));
+    }
+    public void setMeasuresDeath(int seconds){
+        
     }
 
 }

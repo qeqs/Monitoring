@@ -7,7 +7,6 @@ import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
 import logic.MeasureController;
 
@@ -20,7 +19,7 @@ public class MeasuresJob implements Job {
     private MeasureController controller;
 
     @Override
-    public void execute(JobExecutionContext jec) throws JobExecutionException {
+    public void execute(JobExecutionContext jec) {
 
         JobDataMap jdm = jec.getMergedJobDataMap();
         try {

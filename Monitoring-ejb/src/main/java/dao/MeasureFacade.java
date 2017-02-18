@@ -4,6 +4,7 @@ import entities.Measure;
 import entities.Meter;
 import entities.Vm;
 import entities.Pm;
+import entities.User;
 import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,7 +30,8 @@ public class MeasureFacade extends AbstractFacade<Measure> {
     public MeasureFacade() {
         super(Measure.class);
     }
-      public List<Measure> findAllOrderedByTime() {
+
+    public List<Measure> findAllOrderedByTime() {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
@@ -38,45 +40,58 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
+
     public List<Measure> findAllForMeterOrderedByTime(Meter met) {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
-        cq.where(cb.equal(e.get("idMeter"),met));
+        cq.where(cb.equal(e.get("idMeter"), met));
         cq.orderBy(cb.desc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
-    
-    public List<Measure> findByVmAndMetOrderedByTime(Vm vm,Meter met) {
-        
+
+    public List<Measure> findByVmAndMetOrderedByTime(Vm vm, Meter met) {
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
-        cq.where(cb.equal(e.get("resource"),vm.getIdVm()),cb.equal(e.get("idMeter"),met));
+        cq.where(cb.equal(e.get("resource"), vm.getIdVm()), cb.equal(e.get("idMeter"), met));
         cq.orderBy(cb.desc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
-    public List<Measure> findByPmAndMetOrderedByTime(Pm pm,Meter met) {
-        
+
+    public List<Measure> findByPmAndMetOrderedByTime(Pm pm, Meter met) {
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
-        cq.where(cb.equal(e.get("resource"),pm.getIdPm()),cb.equal(e.get("idMeter"),met));
+        cq.where(cb.equal(e.get("resource"), pm.getIdPm()), cb.equal(e.get("idMeter"), met));
         cq.orderBy(cb.desc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
-    public List<Measure> findByDate(Date dateFrom,Date dateTo){        
+
+    public List<Measure> findByDate(Date dateFrom, Date dateTo) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
         ParameterExpression<Date> parameter = cb.parameter(Date.class);
-        cq.where(cb.between(parameter,dateFrom,dateTo));
+        cq.where(cb.between(parameter, dateFrom, dateTo));
         Query query = em.createQuery(cq);
         return query.getResultList();
-        
+
+    }
+
+    public void deleteAll() {
+        em.createNamedQuery("Measure.deleteAll").executeUpdate();
+    }
+    public void deleteAllByUser(User userId){
+        em.createNamedQuery("Measure.deleteAllByUser").setParameter("userId", userId.getUid()).executeUpdate();        
+    }
+    public void deleteAllBeforeDate(Date date){
+        em.createNamedQuery("Measure.deleteAllBeforeDate").setParameter("date", date).executeUpdate();
     }
 }

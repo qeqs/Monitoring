@@ -3,6 +3,7 @@ CREATE TABLE Meters
 id_meters character(40),
 type character(40),
 unit character(40),
+name character(100),
 description character(40),
 constraint PK_Meters primary key (id_meters)
 );
