@@ -36,7 +36,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
-        cq.orderBy(cb.desc(e.get("tstamp")));
+        cq.orderBy(cb.asc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
@@ -47,7 +47,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
         cq.where(cb.equal(e.get("idMeter"), met));
-        cq.orderBy(cb.desc(e.get("tstamp")));
+        cq.orderBy(cb.asc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
@@ -58,7 +58,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
         cq.where(cb.equal(e.get("resource"), vm.getIdVm()), cb.equal(e.get("idMeter"), met));
-        cq.orderBy(cb.desc(e.get("tstamp")));
+        cq.orderBy(cb.asc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }
@@ -69,7 +69,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         CriteriaQuery cq = cb.createQuery();
         Root e = cq.from(Measure.class);
         cq.where(cb.equal(e.get("resource"), pm.getIdPm()), cb.equal(e.get("idMeter"), met));
-        cq.orderBy(cb.desc(e.get("tstamp")));
+        cq.orderBy(cb.asc(e.get("tstamp")));
         Query query = em.createQuery(cq);
         return query.getResultList();
     }

@@ -9,11 +9,8 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.swing.event.ChangeEvent;
 import dao.MeasureFacade;
 import dao.MetersFacade;
 import entities.Measure;
@@ -40,8 +37,8 @@ public class JSONController implements Serializable {
     private List<List<Measure>> measureLists;
     private boolean valueChanged;
     private GraphicType type;
-
-   
+    private AnimationType refresh;
+  
     @EJB
     private MeasureFacade measureFacade;
      @EJB
@@ -53,6 +50,7 @@ public class JSONController implements Serializable {
         measureLists = new ArrayList<>();
         valueChanged = false;
         type=GraphicType.line;
+        refresh=AnimationType.simple;
     }
     
      public void setMeter(Meter meter) {
@@ -122,6 +120,13 @@ public class JSONController implements Serializable {
     public GraphicType getType() {
         return type;
     }
+       public void setRefresh(AnimationType refresh) {
+        this.refresh = refresh;
+    }
+
+    public AnimationType getRefresh() {
+        return refresh;
+    }
     
    public JSONObject getJson() throws JSONException
     {
@@ -146,14 +151,27 @@ public class JSONController implements Serializable {
           this.valueChanged = true;
     }
     
-     public List<GraphicType> AvailableTypes()
+    
+     public List<List<Measure>> getMeasureLists() {
+        return measureLists;
+    }
+    
+     public List<GraphicType> availableTypes()
     {
         List<GraphicType> list=new ArrayList();
         list.add(GraphicType.line);
         list.add(GraphicType.column);
+        list.add(GraphicType.scatter);
+        list.add(GraphicType.spline);
         return list;
     }
-
+    
+    public List<AnimationType> availableAnimation(){
+         List<AnimationType> list=new ArrayList();
+         list.add(AnimationType.none);
+         list.add(AnimationType.simple);
+         return list;        
+    }
     
     private void setMeasureList() {
         measureLists.clear();
@@ -200,6 +218,12 @@ public class JSONController implements Serializable {
         
     }
     
+    public JSONObject changeSeries() throws JSONException
+    { 
+        setMeasureList();
+        json.append("series", createSeries());
+        return json;
+    }
     private JSONObject createTitle() throws JSONException
     {
         JSONObject jstitle=new JSONObject();
@@ -218,13 +242,23 @@ public class JSONController implements Serializable {
             case column:    
                 chart.put("type", "column");
                 break;
+            case scatter:
+                 chart.put("type", "scatter");
+            break;
+             case spline:
+                 chart.put("type", "spline");
+             break;
             default:
                 chart.put("type", "column");
                 break;
         }
         
-        chart.put("type", "line");
-     
+//           JSONObject events = new JSONObject();
+//
+//          JSONFunction s = new JSONFunction("function (){var series = this.series[0]; setInterval(function (){series.update()}, 1000);}");
+//          events.put("load", s);
+//        chart.put("events", events);
+         chart.put("animation", false);
         return chart;
     }
 
@@ -234,6 +268,7 @@ public class JSONController implements Serializable {
     public JSONObject createX() throws JSONException{
         JSONObject x = new JSONObject();
         x.put("type", "datetime");
+        x.put("minRange", 0.5);
         return x;
     
     }
@@ -264,6 +299,12 @@ public class JSONController implements Serializable {
             case column:    
                line.put("type", "column");
                break;
+             case scatter:
+                 line.put("type", "scatter");
+               break;
+             case spline:
+                 line.put("type", "spline");
+               break;
             default:
                 line.put("type", "column");
                 break;
@@ -278,17 +319,32 @@ public class JSONController implements Serializable {
         JSONObject plotOptions = new JSONObject();
         JSONObject line = new JSONObject();
         JSONObject marker = new JSONObject();
+        JSONObject series = new JSONObject();
         marker.put("radius",4);
         marker.put("enabled", true);
         line.put("marker", marker);
+        series.put("animation", false);
+        series.put("turboThreshold", 0);
         plotOptions.put("line", line);
+        
+        plotOptions.put("series", series);
+       
+        
         return plotOptions;
     }
       
 public enum GraphicType{
     line,
-    column
+    column,
+    scatter,
+    spline
 }
+
+public enum AnimationType{
+    none,
+    simple
+}
+
 }
 
 class JSONFunction implements JSONString {
