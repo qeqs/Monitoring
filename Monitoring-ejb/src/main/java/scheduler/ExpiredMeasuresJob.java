@@ -18,10 +18,13 @@ public class ExpiredMeasuresJob implements Job {
 
         JobDataMap jdm = context.getMergedJobDataMap();
 
-        try {            
+        try {
             measureController = (MeasureController) jdm.get("controller");
             beforeDate = (Integer) jdm.get("date");
-            Date date = new Date(new Date().getTime()-beforeDate);
+            if (beforeDate == 0) {
+                return;
+            }
+            Date date = new Date(new Date().getTime() - beforeDate);
             measureController.clearMeasuresBefore(date);
         } catch (Exception exception) {
             System.out.println("scheduler.ExpiredMeasuresJob.execute() " + exception.getLocalizedMessage());

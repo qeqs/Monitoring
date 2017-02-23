@@ -44,7 +44,7 @@ public class SchedulerController {
         setTrigger(TRIGGER_NAME, seconds, JobScheduler.EXPIRED_JOB_NAME, JobScheduler.EXPIRED_JOB_GROUP_NAME, calendarName);
     }
 
-    public void stopMainTrigger() throws SchedulerException {
+    public void stopMainTrigger() throws SchedulerException {   
         scheduler.getScheduler().pauseTrigger(TriggerKey.triggerKey(TRIGGER_NAME));
     }
 
