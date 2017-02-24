@@ -3,6 +3,7 @@ package scheduler;
 import adapters.Adapter;
 import entities.Meter;
 import entities.User;
+import controllers.rmi.entities.Vnf;
 import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -17,6 +18,7 @@ public class MeasuresJob implements Job {
     private List<Meter> meters;
     private List<User> users;
     private MeasureController controller;
+    private Vnf vnf;
 
     @Override
     public void execute(JobExecutionContext jec) {
@@ -27,9 +29,11 @@ public class MeasuresJob implements Job {
             meters = (List<Meter>) jdm.get("meters");
             users = (List<User>) jdm.get("users");
             controller = (MeasureController) jdm.get("controller");
-
+            vnf = (Vnf) jdm.get("vnf");
+            
             for (User user : users) {
                 for (Meter meter : meters) {
+                    
                     adapter.setUser(user.getUid());
                     controller.storeMeasure(adapter.getMeasure(meter));
                 }

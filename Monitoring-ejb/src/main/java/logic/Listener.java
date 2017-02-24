@@ -12,5 +12,6 @@ public interface Listener {
      */
     void onStoreEvent(Event event);
     void onStoreMeasure(Measure measure);
+    
 
 }

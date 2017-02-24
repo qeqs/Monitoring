@@ -15,8 +15,8 @@ import dao.MeasureFacade;
 import dao.MetersFacade;
 import entities.Measure;
 import entities.Meter;
-import entities.Pm;
-import entities.Vm;
+//import entities.Pm;
+//import entities.Vm;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.*;
 
@@ -31,8 +31,8 @@ public class JSONController implements Serializable {
     
     private JSONObject json;
     private Meter meter;
-    private Vm vm;
-    private Pm pm;
+    private Object vm;
+    private Object pm;
     private StringBuilder title;
     private List<List<Measure>> measureLists;
     private boolean valueChanged;
@@ -59,11 +59,11 @@ public class JSONController implements Serializable {
         this.meter = meter;
     }
 
-    public void setVm(Vm vm) {
+    public void setVm(Object vm) {
         this.vm = vm;
     }
 
-    public void setPm(Pm pm) {
+    public void setPm(Object pm) {
         this.pm = pm;
     }
 
@@ -71,11 +71,11 @@ public class JSONController implements Serializable {
         return meter;
     }
 
-    public Vm getVm() {
+    public Object getVm() {
         return vm;
     }
 
-    public Pm getPm() {
+    public Object getPm() {
         return pm;
     }
      public void setTitle(StringBuilder title) {
@@ -91,7 +91,7 @@ public class JSONController implements Serializable {
         }
         if(vm!=null){
             title.append(" ");
-            title.append(vm.getName());
+            //title.append(vm.getName());
          }      
         return title;
     }
@@ -194,14 +194,14 @@ public class JSONController implements Serializable {
             }
         } else if (meter == null && pm != null && vm != null) {
             for (Meter met : meterFacade.findAll()) {
-                current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
+                //current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
                 }
             }
         } else if (meter == null && pm != null && vm == null) {
             for (Meter met : meterFacade.findAll()) {
-                current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
+                //current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
                 }
@@ -212,14 +212,14 @@ public class JSONController implements Serializable {
                 measureLists.add(current);
             }
         } else if (meter != null && pm != null && vm == null) {
-            current = measureFacade.findByPmAndMetOrderedByTime(pm, meter);
+            //current = measureFacade.findByPmAndMetOrderedByTime(pm, meter);
             if (!current.isEmpty()) {
                 measureLists.add(current);
             }
         } //пока не знаю, нужен ли этот кейс, показывать список всех vm без pm
         //или его следует разбить на два, тк может быть метрика, у которой в recource будет pm
         else if (meter != null && vm != null) {
-            current = measureFacade.findByVmAndMetOrderedByTime(vm, meter);
+            //current = measureFacade.findByVmAndMetOrderedByTime(vm, meter);
             if (!current.isEmpty()) {
                 measureLists.add(current);
             }
