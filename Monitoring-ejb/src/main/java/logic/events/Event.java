@@ -4,6 +4,7 @@ import entities.Measure;
 import entities.Meter;
 import entities.Policy;
 import java.util.Date;
+import logic.Severity;
 
 public class Event {
     private Meter meter;
@@ -12,6 +13,15 @@ public class Event {
     private EventAction action;
     private Date createdAt;
     private Policy origin;
+    private Severity severity;
+
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
 
     public Policy getOrigin() {
         return origin;

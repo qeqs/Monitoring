@@ -2,6 +2,7 @@ package scheduler.experimental;
 
 import dao.MetersFacade;
 import dao.UsersFacade;
+import controllers.rmi.entities.Vnf;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -15,6 +16,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import scheduler.ExpiredMeasuresJob;
 import scheduler.MeasuresJob;
+
 
 public class MonitorTemplate {
 
@@ -35,7 +37,7 @@ public class MonitorTemplate {
         EXPIRATION_JOB_NAME = String.valueOf(expiredIndex++);
     }
 
-    private Object vnf;
+    private Vnf vnf;
     private final HashMap<AdapterType, JobDetail> jobsMain = new HashMap<>();
     private final HashMap<AdapterType, Trigger> mainTriggers = new HashMap<>();
     private JobDetail jobExpired;
@@ -71,11 +73,11 @@ public class MonitorTemplate {
         this.expirationTrigger = expirationTrigger;
     }
 
-    public Object getVnf() {
+    public Vnf getVnf() {
         return vnf;
     }
 
-    public void setVnf(Object vnf) {
+    public void setVnf(Vnf vnf) {
         this.vnf = vnf;
     }
 
