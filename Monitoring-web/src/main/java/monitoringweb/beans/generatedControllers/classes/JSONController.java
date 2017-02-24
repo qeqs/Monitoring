@@ -37,7 +37,8 @@ public class JSONController implements Serializable {
     private List<List<Measure>> measureLists;
     private boolean valueChanged;
     private GraphicType type;
-    private AnimationType refresh;
+    private AnimationType animation;
+    private boolean timerStarted;
   
     @EJB
     private MeasureFacade measureFacade;
@@ -50,7 +51,8 @@ public class JSONController implements Serializable {
         measureLists = new ArrayList<>();
         valueChanged = false;
         type=GraphicType.line;
-        refresh=AnimationType.simple;
+        animation=AnimationType.none;
+        timerStarted=false;
     }
     
      public void setMeter(Meter meter) {
@@ -121,11 +123,18 @@ public class JSONController implements Serializable {
         return type;
     }
        public void setRefresh(AnimationType refresh) {
-        this.refresh = refresh;
+        this.animation = refresh;
     }
 
     public AnimationType getRefresh() {
-        return refresh;
+        return animation;
+    }
+    
+    public boolean getTimerStarted(){
+        return timerStarted;
+    }
+    public void setTimerStarted(boolean timerStarted){
+         this.timerStarted=timerStarted;
     }
     
    public JSONObject getJson() throws JSONException
@@ -218,6 +227,22 @@ public class JSONController implements Serializable {
         
     }
     
+    public void changeAnimationToNone(){
+        this.animation=AnimationType.none;
+        changeValue();
+    }
+    
+      public void changeAnimationToSimple(){
+        this.animation=AnimationType.simple;
+        changeValue();
+    }
+    
+   public void initAfterRefresh()
+   {
+       this.timerStarted=false;
+       this.animation=AnimationType.simple;
+   }
+      
     public JSONObject changeSeries() throws JSONException
     { 
         setMeasureList();
@@ -234,7 +259,10 @@ public class JSONController implements Serializable {
     
     private JSONObject createChart() throws JSONException {
         JSONObject chart = new JSONObject();
-        chart.put("zoomType", "x");
+        
+        if(animation.equals(AnimationType.none))
+             chart.put("zoomType", "x");
+        
         switch(type){
             case line:
                 chart.put("type", "line");
@@ -252,19 +280,10 @@ public class JSONController implements Serializable {
                 chart.put("type", "column");
                 break;
         }
-        
-//           JSONObject events = new JSONObject();
-//
-//          JSONFunction s = new JSONFunction("function (){var series = this.series[0]; setInterval(function (){series.update()}, 1000);}");
-//          events.put("load", s);
-//        chart.put("events", events);
          chart.put("animation", false);
         return chart;
     }
-
-    
-    
-    
+   
     public JSONObject createX() throws JSONException{
         JSONObject x = new JSONObject();
         x.put("type", "datetime");

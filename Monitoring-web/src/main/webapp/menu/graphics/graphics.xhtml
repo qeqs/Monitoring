@@ -13,7 +13,8 @@
     <ui:composition template="/menupage.xhtml" > 
         <ui:define name="body"> 
             <h:form id="mainForm">
-                 <h:panelGrid id ="panel" columns="2" style="margin-bottom:10px" cellpadding="15">
+                <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{jsonController.initAfterRefresh()}" update="simpleButton noneButton" />
+                 <h:panelGrid id ="panel" columns="4" style="margin-bottom:10px" cellpadding="15">
                     <p:outputLabel for="meterId" value="Meter:" />
                     <p:selectOneMenu id="meterId" value="#{jsonController.meter}">
                         <f:selectItem itemLabel="#{bundle.AllMessage}" />
@@ -21,7 +22,7 @@
                                            var="itemMet"
                                            itemValue="#{itemMet}"
                                            itemLabel="#{itemMet.name}"/>     
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm" />
+                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />
                     </p:selectOneMenu>
                     <p:outputLabel for="pmId" value="Physical Machine" />
                     <p:selectOneMenu id="pmId" value="#{jsonController.pm}"  >
@@ -30,7 +31,7 @@
                                            var="itemPM"
                                            itemValue="#{itemPM}"
                                            itemLabel="#{itemPM.idPm}"/>
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render="@all" />    
+                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />    
                     </p:selectOneMenu>
                     <p:outputLabel for="vmId" value="Virtual Machine" />
                     <p:selectOneMenu id="vmId" value="#{jsonController.vm}" rendered="#{not empty jsonController.pm}">
@@ -39,7 +40,7 @@
                                            var="itemVM"
                                            itemValue="#{itemVM}"
                                            itemLabel="#{itemVM.name}"/>  
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm" />   
+                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />   
                     </p:selectOneMenu>
                      <p:selectOneMenu id="vmId1" value="#{jsonController.vm}" rendered="#{empty jsonController.pm}">
                         <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
@@ -47,7 +48,7 @@
                                            var="itemVM"
                                            itemValue="#{itemVM}"
                                            itemLabel="#{itemVM.name}"/>  
-                     <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm" />   
+                     <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />   
                     </p:selectOneMenu>
                      <p:outputLabel for="graphType" value="Graphic Type" />
                     <p:selectOneMenu id="graphType" value="#{jsonController.type}"  >
@@ -56,29 +57,28 @@
                                        itemValue="#{item}"
                                        itemLabel="#{item}"/>
                         
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render="@all" />    
+                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />    
                     </p:selectOneMenu>
-                    <p:button  id="noneButton" value="Static" onclick="PF('currentTimePoller').stop(); #{jsonController.refresh=none}" href="#"  />
-                    <p:button id="simpleButton" value="Animate" onclick="PF('currentTimePoller').start(); #{jsonController.refresh=simple};" href="#"/> 
+                     <p:commandButton  id="noneButton" value="Static" actionListener="#{jsonController.changeAnimationToNone()}" onclick="PF('currentTimePoller').stop();" disabled="#{!jsonController.timerStarted}"  update="@this simpleButton :GraphicsForm:graphPanel"  >
+                         <f:setPropertyActionListener value="#{false}" target="#{jsonController.timerStarted}"/>  
+                    </p:commandButton>    
+                    <p:commandButton id="simpleButton" value="Animatied" actionListener="#{jsonController.changeAnimationToSimple()}" onclick="PF('currentTimePoller').start();" disabled="#{jsonController.timerStarted}"  update="@this noneButton :GraphicsForm:graphPanel"> 
+                         <f:setPropertyActionListener value="#{true}" target="#{jsonController.timerStarted}" />  
+                    </p:commandButton>    
                  </h:panelGrid>
             </h:form>
-           <h:form id="GraphicsForm">
-
-            <p:poll interval="3" update="graphPanel" listener="#{jsonController.changeValue}"  autoStart="false" widgetVar="currentTimePoller"/>  
-            <h:panelGrid id="graphPanel">
-           <script  type="text/javascript" >
-
-            Highcharts.setOptions({
-            global: {
-                timezone:'Europe/Moscow'   
-            }});  
-       var chart = Highcharts.chart('GraphicsForm:graphPanel', #{jsonController.json});
-   
-           </script>
-           </h:panelGrid>
-
-           </h:form>
-          
+            <h:form id="GraphicsForm" >
+                <p:poll interval="3" update="graphPanel" listener="#{jsonController.changeValue}"  autoStart="false" widgetVar="currentTimePoller"/>  
+                <h:panelGrid id="graphPanel" style="width: 1000px;">
+                    <script  type="text/javascript" >
+                        Highcharts.setOptions({
+                            global: {
+                                timezone:'Europe/Moscow'   
+                             }});  
+                        var chart = Highcharts.chart('GraphicsForm:graphPanel', #{jsonController.json});
+                    </script>
+                </h:panelGrid>
+           </h:form>  
         </ui:define>
         </ui:composition>
      
