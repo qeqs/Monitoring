@@ -48,7 +48,7 @@ public class JobScheduler {
     private MeasureController controller;
     private Scheduler scheduler;
     private Trigger triggerTemplate;
-    private Integer timeBeforeExpired = 1000*60*60*2;  //millisecs
+    private Integer timeBeforeExpired = 1000*60*2;  //millisecs
 
     public Integer getTimeBeforeExpired() {
         return timeBeforeExpired;
@@ -115,7 +115,7 @@ public class JobScheduler {
                     .withIdentity(EXPIRED_JOB_NAME,EXPIRED_JOB_GROUP_NAME)
                     .build();
             jobExpired.getJobDataMap().put("controller", controller);
-            jobExpired.getJobDataMap().put("date", controller);
+            jobExpired.getJobDataMap().put("date", timeBeforeExpired);
             
             //scheduler.scheduleJob(jobRest, triggerRest);
             scheduler.scheduleJob(jobTest, triggerTest);
