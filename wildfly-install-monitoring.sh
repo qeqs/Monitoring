@@ -1,4 +1,4 @@
-cription     :The script to install Wildfly 10.x
+#!/bin/bash
 #more            :http://sukharevd.net/wildfly-8-installation.html
 #author	         :Dmitriy Sukharev
 #date            :2016-06-18T02:45-0700

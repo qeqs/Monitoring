@@ -11,6 +11,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -18,7 +19,7 @@ import scheduler.ExpiredMeasuresJob;
 import scheduler.MeasuresJob;
 
 
-public class MonitorTemplate {
+public class MonitorTemplate {//todo:думаю надо сделать этот класс как @Entity и в бд его закидывать
 
     public final String MAIN_TRIGGER_NAME;
     public final String EXPIRATION_TRIGGER_NAME;
@@ -58,54 +59,60 @@ public class MonitorTemplate {
         return mainTriggers.get(key);
     }
 
-    public void setMainTrigger(AdapterType key, Trigger mainTrigger) {
+    public MonitorTemplate setMainTrigger(AdapterType key, Trigger mainTrigger) {
         if (mainTriggers.containsKey(key)) {
             this.mainTriggers.remove(key);
         }
         this.mainTriggers.put(key, mainTrigger);
+        return MonitorTemplate.this;
     }
 
     public Trigger getExpirationTrigger() {
         return expirationTrigger;
     }
 
-    public void setExpirationTrigger(Trigger expirationTrigger) {
+    public MonitorTemplate setExpirationTrigger(Trigger expirationTrigger) {
         this.expirationTrigger = expirationTrigger;
+        return MonitorTemplate.this;
     }
 
     public Vnf getVnf() {
         return vnf;
     }
 
-    public void setVnf(Vnf vnf) {
+    public MonitorTemplate setVnf(Vnf vnf) {
         this.vnf = vnf;
+        return MonitorTemplate.this;
     }
 
     public Integer getExpirationTime() {
         return expirationTime;
     }
 
-    public void setExpirationTime(Integer expirationTime) {
+    public MonitorTemplate setExpirationTime(Integer expirationTime) {
         this.expirationTime = expirationTime;
+        return MonitorTemplate.this;
     }
 
     public Integer getRepeatTime() {
         return repeatTime;
     }
 
-    public void setRepeatTime(Integer repeatTime) {
+    public MonitorTemplate setRepeatTime(Integer repeatTime) {
         this.repeatTime = repeatTime;
+        return MonitorTemplate.this;
     }
 
     public Scheduler getScheduler() {
         return scheduler;
     }
 
-    public void setScheduler(Scheduler scheduler) {
+    public MonitorTemplate setScheduler(Scheduler scheduler) {
         this.scheduler = scheduler;
+        return MonitorTemplate.this;
     }
 
-    public void start() throws Exception {
+    public void start() throws SchedulerException{
         init();
         for (Map.Entry<AdapterType, Trigger> entry : mainTriggers.entrySet()) {
             AdapterType key = entry.getKey();
@@ -117,7 +124,7 @@ public class MonitorTemplate {
 
     }
 
-    public void restart() throws Exception {
+    public void restart() throws SchedulerException {
         init();
         for (AdapterType type : AdapterType.values()) {
             scheduler.rescheduleJob(scheduler.getTriggersOfJob(JobKey.jobKey(type.name() + JOB_NAME, JOB_GROUP_NAME)).get(0).getKey(), mainTriggers.get(type));
@@ -126,9 +133,9 @@ public class MonitorTemplate {
 
     }
 
-    private void init() throws Exception {
+    private void init() throws SchedulerException {
         if (scheduler == null) {
-            throw new Exception("scheduler was not set");
+            throw new SchedulerException("scheduler was not set");
         }
 
         if (mainTriggers.isEmpty()) {                       //triggers init
