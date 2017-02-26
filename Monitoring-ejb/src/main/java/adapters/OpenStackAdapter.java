@@ -10,7 +10,6 @@ import entities.Measure;
 import entities.Settings;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -19,13 +18,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-
 
 @Stateless
 @LocalBean
@@ -44,13 +41,17 @@ public class OpenStackAdapter implements Adapter {
     public void init() {
         client = JerseyClientBuilder.createClient();
     }
+
     @PreDestroy
     public void close() {
         client.close();
     }
+
     @Override
-    public Adapter setUser(String uid){     
-        if(settingsFacade==null)settingsFacade = new SettingsFacade();
+    public Adapter setUser(String uid) {
+        if (settingsFacade == null) {
+            settingsFacade = new SettingsFacade();
+        }
         settings = settingsFacade.findByUid(uid);
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
@@ -58,8 +59,8 @@ public class OpenStackAdapter implements Adapter {
         getToken();
         return OpenStackAdapter.this;
     }
-    private Token getToken() {
 
+    private Token getToken() {
 
         StringBuilder form = new StringBuilder()
                 .append("{\"auth\": {\"passwordCredentials\":{\"username\": \"")
@@ -77,13 +78,10 @@ public class OpenStackAdapter implements Adapter {
     }
 
     public List<Meter> getMeters() {
-        ArrayList<Meter> meterList;
+        List<Meter> meterList;
         GenericType<JAXBElement<List<Meter>>> listGenericType = new GenericType<JAXBElement<List<Meter>>>() {
         };
-        Invocation.Builder builder = metrics.request(MediaType.APPLICATION_JSON_TYPE);
-        builder.header("X-Auth-Token", token);
-        meterList = (ArrayList<Meter>) builder.get(listGenericType).getValue();
-
+        meterList = metrics.request(MediaType.APPLICATION_JSON_TYPE).header("X-Auth-Token", token).get(listGenericType).getValue();
         return meterList;
     }
 
@@ -114,7 +112,7 @@ public class OpenStackAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(entities.Meter meter) {
-        return getMeasure(meter,new Timestamp(new Date().getTime()));
+        return getMeasure(meter, new Timestamp(new Date().getTime()));
     }
 
     @Override
@@ -142,20 +140,20 @@ public class OpenStackAdapter implements Adapter {
         meter.setIdMeters(osMeter.getMeter_id());
         return meter;
     }
-    
-    public void test(){
+
+    public void test() {
         settings = new Settings();
         settings.setKeystoneEndpoint("95.30.222.111:5000");
-         settings.setCeliometerEndpoint("95.30.222.111:8777");
-         settings.setOsUsername("admin");
-         settings.setOsPassword("root");
-         
+        settings.setCeliometerEndpoint("95.30.222.111:8777");
+        settings.setOsUsername("admin");
+        settings.setOsPassword("root");
+
         client = JerseyClientBuilder.createClient();
         webTarget = client.target(settings.getCeliometerEndpoint());
         keystone = client.target(settings.getKeystoneEndpoint());
         //metrics = webTarget.path("/meters");
-         getToken();
-         
+        getToken();
+
     }
 
 }

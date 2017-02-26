@@ -10,5 +10,7 @@ public interface Adapter {
     Meter getMeter(String name);//??? 
     Measure getMeasure(Meter meter);//timestamp = current time
     Measure getMeasure(Meter meter,Date timestamp);
-    Adapter setUser(String uid);
+    Adapter setUser(String uid);//todo:change it
+    //todo:get set resource
+    //todo:autorefresh meters
 }
