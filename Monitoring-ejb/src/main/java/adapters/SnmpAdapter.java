@@ -27,7 +27,7 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 @Stateless
 @LocalBean
-public class SnmpAdapter{
+public class SnmpAdapter {
 
     @EJB
     private SettingsFacade settingsFacade;

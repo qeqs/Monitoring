@@ -8,10 +8,13 @@ import entities.Measure;
 import entities.Meter;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,9 +23,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import jdk.nashorn.internal.runtime.Context;
 
-@Stateless
-@Path("monitoring")
+@RequestScoped
+@Path("/monitoring")
 public class RestService {
 
     @EJB
@@ -40,14 +44,24 @@ public class RestService {
     
     
     @GET
-    @Path("meters")
+    @Path("/meters")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Meter> getSupportedMeters() {
-        return metersFacade.findAll();
+        
+        List<Meter> list = new ArrayList<>();
+        try{
+            list.addAll(metersFacade.findAll());
+        }
+        catch(Exception e){
+            System.out.println(metersFacade);
+            e.printStackTrace();
+        }
+        return list;
+        
     }
 
     @GET
-    @Path("events")
+    @Path("/events")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Event> getSupportedEvents() {       
         return eventFacade.findAll();
