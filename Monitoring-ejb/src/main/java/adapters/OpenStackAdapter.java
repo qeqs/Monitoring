@@ -100,11 +100,12 @@ public class OpenStackAdapter implements Adapter {
 
         GenericType<JAXBElement<List<Sample>>> listGenericType = new GenericType<JAXBElement<List<Sample>>>() {
         };
+        
         List<Sample> samples = (List<Sample>) metrics.path(meter)
                 .request()
                 .header("direct", "True")
                 .header("X-Auth-Token", token)
-                .post(Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE), listGenericType);
+                .post(Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE), listGenericType).getValue();
 
         return samples.get(samples.size() - 1);
 
