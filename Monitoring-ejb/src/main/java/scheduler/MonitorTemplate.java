@@ -1,4 +1,4 @@
-package scheduler.experimental;
+package scheduler;
 
 import dao.MetersFacade;
 import dao.UsersFacade;
@@ -15,8 +15,6 @@ import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-import scheduler.ExpiredMeasuresJob;
-import scheduler.MeasuresJob;
 
 
 public class MonitorTemplate {//todo:думаю надо сделать этот класс как @Entity и в бд его закидывать
@@ -38,7 +36,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
         EXPIRATION_JOB_NAME = String.valueOf(expiredIndex++);
     }
 
-    private Vnf vnf;
+    private Vnf vnf;//change to Profile
     private final HashMap<AdapterType, JobDetail> jobsMain = new HashMap<>();
     private final HashMap<AdapterType, Trigger> mainTriggers = new HashMap<>();
     private JobDetail jobExpired;

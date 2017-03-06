@@ -1,4 +1,4 @@
-package scheduler.experimental;
+package scheduler;
 
 import adapters.Adapter;
 import adapters.OpenStackAdapter;
