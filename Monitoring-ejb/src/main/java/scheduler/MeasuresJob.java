@@ -31,6 +31,8 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             vnf = (Vnf) jdm.get("vnf");
             
+            
+            
             for (User user : users) {
                 for (Meter meter : meters) {
                     

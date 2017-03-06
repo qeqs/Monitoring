@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import org.quartz.SchedulerException;
-import scheduler.experimental.SchedulerController;
+import scheduler.SchedulerController;
 
 @Stateless
 @Remote(VnfControllerRemote.class)
