@@ -1,12 +1,12 @@
 package dao;
 
-import entities.Pm;
+import controllers.rmi.entities.RouterInterface;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class PmFacade extends AbstractFacade<Pm> {
+public class RouterInterfaceFacade extends AbstractFacade<RouterInterface> {
 
     @PersistenceContext(unitName = "virtualizationapp_Monitoring-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -16,8 +16,8 @@ public class PmFacade extends AbstractFacade<Pm> {
         return em;
     }
 
-    public PmFacade() {
-        super(Pm.class);
+    public RouterInterfaceFacade() {
+        super(RouterInterface.class);
     }
 
 }

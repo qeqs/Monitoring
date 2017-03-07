@@ -27,7 +27,7 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 @Stateless
 @LocalBean
-public class SnmpAdapter {
+public class SnmpAdapter implements Adapter{
 
     @EJB
     private SettingsFacade settingsFacade;
@@ -131,5 +131,10 @@ public class SnmpAdapter {
         measure.setUserId(settings.getUid());
 
         return measure;
+    }
+
+    @Override
+    public Adapter setUser(String uid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

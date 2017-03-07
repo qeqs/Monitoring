@@ -1,60 +1,118 @@
 package scheduler;
 
+import controllers.rmi.entities.Vnf;
+import dao.VnfFacade;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
+import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.calendar.CronCalendar;
-import static scheduler.JobScheduler.TRIGGER_NAME;
 
-@Stateless
+@Startup
+@Singleton
 public class SchedulerController {
 
+    public static final int DEFAULT_REPEAT_TIME = 5;//sec
+    public static final int DEFAULT_EXPIRATION_TIME = 24 * 60 * 60 * 1000;//milisec
+    private Scheduler scheduler;
     @EJB
-    JobScheduler scheduler;
+    VnfFacade vnfFacade;
 
-    public void setMainTriggerRepeatInterval(int seconds, String cronString, String calendarName) throws SchedulerException, ParseException {
+    private ArrayList<MonitorTemplate> monitors;
+
+    @PostConstruct
+    public void init() {
+
+        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        monitors = new ArrayList<>();
+
+        try {
+            scheduler = schedulerFactory.getScheduler();
+
+            List<Vnf> vnfList = vnfFacade.findAll();
+            for (Vnf vnf : vnfList) {
+                createMonitor(vnf);
+            }
+
+        } catch (SchedulerException ex) {
+            Logger.getLogger(SchedulerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void createMonitor(Vnf vnf) throws SchedulerException {
+        createMonitor(vnf, DEFAULT_REPEAT_TIME, DEFAULT_EXPIRATION_TIME);
+    }
+
+    public void createMonitor(Vnf vnf, Integer repeatTime, Integer expirationTime) throws SchedulerException {
+        if (!monitorExistsForVnf(vnf)) {
+            MonitorTemplate monitorTemplate = new MonitorTemplate();
+            monitorTemplate.setScheduler(scheduler)
+                    .setVnf(vnf)
+                    .setExpirationTime(expirationTime)
+                    .setRepeatTime(repeatTime)
+                    .start();
+            monitors.add(monitorTemplate);
+        } else {
+            find(vnf).setRepeatTime(repeatTime)
+                    .setExpirationTime(expirationTime)
+                    .restart();
+        }
+    }
+
+    public void setCronCalendar(String cronString, String calendarName) throws ParseException, SchedulerException {
         CronCalendar calendar = new CronCalendar(cronString);
-        scheduler.getScheduler().addCalendar(calendarName, calendar, true, true);
-        setMainTriggerRepeatInterval(0, calendarName);
+        scheduler.addCalendar(calendarName, calendar, true, true);
     }
 
-    public void setMainTriggerRepeatInterval(int seconds) throws SchedulerException {
-        setMainTriggerRepeatInterval(seconds, null);
-    }
-
-    private void setTrigger(String triggerName, int seconds, String jobName, String groupName, String calendarName) throws SchedulerException {
-        scheduler.getScheduler().rescheduleJob(new TriggerKey(TRIGGER_NAME + jobName), TriggerBuilder.newTrigger()
-                .withIdentity(triggerName)
+    public void linkCalendar(Vnf vnf, String calendarName) throws SchedulerException {
+        
+        MonitorTemplate temp = find(vnf);
+        TriggerBuilder builder = TriggerBuilder.newTrigger()
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .repeatForever()
-                        .withIntervalInSeconds(seconds))
-                .forJob(jobName, groupName)
-                .modifiedByCalendar(calendarName)
+                        .withIntervalInSeconds(DEFAULT_REPEAT_TIME))
+                .modifiedByCalendar(calendarName);
+        
+        for (AdapterType adapter : AdapterType.values()) {
+            temp.setMainTrigger(adapter, builder
+                    .withIdentity(temp.getMainTrigger(adapter).getKey())
+                    .build());
+        }
+        temp.setExpirationTrigger(builder
+                .withIdentity(temp.getExpirationTrigger().getKey())
                 .build());
+        
+        temp.restart();
     }
 
-    private void setMainTriggerRepeatInterval(int seconds, String calendarName) throws SchedulerException {
-        setTrigger(TRIGGER_NAME, seconds, JobScheduler.TEST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
-        setTrigger(TRIGGER_NAME, seconds, JobScheduler.REST_JOB_NAME, JobScheduler.JOB_GROUP_NAME, calendarName);
-        setTrigger(TRIGGER_NAME, seconds, JobScheduler.EXPIRED_JOB_NAME, JobScheduler.EXPIRED_JOB_GROUP_NAME, calendarName);
+    private boolean monitorExistsForVnf(Vnf vnf) {
+        boolean res = false;
+        for (MonitorTemplate monitor : monitors) {
+            if (res = monitor.getVnf().equals(vnf)) {
+                return res;
+            }
+        }
+        return res;
     }
 
-    public void stopMainTrigger() throws SchedulerException {
-        scheduler.getScheduler().pauseTrigger(TriggerKey.triggerKey(TRIGGER_NAME));
+    private MonitorTemplate find(Vnf vnf) {
+        for (MonitorTemplate monitor : monitors) {
+            if (monitor.getVnf().equals(vnf)) {
+                return monitor;
+            }
+        }
+        return null;
     }
-
-    public void startMainTrigger() throws SchedulerException {
-        scheduler.getScheduler().resumeTrigger(TriggerKey.triggerKey(TRIGGER_NAME));
-    }
-
-    public void setMeasuresExpirationTime(int seconds) throws SchedulerException {
-        scheduler.setTimeBeforeExpired(seconds);
-        setTrigger(TRIGGER_NAME, seconds, JobScheduler.EXPIRED_JOB_NAME, JobScheduler.EXPIRED_JOB_GROUP_NAME, null);
-    }
-
 }

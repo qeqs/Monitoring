@@ -1,12 +1,12 @@
 package dao;
 
-import controllers.rmi.entities.Vnf;
+import controllers.rmi.entities.Router;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class VnfFacade extends AbstractFacade<Vnf> {
+public class RouterFacade extends AbstractFacade<Router> {
 
     @PersistenceContext(unitName = "virtualizationapp_Monitoring-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -16,8 +16,8 @@ public class VnfFacade extends AbstractFacade<Vnf> {
         return em;
     }
 
-    public VnfFacade() {
-        super(Vnf.class);
+    public RouterFacade() {
+        super(Router.class);
     }
 
 }
