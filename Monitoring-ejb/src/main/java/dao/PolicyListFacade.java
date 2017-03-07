@@ -1,6 +1,6 @@
 package dao;
 
-import entities.PolicyList;
+import controllers.rmi.entities.PolicyList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,9 +1,9 @@
 package adapters;
 
 import dao.SettingsFacade;
-import entities.Measure;
-import entities.Meter;
-import entities.Settings;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Settings;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -116,10 +116,12 @@ public class SnmpAdapter implements Adapter{
         return meter;
     }
 
+    @Override
     public Measure getMeasure(Meter meter) {
         return getMeasure(meter, new Timestamp(new Date().getTime()));
     }
 
+    @Override
     public Measure getMeasure(Meter meter, Date timestamp) {
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
@@ -128,7 +130,7 @@ public class SnmpAdapter implements Adapter{
         measure.setResource("test");
         measure.setTstamp(timestamp);
         measure.setValue(random.nextDouble() % 100 + random.nextInt() % 50);
-        measure.setUserId(settings.getUid());
+        //measure.setUserId(settings.getUid());
 
         return measure;
     }

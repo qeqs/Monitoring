@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "event")
@@ -30,18 +31,18 @@ public class Event implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 100)
     @Column(name = "id_event")
     private String idEvent;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "name")
     private String name;
     @Column(name = "action")
-    private Integer action;
-    @Size(max = 40)
+    private Serializable action;
+    @Size(max = 100)
     @Column(name = "priority")
     private String priority;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "idEvent")
@@ -70,11 +71,11 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public Integer getAction() {
+    public Serializable getAction() {
         return action;
     }
 
-    public void setAction(Integer action) {
+    public void setAction(Serializable action) {
         this.action = action;
     }
 
@@ -92,6 +93,15 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @XmlTransient
+    public List<Policy> getPolicyList() {
+        return policyList;
+    }
+
+    public void setPolicyList(List<Policy> policyList) {
+        this.policyList = policyList;
     }
 
     @Override
@@ -116,7 +126,7 @@ public class Event implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Event[ idEvent=" + idEvent + " ]";
+        return "controllers.rmi.entities.Event[ idEvent=" + idEvent + " ]";
     }
 
 }

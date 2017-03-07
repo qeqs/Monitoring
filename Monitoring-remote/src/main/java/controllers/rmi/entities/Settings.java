@@ -1,16 +1,19 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "settings")
@@ -18,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Settings.findAll", query = "SELECT s FROM Settings s")
     , @NamedQuery(name = "Settings.findByIdSettings", query = "SELECT s FROM Settings s WHERE s.idSettings = :idSettings")
-    , @NamedQuery(name = "Settings.findByUid", query = "SELECT s FROM Settings s WHERE s.uid = :uid")
     , @NamedQuery(name = "Settings.findByKeystoneEndpoint", query = "SELECT s FROM Settings s WHERE s.keystoneEndpoint = :keystoneEndpoint")
     , @NamedQuery(name = "Settings.findByCeliometerEndpoint", query = "SELECT s FROM Settings s WHERE s.celiometerEndpoint = :celiometerEndpoint")
     , @NamedQuery(name = "Settings.findByTenantName", query = "SELECT s FROM Settings s WHERE s.tenantName = :tenantName")
@@ -30,11 +32,9 @@ public class Settings implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "id_settings")
-    private Integer idSettings;
-    @Size(max = 100)
-    @Column(name = "uid")
-    private String uid;
+    private String idSettings;
     @Size(max = 100)
     @Column(name = "keystone_endpoint")
     private String keystoneEndpoint;
@@ -50,28 +50,22 @@ public class Settings implements Serializable {
     @Size(max = 100)
     @Column(name = "os_password")
     private String osPassword;
+    @OneToMany(mappedBy = "idSettings")
+    private List<Profile> profileList;
 
     public Settings() {
     }
 
-    public Settings(Integer idSettings) {
+    public Settings(String idSettings) {
         this.idSettings = idSettings;
     }
 
-    public Integer getIdSettings() {
+    public String getIdSettings() {
         return idSettings;
     }
 
-    public void setIdSettings(Integer idSettings) {
+    public void setIdSettings(String idSettings) {
         this.idSettings = idSettings;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getKeystoneEndpoint() {
@@ -114,6 +108,15 @@ public class Settings implements Serializable {
         this.osPassword = osPassword;
     }
 
+    @XmlTransient
+    public List<Profile> getProfileList() {
+        return profileList;
+    }
+
+    public void setProfileList(List<Profile> profileList) {
+        this.profileList = profileList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,7 +139,7 @@ public class Settings implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Settings[ idSettings=" + idSettings + " ]";
+        return "controllers.rmi.entities.Settings[ idSettings=" + idSettings + " ]";
     }
 
 }

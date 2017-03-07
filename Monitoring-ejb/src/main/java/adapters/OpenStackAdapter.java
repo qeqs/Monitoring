@@ -6,8 +6,8 @@ import adapters.entities.Sample;
 import adapters.entities.Token;
 import adapters.entities.Wrapper;
 import dao.SettingsFacade;
-import entities.Measure;
-import entities.Settings;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Settings;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Date;
@@ -112,12 +112,12 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter) {
+    public Measure getMeasure(Meter meter) {
         return getMeasure(meter, new Timestamp(new Date().getTime()));
     }
 
     @Override
-    public Measure getMeasure(entities.Meter meter, Date timestamp) {
+    public Measure getMeasure(Meter meter, Date timestamp) {
 
         Sample sample = getOsSample(meter.getName(), timestamp);
 
@@ -125,16 +125,16 @@ public class OpenStackAdapter implements Adapter {
         measure.setIdMeter(meter);
         measure.setResource(sample.getSource());
         measure.setTstamp(sample.getRecorded_at());
-        measure.setUserId(settings.getUid());
+       // measure.setUserId(settings.getUid());
         measure.setValue((double) sample.getVolume());
 
         return measure;
     }
 
     @Override
-    public entities.Meter getMeter(String name) {
+    public Meter getMeter(String name) {
         Meter osMeter = getOsMeter(name);
-        entities.Meter meter = new entities.Meter();
+        Meter meter = new Meter();
         meter.setName(name);
         meter.setType(osMeter.getType());
         meter.setUnit(osMeter.getUnit());
@@ -156,5 +156,6 @@ public class OpenStackAdapter implements Adapter {
         getToken();
 
     }
+
 
 }

@@ -1,25 +1,29 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u")
-    , @NamedQuery(name = "Users.findByUid", query = "SELECT u FROM User u WHERE u.uid = :uid")
-    , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
-    , @NamedQuery(name = "Users.findByPasswd", query = "SELECT u FROM User u WHERE u.passwd = :passwd")})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+    , @NamedQuery(name = "User.findByUid", query = "SELECT u FROM User u WHERE u.uid = :uid")
+    , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
+    , @NamedQuery(name = "User.findByProfiles", query = "SELECT u FROM User u WHERE u.profiles = :profiles")
+    , @NamedQuery(name = "User.findByPasswd", query = "SELECT u FROM User u WHERE u.passwd = :passwd")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,18 +33,29 @@ public class User implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "uid")
     private String uid;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "username")
     private String username;
+    @Column(name = "profiles")
+    private Integer profiles;
     @Size(max = 255)
     @Column(name = "passwd")
     private String passwd;
+    @ManyToMany(mappedBy = "usersList")
+    private List<Profile> profileList;
 
     public User() {
     }
 
     public User(String uid) {
         this.uid = uid;
+    }
+
+    public User(String uid, String username) {
+        this.uid = uid;
+        this.username = username;
     }
 
     public String getUid() {
@@ -59,12 +74,29 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public Integer getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(Integer profiles) {
+        this.profiles = profiles;
+    }
+
     public String getPasswd() {
         return passwd;
     }
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    @XmlTransient
+    public List<Profile> getProfileList() {
+        return profileList;
+    }
+
+    public void setProfileList(List<Profile> profileList) {
+        this.profileList = profileList;
     }
 
     @Override
@@ -89,7 +121,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Users[ uid=" + uid + " ]";
+        return "controllers.rmi.entities.Users[ uid=" + uid + " ]";
     }
 
 }

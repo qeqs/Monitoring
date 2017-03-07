@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -71,7 +71,7 @@ public class UserrolesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.UserrolesPK[ username=" + username + ", role=" + role + " ]";
+        return "controllers.rmi.entities.UserrolesPK[ username=" + username + ", role=" + role + " ]";
     }
 
 }

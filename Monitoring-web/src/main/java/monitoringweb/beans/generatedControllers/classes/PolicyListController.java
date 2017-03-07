@@ -1,6 +1,6 @@
 package monitoringweb.beans.generatedControllers.classes;
 
-import entities.PolicyList;
+import controllers.rmi.entities.PolicyList;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.PolicyListFacade;

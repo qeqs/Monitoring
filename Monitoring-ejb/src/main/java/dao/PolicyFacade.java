@@ -1,7 +1,7 @@
 package dao;
 
-import entities.Meter;
-import entities.Policy;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Policy;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

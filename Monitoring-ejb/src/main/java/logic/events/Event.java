@@ -1,8 +1,8 @@
 package logic.events;
 
-import entities.Measure;
-import entities.Meter;
-import entities.Policy;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Policy;
 import java.util.Date;
 import logic.Severity;
 

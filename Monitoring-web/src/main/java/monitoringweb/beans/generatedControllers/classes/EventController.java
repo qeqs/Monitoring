@@ -1,6 +1,6 @@
 package monitoringweb.beans.generatedControllers.classes;
 
-import entities.Event;
+import controllers.rmi.entities.Event;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.EventFacade;
