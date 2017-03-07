@@ -1,8 +1,8 @@
 package scheduler;
 
 import adapters.Adapter;
-import entities.Meter;
-import entities.User;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.User;
 import controllers.rmi.entities.Vnf;
 import java.util.List;
 import org.quartz.Job;

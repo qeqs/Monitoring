@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,38 +13,47 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "meters")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Meters.findAll", query = "SELECT m FROM Meter m")
-    , @NamedQuery(name = "Meters.findByIdMeters", query = "SELECT m FROM Meter m WHERE m.idMeters = :idMeters")
-    , @NamedQuery(name = "Meters.findByType", query = "SELECT m FROM Meter m WHERE m.type = :type")
-    , @NamedQuery(name = "Meters.findByUnit", query = "SELECT m FROM Meter m WHERE m.unit = :unit")
-    , @NamedQuery(name = "Meters.findByDescription", query = "SELECT m FROM Meter m WHERE m.description = :description")})
+    @NamedQuery(name = "Meter.findAll", query = "SELECT m FROM Meter m")
+    , @NamedQuery(name = "Meter.findByIdMeters", query = "SELECT m FROM Meter m WHERE m.idMeters = :idMeters")
+    , @NamedQuery(name = "Meter.findByType", query = "SELECT m FROM Meter m WHERE m.type = :type")
+    , @NamedQuery(name = "Meter.findByUnit", query = "SELECT m FROM Meter m WHERE m.unit = :unit")
+    , @NamedQuery(name = "Meter.findByName", query = "SELECT m FROM Meter m WHERE m.name = :name")
+    , @NamedQuery(name = "Meter.findByOid", query = "SELECT m FROM Meter m WHERE m.oid = :oid")
+    , @NamedQuery(name = "Meter.findByDescription", query = "SELECT m FROM Meter m WHERE m.description = :description")
+    , @NamedQuery(name = "Meter.findByGatherType", query = "SELECT m FROM Meter m WHERE m.gatherType = :gatherType")})
 public class Meter implements Serializable {
-
-    @Size(max = 100)
-    @Column(name = "name")
-    private String name;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 100)
     @Column(name = "id_meters")
     private String idMeters;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "type")
     private String type;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "unit")
     private String unit;
-    @Size(max = 40)
+    @Size(max = 100)
+    @Column(name = "name")
+    private String name;
+    @Size(max = 100)
+    @Column(name = "oid")
+    private String oid;
+    @Size(max = 100)
     @Column(name = "description")
     private String description;
+    @Size(max = 100)
+    @Column(name = "gather_type")
+    private String gatherType;
     @OneToMany(mappedBy = "idMeter")
     private List<Measure> measureList;
     @OneToMany(mappedBy = "idMeter")
@@ -81,12 +90,54 @@ public class Meter implements Serializable {
         this.unit = unit;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGatherType() {
+        return gatherType;
+    }
+
+    public void setGatherType(String gatherType) {
+        this.gatherType = gatherType;
+    }
+
+    @XmlTransient
+    public List<Measure> getMeasureList() {
+        return measureList;
+    }
+
+    public void setMeasureList(List<Measure> measureList) {
+        this.measureList = measureList;
+    }
+
+    @XmlTransient
+    public List<Policy> getPolicyList() {
+        return policyList;
+    }
+
+    public void setPolicyList(List<Policy> policyList) {
+        this.policyList = policyList;
     }
 
     @Override
@@ -111,15 +162,7 @@ public class Meter implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Meters[ idMeters=" + idMeters + " ]";
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return "controllers.rmi.entities.Meters[ idMeters=" + idMeters + " ]";
     }
 
 }

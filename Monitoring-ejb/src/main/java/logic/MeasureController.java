@@ -1,11 +1,10 @@
 package logic;
 
 import dao.MeasureFacade;
-import entities.Measure;
-import entities.User;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.User;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import logic.PolicySolver;
 import java.util.ArrayList;
 import java.util.Date;
 

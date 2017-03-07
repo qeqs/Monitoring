@@ -1,6 +1,6 @@
 package monitoringweb.beans.generatedControllers.classes;
 
-import entities.Measure;
+import controllers.rmi.entities.Measure;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.MeasureFacade;

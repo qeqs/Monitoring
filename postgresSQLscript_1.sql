@@ -83,39 +83,37 @@ CREATE TABLE Snmp_Settings
 id_snmp character(100),
 community character(100),
 target character(100),
-constraint PK_SETTINGS primary key(id_snmp)
+constraint PK_SNMP primary key(id_snmp)
 );
-
-create table users_profiles
-(
-id integer primary key,
-id_profile character(100),
-uid varchar(255),
-constraint FK_users foreign key (uid) references Users(uid),
-constraint FK_profiles foreign key (id_profile) references Profile(id_profile)
-);
-
 create table Profile
 (
 id_profile character(100) primary key,
 id_settings character(100),
 id_vnf character(100),
 id_policy_list character(100),
-id_snmp character(100)
-users integer,
+id_snmp character(100),
 constraint FK_Policy_List foreign key (id_policy_list) references Policy_List(id_policyList),
 constraint FK_Settings foreign key (id_settings) references Settings(id_settings),
 constraint FK_Snmp foreign key (id_snmp) references Snmp_Settings(id_snmp),
-constraint FK_Vnf foreign key (id_vnf) references vnf(id),
-constraint FK_Users foreign key (users) references users_profiles(id)
+constraint FK_Vnf foreign key (id_vnf) references vnf(id)
 );
 
 CREATE TABLE Users(
 uid VARCHAR(255) PRIMARY KEY,
 username VARCHAR(255) UNIQUE NOT NULL, 
 profiles integer,
-passwd VARCHAR(255),
-constraint FK_Profiles foreign key (profiles) references users_profiles(id)) NOT NULL;
+passwd VARCHAR(255));
+
+create table users_profiles
+(
+id_profile character(100),
+uid varchar(255),
+primary key (id_profile,uid),
+constraint FK_users foreign key (uid) references Users(uid),
+constraint FK_profiles foreign key (id_profile) references Profile(id_profile)
+);
+
+
 
 CREATE TABLE UserRoles(
 username VARCHAR(255), 

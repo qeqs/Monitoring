@@ -1,8 +1,8 @@
 package logic.events;
 
-import entities.Measure;
-import entities.Meter;
-import entities.Policy;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Policy;
 import java.util.Date;
 
 public class EventBuilder {
@@ -74,7 +74,7 @@ public class EventBuilder {
         if (isCreated()) {
             event.setOrigin(policy);
             setPriority(EventPriority.valueOf(policy.getIdEvent().getPriority()));
-            setAction(policy.getIdEvent().getAction());            
+            //setAction(policy.getIdEvent().getAction());            
         }
         return EventBuilder.this;
     }

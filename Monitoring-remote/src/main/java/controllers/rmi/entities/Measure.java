@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Measure.findByTstamp", query = "SELECT m FROM Measure m WHERE m.tstamp = :tstamp")
     , @NamedQuery(name = "Measure.findByUserId", query = "SELECT m FROM Measure m WHERE m.userId = :userId")
     , @NamedQuery(name = "Measure.findByResource", query = "SELECT m FROM Measure m WHERE m.resource = :resource")
+    , @NamedQuery(name = "Measure.findBySource", query = "SELECT m FROM Measure m WHERE m.source = :source")
     , @NamedQuery(name ="Measure.deleteAll", query = "DELETE FROM Measure")
     , @NamedQuery(name ="Measure.deleteAllByUser", query = "DELETE FROM Measure m WHERE m.userId = :userId")
     , @NamedQuery(name ="Measure.deleteAllBeforeDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date")})
@@ -36,7 +37,7 @@ public class Measure implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 100)
     @Column(name = "id_measure")
     private String idMeasure;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -45,12 +46,15 @@ public class Measure implements Serializable {
     @Column(name = "tstamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date tstamp;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "user_id")
     private String userId;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "resource")
     private String resource;
+    @Size(max = 100)
+    @Column(name = "source")
+    private String source;
     @JoinColumn(name = "id_meter", referencedColumnName = "id_meters")
     @ManyToOne
     private Meter idMeter;
@@ -102,6 +106,14 @@ public class Measure implements Serializable {
         this.resource = resource;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public Meter getIdMeter() {
         return idMeter;
     }
@@ -132,7 +144,7 @@ public class Measure implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Measure[ idMeasure=" + idMeasure + " ]";
+        return "controllers.rmi.entities.Measure[ idMeasure=" + idMeasure + " ]";
     }
 
 }

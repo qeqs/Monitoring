@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,25 +22,23 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PolicyList.findAll", query = "SELECT p FROM PolicyList p")
     , @NamedQuery(name = "PolicyList.findByIdPolicylist", query = "SELECT p FROM PolicyList p WHERE p.idPolicylist = :idPolicylist")
     , @NamedQuery(name = "PolicyList.findByEnabled", query = "SELECT p FROM PolicyList p WHERE p.enabled = :enabled")
-    , @NamedQuery(name = "PolicyList.findByName", query = "SELECT p FROM PolicyList p WHERE p.name = :name")
-    , @NamedQuery(name = "PolicyList.findByUid", query = "SELECT p FROM PolicyList p WHERE p.uid = :uid")})
+    , @NamedQuery(name = "PolicyList.findByName", query = "SELECT p FROM PolicyList p WHERE p.name = :name")})
 public class PolicyList implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 100)
     @Column(name = "id_policylist")
     private String idPolicylist;
     @Column(name = "enabled")
     private Boolean enabled;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "name")
     private String name;
-    @Size(max = 40)
-    @Column(name = "uid")
-    private String uid;
+    @OneToMany(mappedBy = "idPolicyList")
+    private List<Profile> profileList;
     @OneToMany(mappedBy = "idPolicylist")
     private List<Policy> policyList;
 
@@ -75,12 +73,13 @@ public class PolicyList implements Serializable {
         this.name = name;
     }
 
-    public String getUid() {
-        return uid;
+    @XmlTransient
+    public List<Profile> getProfileList() {
+        return profileList;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setProfileList(List<Profile> profileList) {
+        this.profileList = profileList;
     }
 
     @XmlTransient
@@ -114,7 +113,7 @@ public class PolicyList implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PolicyList[ idPolicylist=" + idPolicylist + " ]";
+        return "controllers.rmi.entities.PolicyList[ idPolicylist=" + idPolicylist + " ]";
     }
 
 }

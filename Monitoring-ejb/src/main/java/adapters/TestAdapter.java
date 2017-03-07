@@ -1,9 +1,9 @@
 package adapters;
 
 import dao.SettingsFacade;
-import entities.Measure;
-import entities.Meter;
-import entities.Settings;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Settings;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
@@ -43,7 +43,7 @@ public class TestAdapter implements Adapter{
         measure.setResource("test");
         measure.setTstamp(timestamp);
         measure.setValue(random.nextDouble()%100 + random.nextInt()%50);
-        measure.setUserId(settings.getUid());
+        //measure.setUserId(settings.getUid());
         
         
         return measure;

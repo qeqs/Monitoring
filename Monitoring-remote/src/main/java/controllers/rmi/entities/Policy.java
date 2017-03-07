@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Policy.findAll", query = "SELECT p FROM Policy p")
     , @NamedQuery(name = "Policy.findByIdPolicy", query = "SELECT p FROM Policy p WHERE p.idPolicy = :idPolicy")
-    , @NamedQuery(name = "Policy.findByUsers", query = "SELECT p FROM Policy p WHERE p.uid = :users")
+    , @NamedQuery(name = "Policy.findByUsers", query = "SELECT p FROM Policy p WHERE p.users = :users")
     , @NamedQuery(name = "Policy.findByResource", query = "SELECT p FROM Policy p WHERE p.resource = :resource")
     , @NamedQuery(name = "Policy.findByTreshhold", query = "SELECT p FROM Policy p WHERE p.treshhold = :treshhold")
     , @NamedQuery(name = "Policy.findBySign", query = "SELECT p FROM Policy p WHERE p.sign = :sign")
@@ -33,24 +33,24 @@ public class Policy implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 100)
     @Column(name = "id_policy")
     private String idPolicy;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "users")
-    private String uid;
-    @Size(max = 40)
+    private String users;
+    @Size(max = 100)
     @Column(name = "resource")
     private String resource;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "treshhold")
     private Double treshhold;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "sign")
     private String sign;
     @Column(name = "enabled")
     private Boolean enabled;
-    @Size(max = 40)
+    @Size(max = 100)
     @Column(name = "groups")
     private String groups;
     @JoinColumn(name = "id_event", referencedColumnName = "id_event")
@@ -78,12 +78,12 @@ public class Policy implements Serializable {
         this.idPolicy = idPolicy;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUsers() {
+        return users;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUsers(String users) {
+        this.users = users;
     }
 
     public String getResource() {
@@ -172,7 +172,7 @@ public class Policy implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Policy[ idPolicy=" + idPolicy + " ]";
+        return "controllers.rmi.entities.Policy[ idPolicy=" + idPolicy + " ]";
     }
 
 }

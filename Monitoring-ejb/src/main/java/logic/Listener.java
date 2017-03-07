@@ -1,6 +1,6 @@
 package logic;
 
-import entities.Measure;
+import controllers.rmi.entities.Measure;
 import logic.events.Event;
 
 

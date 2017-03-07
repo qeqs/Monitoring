@@ -1,6 +1,6 @@
 package dao;
 
-import entities.Meter;
+import controllers.rmi.entities.Meter;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

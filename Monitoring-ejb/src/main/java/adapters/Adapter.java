@@ -1,7 +1,7 @@
 package adapters;
 
-import entities.Measure;
-import entities.Meter;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
 import java.util.Date;
 import javax.ejb.Local;
 

@@ -1,4 +1,4 @@
-package entities;
+package controllers.rmi.entities;
 
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
@@ -62,7 +62,7 @@ public class Userroles implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Userroles[ userrolesPK=" + userrolesPK + " ]";
+        return "controllers.rmi.entities.Userroles[ userrolesPK=" + userrolesPK + " ]";
     }
 
 }

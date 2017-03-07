@@ -3,17 +3,15 @@ package monitoringweb.beans.rest;
 import dao.EventFacade;
 import dao.MeasureFacade;
 import dao.MetersFacade;
-import entities.Event;
-import entities.Measure;
-import entities.Meter;
+import controllers.rmi.entities.Event;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Meter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,7 +21,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import jdk.nashorn.internal.runtime.Context;
 
 @RequestScoped
 @Path("/monitoring")
@@ -54,7 +51,6 @@ public class RestService {
         }
         catch(Exception e){
             System.out.println(metersFacade);
-            e.printStackTrace();
         }
         return list;
         

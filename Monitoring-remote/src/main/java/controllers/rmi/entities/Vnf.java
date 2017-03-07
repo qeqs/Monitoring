@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vnf.findByUsername", query = "SELECT v FROM Vnf v WHERE v.username = :username")})
 public class Vnf implements Serializable {
 
+    @OneToMany(mappedBy = "idVnf")
+    private List<Profile> profileList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -171,6 +174,15 @@ public class Vnf implements Serializable {
     @Override
     public String toString() {
         return "entities.Vnf[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Profile> getProfileList() {
+        return profileList;
+    }
+
+    public void setProfileList(List<Profile> profileList) {
+        this.profileList = profileList;
     }
 
 }

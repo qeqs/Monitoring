@@ -1,8 +1,8 @@
 package logic;
 
 import dao.PolicyFacade;
-import entities.Measure;
-import entities.Policy;
+import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Policy;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
