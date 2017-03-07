@@ -112,12 +112,12 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
-    public Measure getMeasure(Meter meter) {
+    public Measure getMeasure(controllers.rmi.entities.Meter meter) {
         return getMeasure(meter, new Timestamp(new Date().getTime()));
     }
 
     @Override
-    public Measure getMeasure(Meter meter, Date timestamp) {
+    public Measure getMeasure(controllers.rmi.entities.Meter meter, Date timestamp) {
 
         Sample sample = getOsSample(meter.getName(), timestamp);
 
@@ -132,9 +132,9 @@ public class OpenStackAdapter implements Adapter {
     }
 
     @Override
-    public Meter getMeter(String name) {
+    public controllers.rmi.entities.Meter getMeter(String name) {
         Meter osMeter = getOsMeter(name);
-        Meter meter = new Meter();
+        controllers.rmi.entities.Meter meter = new controllers.rmi.entities.Meter();
         meter.setName(name);
         meter.setType(osMeter.getType());
         meter.setUnit(osMeter.getUnit());
