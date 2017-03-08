@@ -1,5 +1,6 @@
 package scheduler;
 
+import controllers.rmi.entities.Profile;
 import java.util.Date;
 import logic.MeasureController;
 import org.quartz.Job;
@@ -12,6 +13,7 @@ public class ExpiredMeasuresJob implements Job {
 
     private Integer beforeDate;
     private MeasureController measureController;
+    private Profile profile;
 
     @Override
     public void execute(JobExecutionContext context) {
@@ -20,12 +22,13 @@ public class ExpiredMeasuresJob implements Job {
 
         try {
             measureController = (MeasureController) jdm.get("controller");
+            profile = (Profile) jdm.get("profile");
             beforeDate = (Integer) jdm.get("date");
             if (beforeDate == 0) {
                 return;
             }
             Date date = new Date(new Date().getTime() - beforeDate);
-            measureController.clearMeasuresBefore(date);
+            measureController.clearMeasuresByProfile(profile, date);
         } catch (Exception exception) {
             System.out.println("scheduler.ExpiredMeasuresJob.execute() " + exception.getLocalizedMessage());
         }

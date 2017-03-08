@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Profile.findByIdProfile", query = "SELECT p FROM Profile p WHERE p.idProfile = :idProfile")
     , @NamedQuery(name = "Profile.findByVnf", query = "SELECT p FROM Profile p WHERE p.idVnf = :vnf")})
 public class Profile implements Serializable {
+
+    @OneToMany(mappedBy = "idProfile")
+    private List<Measure> measureList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -131,6 +135,15 @@ public class Profile implements Serializable {
     @Override
     public String toString() {
         return "controllers.rmi.entities.Profile[ idProfile=" + idProfile + " ]";
+    }
+
+    @XmlTransient
+    public List<Measure> getMeasureList() {
+        return measureList;
+    }
+
+    public void setMeasureList(List<Measure> measureList) {
+        this.measureList = measureList;
     }
 
 }

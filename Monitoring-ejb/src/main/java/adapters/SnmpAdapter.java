@@ -61,6 +61,7 @@ public class SnmpAdapter implements Adapter {
             measure.setSource("snmp");
             measure.setIdMeter(meter);
             measure.setIdMeasure(UUID.randomUUID().toString());
+            measure.setIdProfile(profile);
 
         } catch (IOException ex) {
             Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);

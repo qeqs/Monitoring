@@ -10,7 +10,8 @@ public interface Adapter {
     controllers.rmi.entities.Meter getMeter(String name);//??? 
     controllers.rmi.entities.Measure getMeasure(controllers.rmi.entities.Meter meter);//timestamp = current time
     controllers.rmi.entities.Measure getMeasure(Meter meter,Date timestamp);
-    Adapter setUser(String uid);//todo:change it
+    @Deprecated
+    Adapter setUser(String uid);
     Adapter setProfile(Profile profile);
     //todo:autorefresh meters
 }

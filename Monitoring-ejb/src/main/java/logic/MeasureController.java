@@ -30,11 +30,15 @@ public class MeasureController {
     public void clearMeasures(){
         measureFacade.deleteAll();
     }
+    @Deprecated
     public void clearMeasures(User user){
         measureFacade.deleteAllByUser(user);
     }
     public void clearMeasuresBefore(Date date){
         measureFacade.deleteAllBeforeDate(date);
+    }
+    public void clearMeasuresByProfile(Profile profile, Date date){
+        measureFacade.deleteAllByProfileAndDate(profile, date);
     }
     public void addListener(Listener listener) {
         listeners.add(listener);

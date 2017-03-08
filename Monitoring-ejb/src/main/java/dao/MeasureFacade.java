@@ -2,6 +2,7 @@ package dao;
 
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Profile;
 import controllers.rmi.entities.User;
 import java.util.Date;
 import javax.ejb.Stateless;
@@ -69,5 +70,12 @@ public class MeasureFacade extends AbstractFacade<Measure> {
     }
     public void deleteAllBeforeDate(Date date){
         em.createNamedQuery("Measure.deleteAllBeforeDate").setParameter("date", date).executeUpdate();
+    }
+    
+    public void deleteAllByProfileAndDate(Profile profile,Date date){
+        em.createNamedQuery("Measure.deleteAllBeforeDate")
+                .setParameter("date", date)
+                .setParameter("profile", profile)
+                .executeUpdate();
     }
 }

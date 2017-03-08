@@ -175,6 +175,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                         .build();
                 jobExpired.getJobDataMap().put("controller", controller);
                 jobExpired.getJobDataMap().put("date", expirationTime);
+                jobExpired.getJobDataMap().put("profile", profile);
             }
         }
     }

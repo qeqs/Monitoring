@@ -31,8 +31,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name ="Measure.deleteAll", query = "DELETE FROM Measure")
     , @NamedQuery(name ="Measure.deleteAllByUser", query = "DELETE FROM Measure m WHERE m.userId = :userId")
     , @NamedQuery(name ="Measure.deleteAllBeforeDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date")
-    , @NamedQuery(name ="Measure.deleteAllByResourceAndDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date and m.resource like :resource")})
+    , @NamedQuery(name ="Measure.deleteAllByResourceAndDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date and m.idProfile = :profile")})
 public class Measure implements Serializable {
+
+    @JoinColumn(name = "id_profile", referencedColumnName = "id_profile")
+    @ManyToOne
+    private Profile idProfile;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -122,7 +126,7 @@ public class Measure implements Serializable {
     public void setIdMeter(Meter idMeter) {
         this.idMeter = idMeter;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -146,6 +150,14 @@ public class Measure implements Serializable {
     @Override
     public String toString() {
         return "controllers.rmi.entities.Measure[ idMeasure=" + idMeasure + " ]";
+    }
+
+    public Profile getIdProfile() {
+        return idProfile;
+    }
+
+    public void setIdProfile(Profile idProfile) {
+        this.idProfile = idProfile;
     }
 
 }
