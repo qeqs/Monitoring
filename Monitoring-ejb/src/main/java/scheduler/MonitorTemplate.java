@@ -1,8 +1,8 @@
 package scheduler;
 
+import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
 import dao.UsersFacade;
-import controllers.rmi.entities.Vnf;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -15,7 +15,6 @@ import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-
 
 public class MonitorTemplate {//todo:думаю надо сделать этот класс как @Entity и в бд его закидывать
 
@@ -36,7 +35,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
         EXPIRATION_JOB_NAME = String.valueOf(expiredIndex++);
     }
 
-    private Vnf vnf;//change to Profile
+    private Profile profile;
     private final HashMap<AdapterType, JobDetail> jobsMain = new HashMap<>();
     private final HashMap<AdapterType, Trigger> mainTriggers = new HashMap<>();
     private JobDetail jobExpired;
@@ -52,6 +51,15 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     @EJB
     private MeasureController controller;
     private Scheduler scheduler;
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public MonitorTemplate setProfile(Profile profile) {
+        this.profile = profile;
+        return MonitorTemplate.this;
+    }
 
     public Trigger getMainTrigger(AdapterType key) {
         return mainTriggers.get(key);
@@ -74,14 +82,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
         return MonitorTemplate.this;
     }
 
-    public Vnf getVnf() {
-        return vnf;
-    }
-
-    public MonitorTemplate setVnf(Vnf vnf) {
-        this.vnf = vnf;
-        return MonitorTemplate.this;
-    }
 
     public Integer getExpirationTime() {
         return expirationTime;
@@ -110,7 +110,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
         return MonitorTemplate.this;
     }
 
-    public void start() throws SchedulerException{
+    public void start() throws SchedulerException {
         init();
         for (Map.Entry<AdapterType, Trigger> entry : mainTriggers.entrySet()) {
             AdapterType key = entry.getKey();
@@ -164,7 +164,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                     jobMain.getJobDataMap().put("adapter", key.getAdapterImpl());
                     jobMain.getJobDataMap().put("users", usersFacade.findAll());
                     jobMain.getJobDataMap().put("meters", metersFacade.findAll());
-                    jobMain.getJobDataMap().put("vnf", vnf);
+                    jobMain.getJobDataMap().put("profile", profile);
                     jobMain.getJobDataMap().put("controller", controller);
 
                     jobsMain.put(key, jobMain);
@@ -174,7 +174,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                         .withIdentity(EXPIRATION_JOB_NAME, EXPIRATION_JOB_GROUP_NAME)
                         .build();
                 jobExpired.getJobDataMap().put("controller", controller);
-                jobExpired.getJobDataMap().put("date", controller);
+                jobExpired.getJobDataMap().put("date", expirationTime);
             }
         }
     }

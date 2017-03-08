@@ -2,6 +2,7 @@ package logic;
 
 import dao.MeasureFacade;
 import controllers.rmi.entities.Measure;
+import controllers.rmi.entities.Profile;
 import controllers.rmi.entities.User;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -18,13 +19,13 @@ public class MeasureController {
 
     ArrayList<Listener> listeners = new ArrayList<>();
 
-    public void storeMeasure(Measure measure) {
+    public void storeMeasure(Measure measure, Profile profile) {
 
         for (Listener listener : listeners) {
             listener.onStoreMeasure(measure);
         }
         measureFacade.create(measure);
-        solver.solve(measure);
+        solver.solve(measure, profile);
     }
     public void clearMeasures(){
         measureFacade.deleteAll();
@@ -35,8 +36,6 @@ public class MeasureController {
     public void clearMeasuresBefore(Date date){
         measureFacade.deleteAllBeforeDate(date);
     }
-
-
     public void addListener(Listener listener) {
         listeners.add(listener);
     }

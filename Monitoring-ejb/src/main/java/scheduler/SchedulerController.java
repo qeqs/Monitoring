@@ -1,7 +1,7 @@
 package scheduler;
 
-import controllers.rmi.entities.Vnf;
-import dao.VnfFacade;
+import controllers.rmi.entities.Profile;
+import dao.ProfileFacade;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,9 @@ public class SchedulerController {
     public static final int DEFAULT_REPEAT_TIME = 5;//sec
     public static final int DEFAULT_EXPIRATION_TIME = 24 * 60 * 60 * 1000;//milisec
     private Scheduler scheduler;
+    
     @EJB
-    VnfFacade vnfFacade;
+    private ProfileFacade profileFacade;
 
     private ArrayList<MonitorTemplate> monitors;
 
@@ -40,9 +41,9 @@ public class SchedulerController {
         try {
             scheduler = schedulerFactory.getScheduler();
 
-            List<Vnf> vnfList = vnfFacade.findAll();
-            for (Vnf vnf : vnfList) {
-                createMonitor(vnf);
+            List<Profile> profileList = profileFacade.findAll();
+            for (Profile profile : profileList) {
+                createMonitor(profile);
             }
 
         } catch (SchedulerException ex) {
@@ -50,21 +51,21 @@ public class SchedulerController {
         }
     }
 
-    public void createMonitor(Vnf vnf) throws SchedulerException {
-        createMonitor(vnf, DEFAULT_REPEAT_TIME, DEFAULT_EXPIRATION_TIME);
+    public void createMonitor(Profile profile) throws SchedulerException {
+        createMonitor(profile, DEFAULT_REPEAT_TIME, DEFAULT_EXPIRATION_TIME);
     }
 
-    public void createMonitor(Vnf vnf, Integer repeatTime, Integer expirationTime) throws SchedulerException {
-        if (!monitorExistsForVnf(vnf)) {
+    public void createMonitor(Profile profile, Integer repeatTime, Integer expirationTime) throws SchedulerException {
+        if (!monitorExistsForVnf(profile)) {
             MonitorTemplate monitorTemplate = new MonitorTemplate();
             monitorTemplate.setScheduler(scheduler)
-                    .setVnf(vnf)
+                    .setProfile(profile)
                     .setExpirationTime(expirationTime)
                     .setRepeatTime(repeatTime)
                     .start();
             monitors.add(monitorTemplate);
         } else {
-            find(vnf).setRepeatTime(repeatTime)
+            find(profile).setRepeatTime(repeatTime)
                     .setExpirationTime(expirationTime)
                     .restart();
         }
@@ -75,9 +76,9 @@ public class SchedulerController {
         scheduler.addCalendar(calendarName, calendar, true, true);
     }
 
-    public void linkCalendar(Vnf vnf, String calendarName) throws SchedulerException {
+    public void linkCalendar(Profile profile, String calendarName) throws SchedulerException {
         
-        MonitorTemplate temp = find(vnf);
+        MonitorTemplate temp = find(profile);
         TriggerBuilder builder = TriggerBuilder.newTrigger()
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
@@ -97,19 +98,19 @@ public class SchedulerController {
         temp.restart();
     }
 
-    private boolean monitorExistsForVnf(Vnf vnf) {
+    private boolean monitorExistsForVnf(Profile profile) {
         boolean res = false;
         for (MonitorTemplate monitor : monitors) {
-            if (res = monitor.getVnf().equals(vnf)) {
+            if (res = monitor.getProfile().equals(profile)) {
                 return res;
             }
         }
         return res;
     }
 
-    private MonitorTemplate find(Vnf vnf) {
+    private MonitorTemplate find(Profile profile) {
         for (MonitorTemplate monitor : monitors) {
-            if (monitor.getVnf().equals(vnf)) {
+            if (monitor.getProfile().equals(profile)) {
                 return monitor;
             }
         }

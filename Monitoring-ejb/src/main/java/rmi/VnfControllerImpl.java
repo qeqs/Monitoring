@@ -4,6 +4,10 @@ import javax.ejb.Remote;
 import controllers.rmi.entities.Vnf;
 import javax.ejb.Stateless;
 import controllers.rmi.VnfControllerRemote;
+import controllers.rmi.entities.Profile;
+import controllers.rmi.entities.Settings;
+import controllers.rmi.entities.SnmpSettings;
+import dao.ProfileFacade;
 import dao.VnfFacade;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,17 +23,28 @@ public class VnfControllerImpl implements VnfControllerRemote {
     @EJB
     VnfFacade vnfFacade;
     @EJB
+    ProfileFacade profileFacade;
+    @EJB
     SchedulerController schedulerController;
 
     @Override
-    public void store(Vnf vnf) {
+    public void store(Vnf vnf, Settings settings, SnmpSettings snmp) {
         if (vnfFacade.find(vnf.getId()).equals(vnf)) {
             vnfFacade.create(vnf);
         } else {
             vnfFacade.edit(vnf);
         }
         try {
-            schedulerController.createMonitor(vnf);
+            Profile profile = new Profile();
+            profile.setIdVnf(vnf);
+            profile.setIdSettings(settings);
+            profile.setIdSnmp(snmp);
+
+            if (!profileFacade.isProfileWithThisVnfExists(vnf)) {
+                profileFacade.create(profile);
+                schedulerController.createMonitor(profile);
+            }
+
         } catch (SchedulerException ex) {
             Logger.getLogger(VnfControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

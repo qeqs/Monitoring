@@ -3,6 +3,7 @@ package adapters;
 import dao.SettingsFacade;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
+import controllers.rmi.entities.Profile;
 import controllers.rmi.entities.Settings;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -18,6 +19,7 @@ public class TestAdapter implements Adapter{
     @EJB
     private SettingsFacade settingsFacade;
     private Settings settings;
+    private Profile profile;
     
     @Override
     public Meter getMeter(String name) {
@@ -40,7 +42,8 @@ public class TestAdapter implements Adapter{
         Measure measure = new Measure();
         measure.setIdMeasure(String.valueOf(random.nextLong()));
         measure.setIdMeter(meter);
-        measure.setResource("test");
+        measure.setSource("test");
+        measure.setResource(profile.getIdVnf().getName());
         measure.setTstamp(timestamp);
         measure.setValue(random.nextDouble()%100 + random.nextInt()%50);
         //measure.setUserId(settings.getUid());
@@ -52,6 +55,12 @@ public class TestAdapter implements Adapter{
     @Override
     public Adapter setUser(String uid) {
         settings = settingsFacade.findByUid(uid);
+        return TestAdapter.this;
+    }
+
+    @Override
+    public Adapter setProfile(Profile profile) {
+        this.profile = profile;
         return TestAdapter.this;
     }
 

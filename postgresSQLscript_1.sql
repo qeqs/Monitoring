@@ -10,6 +10,18 @@ gather_type character(100),
 constraint PK_Meters primary key (id_meters)
 );
 
+create table Profile
+(
+id_profile character(100) primary key,
+id_settings character(100),
+id_vnf character(100),
+id_policy_list character(100),
+id_snmp character(100),
+constraint FK_Policy_List foreign key (id_policy_list) references Policy_List(id_policyList),
+constraint FK_Settings foreign key (id_settings) references Settings(id_settings),
+constraint FK_Snmp foreign key (id_snmp) references Snmp_Settings(id_snmp),
+constraint FK_Vnf foreign key (id_vnf) references vnf(id)
+);
 CREATE TABLE Measure
 (
 id_Measure character(100),
@@ -18,9 +30,11 @@ tstamp timestamp,
 id_meter character(100),
 user_id character(100),
 resource character(100),
+id_profile character(100),
 source character(100),
 constraint PK_Measure primary key (id_Measure),
 constraint FK_Meters foreign key (id_meter) references Meters(id_meters)
+constraint FK_MeasuresProfile foreign key (id_profile) references Profile(id_profile)
 );
 
 CREATE TABLE Event
@@ -84,18 +98,6 @@ id_snmp character(100),
 community character(100),
 target character(100),
 constraint PK_SNMP primary key(id_snmp)
-);
-create table Profile
-(
-id_profile character(100) primary key,
-id_settings character(100),
-id_vnf character(100),
-id_policy_list character(100),
-id_snmp character(100),
-constraint FK_Policy_List foreign key (id_policy_list) references Policy_List(id_policyList),
-constraint FK_Settings foreign key (id_settings) references Settings(id_settings),
-constraint FK_Snmp foreign key (id_snmp) references Snmp_Settings(id_snmp),
-constraint FK_Vnf foreign key (id_vnf) references vnf(id)
 );
 
 CREATE TABLE Users(
