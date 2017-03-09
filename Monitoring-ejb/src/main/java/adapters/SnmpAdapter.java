@@ -1,6 +1,7 @@
 package adapters;
 
 import adapters.Adapter;
+import controllers.rmi.entities.Instance;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
@@ -74,6 +75,29 @@ public class SnmpAdapter implements Adapter {
         }
         return measure;
     }
+    public Measure getMeasure(Meter meter, Date timestamp,Instance instance) {
+        Measure measure = new Measure();
+        try {
+            start();
+            measure.setValue((double) send(getTarget(instance.getIp()), meter.getOid(), PDU.GET));
+            measure.setTstamp(timestamp);
+            measure.setResource(instance.getIp());
+            measure.setSource("snmp");
+            measure.setIdMeter(meter);
+            measure.setIdMeasure(UUID.randomUUID().toString());
+            measure.setIdProfile(profile);
+
+        } catch (IOException ex) {
+            Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stop();
+            } catch (IOException ex) {
+                Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return measure;
+    }
 
     @Override
     public Adapter setUser(String uid) {
@@ -84,6 +108,14 @@ public class SnmpAdapter implements Adapter {
     public Adapter setProfile(Profile profile) {
         this.profile = profile;
         return SnmpAdapter.this;
+    }
+
+    public List<Measure> getMeasureList(controllers.rmi.entities.Meter meter, Date timestamp) {
+        ArrayList<Measure> list = new ArrayList<>();
+        for (Instance instance : profile.getIdVnf().getInstanceList()) {
+            list.add(getMeasure(meter, timestamp, instance));
+        }
+        return list;
     }
 
     public List<String> doSnmpwalk() throws IOException {
@@ -109,14 +141,13 @@ public class SnmpAdapter implements Adapter {
                 VariableBinding[] varBindings = event.getVariableBindings();
                 if (varBindings != null) {
                     for (VariableBinding varBinding : varBindings) {
-                        
-                        try{
-                        varBinding.getVariable().toInt();
-                        }
-                        catch(UnsupportedOperationException ex){
+
+                        try {
+                            varBinding.getVariable().toInt();
+                        } catch (UnsupportedOperationException ex) {
                             continue;
                         }
-                        
+
                         results.add(varBinding.getOid().format());
                     }
                 }
@@ -143,8 +174,8 @@ public class SnmpAdapter implements Adapter {
         }
     }
 
-    private Target getTarget() {
-        Address targetAddress = GenericAddress.parse(profile.getIdSnmp().getTarget());
+    private Target getTarget(String ip) {
+        Address targetAddress = GenericAddress.parse(ip);
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(profile.getIdSnmp().getCommunity()));
         target.setAddress(targetAddress);
@@ -153,7 +184,11 @@ public class SnmpAdapter implements Adapter {
         target.setVersion(SnmpConstants.version1);
         return target;
     }
-    
+
+    private Target getTarget() {
+        return getTarget(profile.getIdSnmp().getTarget());
+    }
+
     private void start() throws IOException {
         transport = new DefaultUdpTransportMapping();
         snmp = new Snmp(transport);

@@ -33,17 +33,16 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
-            
-            boolean isRest = type.equals(AdapterType.Rest);
-            
+
+            boolean isSnmp = type.equals(AdapterType.Snmp);
+
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
-                if (!isRest) {
+                if (isSnmp) {
                     controller.storeMeasure(adapter.getMeasure(meter), profile);
-                } else {
-                    for (Measure measure : ((OpenStackAdapter) adapter).getMeasureList(meter, new Date())) {
-                        controller.storeMeasure(measure, profile);
-                    }
+                }
+                for (Measure measure : ((OpenStackAdapter) adapter).getMeasureList(meter, new Date())) {
+                    controller.storeMeasure(measure, profile);
                 }
             }
 

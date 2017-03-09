@@ -50,11 +50,26 @@ public class SchedulerController {
             Logger.getLogger(SchedulerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * создает и запускает monitor для данного профиля, 
+     * если monitor для такого профиля уже есть, 
+     * то перезапускает со значениями по умолчанию
+     * 
+     * @param profile 
+     * @throws SchedulerException
+     */
     public void createMonitor(Profile profile) throws SchedulerException {
         createMonitor(profile, DEFAULT_REPEAT_TIME, DEFAULT_EXPIRATION_TIME);
     }
 
+    /**
+     *
+     * @param profile 
+     * @param repeatTime время в секундах между собором метрик
+     * @param expirationTime время в милисикундах по истечению которого метрики удаляются (0 если хранить вечно)
+     * @throws SchedulerException
+     */
     public void createMonitor(Profile profile, Integer repeatTime, Integer expirationTime) throws SchedulerException {
         if (!monitorExistsForVnf(profile)) {
             MonitorTemplate monitorTemplate = new MonitorTemplate();

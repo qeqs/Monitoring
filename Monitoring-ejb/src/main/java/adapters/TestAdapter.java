@@ -6,7 +6,9 @@ import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
 import controllers.rmi.entities.Settings;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -46,7 +48,7 @@ public class TestAdapter implements Adapter{
         measure.setResource(profile.getIdVnf().getName());
         measure.setTstamp(timestamp);
         measure.setValue(random.nextDouble()%100 + random.nextInt()%50);
-        //measure.setUserId(settings.getUid());
+        measure.setIdProfile(profile);
         
         
         return measure;
@@ -62,6 +64,15 @@ public class TestAdapter implements Adapter{
     public Adapter setProfile(Profile profile) {
         this.profile = profile;
         return TestAdapter.this;
+    }
+
+    @Override
+    public List<Measure> getMeasureList(Meter meter, Date timestamp) {
+        ArrayList<Measure> list = new ArrayList<>();
+        for(int i = 0; i<new Random(new Date().getTime()).nextInt()%10;i++){
+            list.add(getMeasure(meter, timestamp));
+        }
+        return list;
     }
 
 }

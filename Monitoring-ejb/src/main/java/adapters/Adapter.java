@@ -1,8 +1,10 @@
 package adapters;
 
+import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 @Local({TestAdapter.class,OpenStackAdapter.class})
@@ -13,6 +15,7 @@ public interface Adapter {
     @Deprecated
     Adapter setUser(String uid);
     Adapter setProfile(Profile profile);
+    List<Measure> getMeasureList(controllers.rmi.entities.Meter meter, Date timestamp);
     //todo: health check
     //todo: check snmp with vm
 }
