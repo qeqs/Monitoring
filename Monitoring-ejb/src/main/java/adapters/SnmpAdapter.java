@@ -153,7 +153,7 @@ public class SnmpAdapter implements Adapter {
         target.setVersion(SnmpConstants.version1);
         return target;
     }
-
+    
     private void start() throws IOException {
         transport = new DefaultUdpTransportMapping();
         snmp = new Snmp(transport);

@@ -1,4 +1,4 @@
-package scheduler;
+package scheduler.job;
 
 import controllers.rmi.entities.Profile;
 import java.util.Date;

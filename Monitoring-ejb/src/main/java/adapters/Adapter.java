@@ -13,5 +13,6 @@ public interface Adapter {
     @Deprecated
     Adapter setUser(String uid);
     Adapter setProfile(Profile profile);
-    //todo:autorefresh meters
+    //todo: health check
+    //todo: check snmp with vm
 }

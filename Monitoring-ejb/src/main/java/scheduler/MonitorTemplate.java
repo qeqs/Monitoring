@@ -1,5 +1,7 @@
 package scheduler;
 
+import scheduler.job.MeasuresJob;
+import scheduler.job.ExpiredMeasuresJob;
 import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
 import dao.UsersFacade;
