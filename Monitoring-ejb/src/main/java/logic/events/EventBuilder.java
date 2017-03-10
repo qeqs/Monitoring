@@ -4,6 +4,7 @@ import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Policy;
 import java.util.Date;
+import rmi.Action;
 
 public class EventBuilder {
 
@@ -33,48 +34,36 @@ public class EventBuilder {
         return EventBuilder.this;
     }
 
-    public EventBuilder setPriority(EventPriority priority) {
+    public EventBuilder setAction(Action action) {
         if (isCreated()) {
-            event.setPriority(priority);
+            event.addAction(action);
         }
         return EventBuilder.this;
     }
 
-    public EventBuilder setAction(EventAction action) {
+    public EventBuilder setAction(String[] action) {
         if (isCreated()) {
-            event.setAction(action);
-        }
-        return EventBuilder.this;
-    }
 
-    public EventBuilder setAction(int action) {
-        if (isCreated()) {
-            EventAction act;
-            switch (action) {
-                case 0:
-                    act = EventAction.DoNothing;
-                    break;
-                case 1:
-                    act = EventAction.Notification;
-                    break;
-                case 2:
-                    act = EventAction.Alarm;
-                    break;
-                case 3:
-                    act = EventAction.Auto;
-                    break;
-                default:
-                    act = null;
+            for (String string : action) {
+
+                event.addAction(Action.valueOf(string));
             }
-            event.setAction(act);
         }
         return EventBuilder.this;
     }
-     public EventBuilder setPolicy(Policy policy) {
+
+    public EventBuilder setPolicy(Policy policy) {
         if (isCreated()) {
             event.setOrigin(policy);
-            setPriority(EventPriority.valueOf(policy.getIdEvent().getPriority()));
+            setSeverity(Severity.valueOf(policy.getIdEvent().getPriority()));
             //setAction(policy.getIdEvent().getAction());            
+        }
+        return EventBuilder.this;
+    }
+
+    public EventBuilder setSeverity(Severity severity) {
+        if (isCreated()) {
+            event.setSeverity(severity);
         }
         return EventBuilder.this;
     }

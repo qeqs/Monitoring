@@ -33,7 +33,9 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
-
+            if (adapter == null || meters == null || controller == null || profile == null || type == null) {
+                return;
+            }
             boolean isSnmp = type.equals(AdapterType.Snmp);
 
             for (Meter meter : meters) {

@@ -147,7 +147,6 @@ public class SnmpAdapter implements Adapter {
                         } catch (UnsupportedOperationException ex) {
                             continue;
                         }
-
                         results.add(varBinding.getOid().format());
                     }
                 }

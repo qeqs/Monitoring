@@ -1,5 +1,5 @@
 
-package logic;
+package logic.events;
 
 public enum Severity {
     UNKNOWN(-10), CLEAR(0), INFO(10), MINOR(20), WARNING(30), MAJOR(40), CRITICAL(50);

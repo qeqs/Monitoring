@@ -66,7 +66,7 @@ public class OpenStackAdapter implements Adapter {
     private adapters.entities.Meter getOsMeter(String name) {
         return metrics.path(name)
                 .request(MediaType.APPLICATION_JSON_TYPE)
-                .header("X-Auth-Token", token)
+                .header("X-Auth-Token", token.getId())
                 .get(adapters.entities.Meter.class);
     }
 
@@ -83,7 +83,7 @@ public class OpenStackAdapter implements Adapter {
         List<Sample> samples = (List<Sample>) metrics.path(meter)
                 .request()
                 .header("direct", "True")
-                .header("X-Auth-Token", token)
+                .header("X-Auth-Token", token.getId())
                 .post(Entity.entity(sample, MediaType.APPLICATION_JSON_TYPE), listGenericType).getValue();
 
         return samples.get(samples.size() - 1);

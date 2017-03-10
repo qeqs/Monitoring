@@ -4,6 +4,7 @@ package logic;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 import logic.events.Event;
+import rmi.Action;
 
 @Stateless
 public class EventController {
@@ -15,7 +16,9 @@ public class EventController {
         for (Listener listener : listeners) {
             listener.onStoreEvent(event);
         }
-        //todo: change smth on vnf side or send event somewhere
+        for(Action act: event.getActions()){
+            act.execute(event.getMeasure().getIdProfile());
+        }
     }
 
     public void addListener(Listener listener) {

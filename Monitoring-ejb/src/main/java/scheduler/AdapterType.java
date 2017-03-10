@@ -5,7 +5,9 @@ import adapters.OpenStackAdapter;
 import adapters.SnmpAdapter;
 import adapters.TestAdapter;
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
 
+@Stateful
 public enum AdapterType {
     Rest {
         @EJB
