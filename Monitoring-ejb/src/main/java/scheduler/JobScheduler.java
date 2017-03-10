@@ -1,9 +1,13 @@
 package scheduler;
 
 import adapters.OpenStackAdapter;
+import adapters.SnmpAdapter;
 import adapters.TestAdapter;
 import dao.MetersFacade;
 import dao.UsersFacade;
+import entities.Meter;
+import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -39,6 +43,8 @@ public class JobScheduler {
     @EJB
     private OpenStackAdapter openStackAdapter;
     @EJB
+    private SnmpAdapter snmpAdapter;
+    @EJB
     private TestAdapter testAdapter;
     @EJB
     private MetersFacade metersFacade;
@@ -69,8 +75,28 @@ public class JobScheduler {
         return triggerTemplate;
     }
 
+    
     @PostConstruct
     public void start() {
+        metersFacade.removeAll();
+        Meter met = new Meter();
+        met.setDescription("test");
+        met.setIdMeters("0");
+        met.setName("test");
+        snmpAdapter.setUser(TRIGGER_NAME);
+        try {
+            
+            for(String name :snmpAdapter.doSnmpwalk()){
+                Meter meter = new Meter();
+                meter.setIdMeters(UUID.randomUUID().toString());
+                meter.setName(name);
+                meter.setOid(name);
+                meter.setType("Cummulative");
+                metersFacade.create(meter);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(JobScheduler.class.getName()).log(Level.SEVERE, null, ex);
+        }
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
         try {
             scheduler = schedulerFactory.getScheduler();
@@ -109,7 +135,7 @@ public class JobScheduler {
             jobTest.getJobDataMap().put("users", usersFacade.findAll());
             jobTest.getJobDataMap().put("meters", metersFacade.findAll());
             jobTest.getJobDataMap().put("controller", controller);
-
+            
             
             JobDetail jobExpired = JobBuilder.newJob(ExpiredMeasuresJob.class)
                     .withIdentity(EXPIRED_JOB_NAME,EXPIRED_JOB_GROUP_NAME)
@@ -117,7 +143,16 @@ public class JobScheduler {
             jobExpired.getJobDataMap().put("controller", controller);
             jobExpired.getJobDataMap().put("date", timeBeforeExpired);
             
-            //scheduler.scheduleJob(jobRest, triggerRest);
+            JobDetail jobSnmp = JobBuilder.newJob(MeasuresJob.class)
+                    .withIdentity("Snmp", "Snmp")
+                    .build();
+            jobSnmp.getJobDataMap().put("adapter", snmpAdapter);
+            jobSnmp.getJobDataMap().put("users", usersFacade.findAll());
+            jobSnmp.getJobDataMap().put("meters", metersFacade.findAll());
+            jobSnmp.getJobDataMap().put("controller", controller);
+
+            
+            scheduler.scheduleJob(jobSnmp, triggerRest);
             scheduler.scheduleJob(jobTest, triggerTest);
             scheduler.scheduleJob(jobExpired, triggerExpired);
             scheduler.start();

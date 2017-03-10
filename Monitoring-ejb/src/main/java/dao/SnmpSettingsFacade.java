@@ -1,12 +1,12 @@
 package dao;
 
-import entities.Meter;
+import entities.SnmpSettings;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class MetersFacade extends AbstractFacade<Meter> {
+public class SnmpSettingsFacade extends AbstractFacade<SnmpSettings> {
 
     @PersistenceContext(unitName = "virtualizationapp_Monitoring-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -16,11 +16,8 @@ public class MetersFacade extends AbstractFacade<Meter> {
         return em;
     }
 
-    public MetersFacade() {
-        super(Meter.class);
-    }
-    public void removeAll(){
-        em.createNamedQuery("Meter.deleteAll").executeUpdate();
+    public SnmpSettingsFacade() {
+        super(SnmpSettings.class);
     }
 
 }

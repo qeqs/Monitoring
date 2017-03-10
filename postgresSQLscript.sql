@@ -1,13 +1,22 @@
 CREATE TABLE Meters
 (
-id_meters character(40),
-type character(40),
-unit character(40),
+id_meters character(100),
+type character(100),
+unit character(100),
 name character(100),
-description character(40),
+oid character(100),
+description character(100),
+gather_type character(100), 
 constraint PK_Meters primary key (id_meters)
 );
 
+CREATE TABLE Snmp_Settings
+(
+id_snmp character(100),
+community character(100),
+target character(100),
+constraint PK_SNMP primary key(id_snmp)
+);
 CREATE TABLE Measure
 (
 id_Measure character(40),
