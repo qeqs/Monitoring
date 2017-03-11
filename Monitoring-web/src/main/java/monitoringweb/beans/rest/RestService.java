@@ -11,14 +11,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -45,14 +47,7 @@ public class RestService {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Meter> getSupportedMeters() {
         
-        List<Meter> list = new ArrayList<>();
-        try{
-            list.addAll(metersFacade.findAll());
-        }
-        catch(Exception e){
-            System.out.println(metersFacade);
-        }
-        return list;
+        return metersFacade.findAll();
         
     }
 
@@ -63,35 +58,28 @@ public class RestService {
         return eventFacade.findAll();
     }
 
-    @POST
-    @Path("measures")
+    @GET
+    @Path("/measures")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getMeasureByDate(@QueryParam("dateFrom") String dateFrom,
-            @QueryParam("dateTo") String dateTo) {
+    public List<Measure> getMeasureByDate(
+            @HeaderParam("dateFrom") String dateFrom,
+            @HeaderParam("dateTo") String dateTo) {
         DateFormat dateFormat = DateFormat.getDateTimeInstance();
         if (dateFrom == null || dateTo == null) {
             dateFrom = new Date().toString();
             dateTo = new Date().toString();
         }
-        Response response;
-        List<Measure> measures = null;
         try {
-            measures = measureFacade.findByDate(dateFormat.parse(dateFrom), dateFormat.parse(dateTo));
+            return measureFacade.findByDate(dateFormat.parse(dateFrom), dateFormat.parse(dateTo));
         } catch (ParseException ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            Logger.getLogger(RestService.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
         }
-        if (measures == null) {
-            response = Response.noContent().build();
-        } else {
-            response = Response.ok(measures).build();
-        }
-        return response;
 
     }
 
     @POST
-    @Path("meters")
+    @Path("/meters")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response createNewMeter(Meter meter) {
@@ -108,7 +96,7 @@ public class RestService {
     }
 
     @POST
-    @Path("events")
+    @Path("/events")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response createNewEvent(Event event) {
@@ -138,4 +126,5 @@ public class RestService {
         }
         
     }
+    
 }

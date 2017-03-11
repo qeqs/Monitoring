@@ -1,8 +1,6 @@
 package dao;
 
-import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Policy;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,11 +20,5 @@ public class PolicyFacade extends AbstractFacade<Policy> {
         super(Policy.class);
     }
     
-    public List<Policy> findAllByUserAndMeter(Meter idMeter,String uid){
-        return em.createNamedQuery("Policy.findByUsersAndMeter")
-                .setParameter("idMeter", idMeter)
-                .setParameter("uid", uid)
-                .getResultList();
-    } 
 
 }

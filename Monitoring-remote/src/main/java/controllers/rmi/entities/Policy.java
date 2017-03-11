@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Policy.findByTreshhold", query = "SELECT p FROM Policy p WHERE p.treshhold = :treshhold")
     , @NamedQuery(name = "Policy.findBySign", query = "SELECT p FROM Policy p WHERE p.sign = :sign")
     , @NamedQuery(name = "Policy.findByEnabled", query = "SELECT p FROM Policy p WHERE p.enabled = :enabled")
-    , @NamedQuery(name = "Policy.findByGroups", query = "SELECT p FROM Policy p WHERE p.groups = :groups")
-    , @NamedQuery(name = "Policy.findByUsersAndMeter",query = "SELECT p FROM Policy p WHERE p.idMeter = :idMeter and p.uid = :uid")})
+    , @NamedQuery(name = "Policy.findByGroups", query = "SELECT p FROM Policy p WHERE p.groups = :groups")})
 public class Policy implements Serializable {
 
     private static final long serialVersionUID = 1L;

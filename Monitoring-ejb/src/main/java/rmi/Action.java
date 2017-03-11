@@ -6,6 +6,7 @@ public enum Action {
     CreateInstance {
         @Override
         public void execute(Profile profile) {
+            
         }
     },DeleteInstance {
         @Override
