@@ -33,7 +33,7 @@ resource character(100),
 id_profile character(100),
 source character(100),
 constraint PK_Measure primary key (id_Measure),
-constraint FK_Meters foreign key (id_meter) references Meters(id_meters)
+constraint FK_Meters foreign key (id_meter) references Meters(id_meters),
 constraint FK_MeasuresProfile foreign key (id_profile) references Profile(id_profile)
 );
 
