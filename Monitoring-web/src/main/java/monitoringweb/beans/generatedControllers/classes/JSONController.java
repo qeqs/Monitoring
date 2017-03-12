@@ -15,6 +15,7 @@ import dao.MeasureFacade;
 import dao.MetersFacade;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
+import java.util.Date;
 //import entities.Pm;
 //import entities.Vm;
 import org.primefaces.json.JSONArray;
@@ -39,6 +40,7 @@ public class JSONController implements Serializable {
     private GraphicType type;
     private AnimationType animation;
     private boolean timerStarted;
+    private int timeForMeasure; //minutes
   
     @EJB
     private MeasureFacade measureFacade;
@@ -53,6 +55,15 @@ public class JSONController implements Serializable {
         type=GraphicType.line;
         animation=AnimationType.none;
         timerStarted=false;
+    }
+    
+     public void setTimeForMeasure(int timeForMeasure)
+    {
+        this.timeForMeasure = timeForMeasure;
+    }
+    public int getTimeForMeasure()
+    {
+        return timeForMeasure;
     }
     
      public void setMeter(Meter meter) {
@@ -185,23 +196,31 @@ public class JSONController implements Serializable {
     private void setMeasureList() {
         measureLists.clear();
         List<Measure> current = new ArrayList();
+        Date date = new Date(new Date().getTime()-timeForMeasure*60*1000);
         if (meter == null && pm == null && vm == null) {
             for (Meter m : meterFacade.findAll()) {
-                current = measureFacade.findAllForMeterOrderedByTime(m);
+                if(timeForMeasure>0)
+                    current = measureFacade.findAllForMeterOrderedByTimeForTime(m,date);
+                else
+                   // current = measureFacade.findAllForMeterOrderedByTime(m);
+                    current = measureFacade.findAllForMeterOrderedByTimeForTime(m,date);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
                 }
             }
         } else if (meter == null && pm != null && vm != null) {
             for (Meter met : meterFacade.findAll()) {
-                //current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
+                if(timeForMeasure>0)
+                   // current = measureFacade.findByVmAndMetOrderedByTimeForTime(vm,met,date);
+               // else
+                   // current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
                 }
             }
         } else if (meter == null && pm != null && vm == null) {
             for (Meter met : meterFacade.findAll()) {
-                //current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
+               // current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
                 }
@@ -226,6 +245,7 @@ public class JSONController implements Serializable {
         }
         
     }
+
     
     public void changeAnimationToNone(){
         this.animation=AnimationType.none;

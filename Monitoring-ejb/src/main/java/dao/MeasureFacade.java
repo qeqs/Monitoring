@@ -61,6 +61,13 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         return query.getResultList();
 
     }
+    
+      public List<Measure> findAllForMeterOrderedByTimeForTime(Meter met,Date date) {
+
+         return em.createNamedQuery("Measure.selectByIdAfterTime").setParameter("idMeter", met).setParameter("date", date).getResultList();
+      
+    }
+
 
     public void deleteAll() {
         em.createNamedQuery("Measure.deleteAll").executeUpdate();
