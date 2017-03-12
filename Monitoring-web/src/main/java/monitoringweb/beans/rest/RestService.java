@@ -90,7 +90,7 @@ public class RestService {
             metersFacade.create(meter);
             return Response.status(Response.Status.OK).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).header("Error", e).build();
         }
 
     }
