@@ -29,7 +29,11 @@ public class VnfControllerImpl implements VnfControllerRemote {
 
     @Override
     public void store(Vnf vnf, Settings settings, SnmpSettings snmp) {
-        if (vnfFacade.find(vnf.getId()).equals(vnf)) {
+        if (vnf == null) {
+            Logger.getLogger(VnfControllerImpl.class.getName()).log(Level.SEVERE, "Vnf = null");
+            return;
+        }
+        if (vnf.equals(vnfFacade.find(vnf.getId()))) {
             vnfFacade.create(vnf);
         } else {
             vnfFacade.edit(vnf);
