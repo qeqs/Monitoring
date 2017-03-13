@@ -8,6 +8,7 @@ import dao.UsersFacade;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import logic.MeasureController;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -18,6 +19,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 
+@Stateless
 public class MonitorTemplate {//todo:думаю надо сделать этот класс как @Entity и в бд его закидывать
 
     public final String MAIN_TRIGGER_NAME;
