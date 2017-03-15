@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ViewVnfDlg" widgetVar="ViewVnfDialog" modal="true" resizable="false" appendTo="@(body)" header="Settings">
+            <h:form id="ViewVnfForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profileController.profileForView != null}"> 
+                        <p:outputLabel value="Name" />         
+                        <h:outputText value="#{profileController.profileForView.idVnf.name}"/>
+                        
+                        <h:outputText value="Date of creation"/>
+                        <h:outputText value="#{profileController.profileForView.idVnf.createdat}"/>
+                         
+                         <h:outputText value="List of instances"/>
+                        <p:dataList id="datalist" value="#{profileController.profileForView.idVnf.instanceList}" var="item" >
+                            #{item.name}, #{item.createdat}
+                        </p:dataList> 
+                    </p:panelGrid>   
+                    <p:commandButton value="Ok" onclick="PF('ViewVnfDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

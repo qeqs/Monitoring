@@ -4,7 +4,6 @@ import scheduler.job.MeasuresJob;
 import scheduler.job.ExpiredMeasuresJob;
 import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
-import dao.UsersFacade;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -48,13 +47,18 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     private Integer expirationTime = 0;
     private Integer repeatTime = 5;
 
-    @EJB
     private MetersFacade metersFacade;
-    @EJB
-    private UsersFacade usersFacade;
-    @EJB
+
     private MeasureController controller;
     private Scheduler scheduler;
+
+    public void setMetersFacade(MetersFacade metersFacade) {
+        this.metersFacade = metersFacade;
+    }
+
+    public void setController(MeasureController controller) {
+        this.controller = controller;
+    }
 
     public Profile getProfile() {
         return profile;
@@ -85,7 +89,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
         this.expirationTrigger = expirationTrigger;
         return MonitorTemplate.this;
     }
-
 
     public Integer getExpirationTime() {
         return expirationTime;
@@ -166,7 +169,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                             .withIdentity(key.name() + JOB_NAME, JOB_GROUP_NAME)
                             .build();
                     jobMain.getJobDataMap().put("adapter", key.getAdapterImpl());
-                    jobMain.getJobDataMap().put("users", usersFacade.findAll());
                     jobMain.getJobDataMap().put("meters", metersFacade.findAll());
                     jobMain.getJobDataMap().put("profile", profile);
                     jobMain.getJobDataMap().put("controller", controller);

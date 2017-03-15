@@ -10,20 +10,20 @@
         <p:dialog id="ViewSnmpDlg" widgetVar="ViewSnmpDialog" modal="true" resizable="false" appendTo="@(body)" header="SNMP">
             <h:form id="ViewSnmpForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{profileController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{profileController.profileForView != null}">
                         
                         <p:outputLabel value="SNMP Id" />         
-                        <h:outputText value="#{profileController.selected.idSnmp.idSnmp}"/>
+                        <h:outputText value="#{profileController.profileForView.idSnmp.idSnmp}"/>
                         
                         <h:outputText value="Target"/>
-                        <h:outputText value="#{profileController.selected.idSnmp.target}"/>
+                        <h:outputText value="#{profileController.profileForView.idSnmp.target}"/>
                          
                         <h:outputText value="Community"/>
-                        <h:outputText value="#{profileController.selected.idSnmp.community}"/>                        
+                        <h:outputText value="#{profileController.profileForView.idSnmp.community}"/>                        
                      
                     
                     </p:panelGrid>   
-                    <p:commandButton value="Ok" onclick="ViewSnmpDialog.hide()"/>
+                    <p:commandButton value="Ok" onclick="PF('ViewSnmpDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

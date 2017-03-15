@@ -33,11 +33,13 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
-            if (adapter == null || meters == null || controller == null || profile == null || type == null) {
+            
+            System.out.println("scheduler.job.MeasuresJob.execute() BEFORE");
+            if (!type.equals(AdapterType.Test)&&(adapter == null || meters == null || controller == null || profile == null || type == null)) {
                 return;
             }
             boolean isSnmp = type.equals(AdapterType.Snmp);
-
+            System.out.println("scheduler.job.MeasuresJob.execute() AFTER");
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
                 if (isSnmp) {

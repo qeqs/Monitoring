@@ -29,6 +29,8 @@ public class SchedulerController {
     
     @EJB
     private ProfileFacade profileFacade;
+    @EJB
+    private MonitorTemplateBuilder monitorTemplateBuilder;
 
     private ArrayList<MonitorTemplate> monitors;
 
@@ -72,12 +74,14 @@ public class SchedulerController {
      */
     public void createMonitor(Profile profile, Integer repeatTime, Integer expirationTime) throws SchedulerException {
         if (!monitorExistsForVnf(profile)) {
-            MonitorTemplate monitorTemplate = new MonitorTemplate();
-            monitorTemplate.setScheduler(scheduler)
+            MonitorTemplate monitorTemplate = monitorTemplateBuilder.createInstance()
+                    .setScheduler(scheduler)
                     .setProfile(profile)
                     .setExpirationTime(expirationTime)
                     .setRepeatTime(repeatTime)
-                    .start();
+                    .build();
+            
+            monitorTemplate.start();
             monitors.add(monitorTemplate);
         } else {
             find(profile).setRepeatTime(repeatTime)
@@ -113,7 +117,7 @@ public class SchedulerController {
         temp.restart();
     }
 
-    private boolean monitorExistsForVnf(Profile profile) {
+    public boolean monitorExistsForVnf(Profile profile) {
         boolean res = false;
         for (MonitorTemplate monitor : monitors) {
             if (res = monitor.getProfile().equals(profile)) {
@@ -123,7 +127,7 @@ public class SchedulerController {
         return res;
     }
 
-    private MonitorTemplate find(Profile profile) {
+    public MonitorTemplate find(Profile profile) {
         for (MonitorTemplate monitor : monitors) {
             if (monitor.getProfile().equals(profile)) {
                 return monitor;
