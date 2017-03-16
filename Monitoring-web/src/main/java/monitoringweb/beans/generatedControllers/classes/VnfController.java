@@ -136,7 +136,7 @@ public class VnfController implements Serializable {
                 return null;
             }
             VnfController controller = (VnfController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "VnfController");
+                    getValue(facesContext.getELContext(), null, "vnfController");
             return controller.getVnf(getKey(value));
         }
 

@@ -18,9 +18,19 @@
                         <h:outputText value="#{profileController.profileForView.idVnf.createdat}"/>
                          
                          <h:outputText value="List of instances"/>
-                        <p:dataList id="datalist" value="#{profileController.profileForView.idVnf.instanceList}" var="item" >
-                            #{item.name}, #{item.createdat}
+                        <p:dataList id="datalistInst" value="#{profileController.profileForView.idVnf.instanceList}" var="item" >
+                            #{item.name}, #{item.ip} , #{item.date}
                         </p:dataList> 
+                         
+                          <h:outputText value="List of routers"/>
+                          <p:dataList id="datalistRout" value="#{profileController.profileForView.idVnf.routerList}" var="item" >
+                              #{item.name}, #{item.createdat} 
+                        </p:dataList>
+                          
+                            <h:outputText value="Subnets"/>
+                            <p:dataList id="datalistSubn" value="#{profileController.profileForView.idVnf.subnetList}" var="item" >
+                                #{item.name}, #{item.ipVersion} 
+                        </p:dataList>
                     </p:panelGrid>   
                     <p:commandButton value="Ok" onclick="PF('ViewVnfDialog').hide()"/>
                 </h:panelGroup>
