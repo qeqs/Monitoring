@@ -6,23 +6,15 @@
       xmlns:p="http://primefaces.org/ui">
  <h:body>
       <h:outputStylesheet library="css" name="maincss.css"/>
-        <ui:composition>
-
-        <p:dialog id="LoginDlg" widgetVar="LoginDialog" modal="true" resizable="false" appendTo="@(body)" header="Enter your login and pass">
-            <h:form id="LoginForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Login" for="login" />
-                        <p:inputText id="login" required="true"/>
-                        <p:outputLabel value="Password" for="pass" />
-                        <p:inputText id="pass" />
-                    </p:panelGrid>
-                    <p:commandButton  value="#{bundle.Save}" />
-                    <p:commandButton value="#{bundle.Cancel}"/>
-                </h:panelGroup>
+            <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';" prependId="false">  
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Username"></p:outputLabel> 
+                    <p:inputText id="j_username" type="text" />
+                    <p:outputLabel value="Password"></p:outputLabel>
+                    <p:inputText id="j_password" type="password" />                    
+                </h:panelGrid>
+                <p:commandButton id="submit" value="Submit" ajax="false"></p:commandButton>               
             </h:form>
-        </p:dialog>
-
-    </ui:composition>
+   
  </h:body>
 </html>
