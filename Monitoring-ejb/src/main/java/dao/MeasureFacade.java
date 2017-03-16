@@ -80,7 +80,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
     }
     
     public void deleteAllByProfileAndDate(Profile profile,Date date){
-        em.createNamedQuery("Measure.deleteAllBeforeDate")
+        em.createNamedQuery("Measure.deleteAllByResourceAndDate")
                 .setParameter("date", date)
                 .setParameter("profile", profile)
                 .executeUpdate();

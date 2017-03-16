@@ -44,7 +44,7 @@ public class TestAdapter implements Adapter{
         Measure measure = new Measure();
         measure.setIdMeter(meter);
         measure.setSource("test");
-        measure.setResource(profile.getIdVnf().getName());
+        measure.setResource(String.valueOf(random.nextLong()));
         measure.setTstamp(timestamp);
         measure.setValue(random.nextDouble()%100 + random.nextInt()%50);
         measure.setIdProfile(profile);

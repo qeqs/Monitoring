@@ -1,5 +1,8 @@
 package scheduler;
 
+import adapters.OpenStackAdapter;
+import adapters.SnmpAdapter;
+import adapters.TestAdapter;
 import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
 import javax.ejb.EJB;
@@ -14,6 +17,13 @@ public class MonitorTemplateBuilder {
     private MetersFacade metersFacade;
     @EJB
     private MeasureController controller;
+    
+    @EJB
+    private OpenStackAdapter restAdapter;
+    @EJB
+    private TestAdapter testAdapter;
+    @EJB
+    private SnmpAdapter snmpAdapter;
 
     MonitorTemplate template;
 
@@ -60,6 +70,9 @@ public class MonitorTemplateBuilder {
         }
         template.setController(controller);
         template.setMetersFacade(metersFacade);
+        template.setTestAdapter(testAdapter);
+        template.setSnmpAdapter(snmpAdapter);
+        template.setRestAdapter(restAdapter);
         MonitorTemplate temp = template;
         template = null;
         return temp;
