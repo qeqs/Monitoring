@@ -13,8 +13,8 @@
                         selection="#{settingsController.selected}"
                         rowKey="#{item.idSettings}">
                  
-                  <p:ajax event="rowSelect"   />
-                  <p:ajax event="rowUnselect" />
+                   <p:ajax event="rowSelect" update="createButton deleteButton editButton"/>
+                  <p:ajax event="rowUnselect" update="createButton deleteButton editButton"/>
                 <f:facet name="header">
                     Settings
                 </f:facet>
@@ -37,11 +37,12 @@
                  <f:facet name="footer">
                       <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{settingsController.prepareCreate}" update=":SettingsCreateForm" oncomplete="PF('SettingsCreateDialog').show()"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SettingsEditForm" oncomplete="PF('SettingsEditDialog').show()" disabled="#{empty settingsController.selected}"/>
+                  <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{settingsController.destroy}" update="datalist" disabled="#{empty settingsController.selected}"/>
                  </f:facet>
             </p:dataTable> 
              
           </h:form>
-            <ui:include src="Create.xhtml"/>
+         <ui:include src="Create.xhtml"/>
          <ui:include src="Edit.xhtml"/>
         </ui:define>
         </ui:composition>
