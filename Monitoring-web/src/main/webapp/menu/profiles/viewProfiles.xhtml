@@ -11,10 +11,11 @@
              <p:dataTable id="datalist" value="#{profileController.items}" var="item"
                         selectionMode="single" 
                         selection="#{profileController.selected}"
-                        rowKey="#{item.idProfile}">
+                        rowKey="#{item.idProfile}"
+                        >
                  
-                  <p:ajax event="rowSelect"   update="createButton "/>
-                  <p:ajax event="rowUnselect" update="createButton "/>
+                  <p:ajax event="rowSelect" update="createButton deleteButton editButton"/>
+                  <p:ajax event="rowUnselect" update="createButton deleteButton editButton"/>
                 <f:facet name="header">
                     Profiles
                 </f:facet>
@@ -23,33 +24,40 @@
                     
                 </p:column>
                 <p:column headerText="Settings">
-                    <h:panelGrid columns="2">
-                        <h:outputText value="#{item.idSettings.idSettings}"  />
-                         <p:commandButton id="viewSettingsButton" icon="ui-icon-search" update=":ViewSettingForm" oncomplete="PF('ViewSettingDialog').show()"/>
+                    <h:panelGrid columns="2" id="settGrid" > 
+                        <h:outputText value="#{item.idSettings.osUsername}"  />
+                        <p:commandButton id="viewSettingsButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewSettingForm" oncomplete="PF('ViewSettingDialog').show()" />
                     </h:panelGrid>
                 </p:column>
                  <p:column headerText="Snmp">
                      <h:panelGrid columns="2">
-                        <h:outputText value="#{item.idSnmp}"  />
-                         <p:commandButton id="viewSnmpButton" icon="ui-icon-search" update=":ViewSnmpForm" oncomplete="PF('ViewSnmpDialog').show()"/>
+                         <h:outputText value="#{item.idSnmp.target}"  />
+                         <p:commandButton id="viewSnmpButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewSnmpForm" oncomplete="PF('ViewSnmpDialog').show()"/>
                      </h:panelGrid>
                 </p:column>
                 <p:column headerText="Vnf">
+                    <h:panelGrid columns="2">
                         <h:outputText value="#{item.idVnf.name}"  /> 
+                         <p:commandButton id="viewVnfButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewVnfForm" oncomplete="PF('ViewVnfDialog').show()"/>
+                      </h:panelGrid >
                 </p:column>
                 <p:column headerText="Policy List">
                     <h:outputText value="#{item.idPolicyList.name}"  />
                 </p:column>
                   <f:facet name="footer">
                      <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{profileController.prepareCreate}" update=":ProfileCreateForm" oncomplete="PF('ProfileCreateDialog').show()"/>
-                 </f:facet>
+                     <p:commandButton id="editButton" icon="ui-icon-plus"   value="#{bundle.Edit}" update=":ProfileEditForm" oncomplete="PF('ProfileEditDialog').show()" disabled="#{empty profileController.selected}"/>
+                     <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{profileController.destroy}" update="datalist" disabled="#{empty profileController.selected}"/>
+                  </f:facet>
             </p:dataTable> 
              
           </h:form>
          <ui:include src="create.xhtml"/>
          <ui:include src="viewSettings.xhtml"/>
-          <ui:include src="viewSnmp.xhtml"/>
-<!--         <ui:include src="Edit.xhtml"/> -->
+         <ui:include src="viewSnmp.xhtml"/>
+         <ui:include src="viewVnf.xhtml"/>
+         <ui:include src="Edit.xhtml"/> 
+         
         </ui:define>
         </ui:composition>
 </html>

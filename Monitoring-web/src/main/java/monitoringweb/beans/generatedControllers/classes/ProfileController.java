@@ -27,6 +27,15 @@ public class ProfileController implements Serializable {
     private ProfileFacade ejbFacade;
     private List<Profile> items = null;
     private Profile selected;
+    private Profile profileForView;
+    
+    public void setProfileForView(Profile profile){
+        this.profileForView = profile;   
+    }
+    
+    public Profile getProfileForView(){
+        return profileForView;
+    }
 
     public ProfileController() {
     }

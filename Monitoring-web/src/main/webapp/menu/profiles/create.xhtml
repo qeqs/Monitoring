@@ -12,15 +12,15 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{profileController.selected != null}">
                         
-                        <p:outputLabel value="Id" for="idProfile" />
-                        <p:inputText id="idProfile" value="#{profileController.selected.idProfile}" title="Id" required="true" requiredMessage="#{bundle.CreatePolicyRequiredMessage_idPolicy}"/>
-                        
+                         <p:outputLabel value="IN" for="idPr" />
+                         <p:inputText id="idPr" value="#{profileController.selected.idProfile}"  required="true"/>
+                           
                         <p:outputLabel value="Settings" for="idSettings" />
                         <p:selectOneMenu id="idSettings" value="#{profileController.selected.idSettings}" >
                         <f:selectItems value="#{settingsController.itemsAvailableSelectOne}"
                                            var="idSettings"
                                            itemValue="#{idSettings}"
-                                           itemLabel="#{idSettings.idSettings}"/>
+                                           itemLabel="#{idSettings.osUsername}"/>
                         </p:selectOneMenu>
                         
                            <p:outputLabel value="Policy List" for="policyList" />
@@ -36,7 +36,7 @@
                         <f:selectItems value="#{snmpController.itemsAvailableSelectOne}"
                                            var="SNMP"
                                            itemValue="#{SNMP}"
-                                           itemLabel="#{SNMP.idSnmp}"/>
+                                           itemLabel="#{SNMP.target}"/>
                         </p:selectOneMenu>
                         
                             <p:outputLabel value="VNF" for="vnf" />

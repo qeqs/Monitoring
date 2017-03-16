@@ -10,6 +10,7 @@ import controllers.rmi.entities.SnmpSettings;
 import dao.ProfileFacade;
 import dao.VnfFacade;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,13 +30,18 @@ public class VnfControllerImpl implements VnfControllerRemote {
 
     @Override
     public void store(Vnf vnf, Settings settings, SnmpSettings snmp) {
-        if (vnfFacade.find(vnf.getId()).equals(vnf)) {
+        if (vnf == null) {
+            Logger.getLogger(VnfControllerImpl.class.getName()).log(Level.SEVERE, "Vnf = null");
+            return;
+        }
+        if (vnf.equals(vnfFacade.find(vnf.getId()))) {
             vnfFacade.create(vnf);
         } else {
             vnfFacade.edit(vnf);
         }
         try {
             Profile profile = new Profile();
+            profile.setIdProfile(UUID.randomUUID().toString());
             profile.setIdVnf(vnf);
             profile.setIdSettings(settings);
             profile.setIdSnmp(snmp);

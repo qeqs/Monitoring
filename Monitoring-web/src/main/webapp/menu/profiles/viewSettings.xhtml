@@ -10,26 +10,23 @@
         <p:dialog id="ViewSettingsDlg" widgetVar="ViewSettingDialog" modal="true" resizable="false" appendTo="@(body)" header="Settings">
             <h:form id="ViewSettingForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{profileController.selected != null}">
-                        
+                    <p:panelGrid columns="2" rendered="#{profileController.profileForView != null}"> 
                         <p:outputLabel value="Settings Id" />         
-                        <h:outputText value="#{profileController.selected.idSettings.idSettings}"/>
+                        <h:outputText value="#{profileController.profileForView.idSettings.idSettings}"/>
                         
-                        <h:outputText value="OS Username}"/>
-                        <h:outputText value="#{profileController.selected.idSettings.osUsername}"/>
+                        <h:outputText value="OS Username"/>
+                        <h:outputText value="#{profileController.profileForView.idSettings.osUsername}"/>
                          
                         <h:outputText value="Keystone Endpoint"/>
-                        <h:outputText value="#{profileController.selected.idSettings.keystoneEndpoint}"/>
+                        <h:outputText value="#{profileController.profileForView.idSettings.keystoneEndpoint}"/>
                         
                           <h:outputText value="Celiometer Endpoint"/>
-                          <h:outputText value="#{profileController.selected.idSettings.celiometerEndpoint}"/>
+                          <h:outputText value="#{profileController.profileForView.idSettings.celiometerEndpoint}"/>
                           
                            <h:outputText value="Tenant Name"/>
-                           <h:outputText value="#{profileController.selected.idSettings.tenantName}"/>
-                         
-                    
+                           <h:outputText value="#{profileController.profileForView.idSettings.tenantName}"/>
                     </p:panelGrid>   
-                    <p:commandButton value="Ok" onclick="ViewSettingDialog.hide()"/>
+                    <p:commandButton value="Ok" onclick="PF('ViewSettingDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
