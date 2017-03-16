@@ -4,6 +4,15 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <filter>
+        <filter-name>html5-cors</filter-name>
+        <filter-class>monitoringweb.beans.rest.swagger.HTML5CorsFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>html5-cors</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>       
@@ -52,7 +61,7 @@
             <web-resource-name>Protected Area</web-resource-name>
             <description></description>
             <url-pattern>/faces/menu/*</url-pattern>
-             <url-pattern>/faces/menupage.xhtml</url-pattern>
+            <url-pattern>/faces/menupage.xhtml</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>

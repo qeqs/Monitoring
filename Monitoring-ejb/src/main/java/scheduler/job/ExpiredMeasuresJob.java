@@ -30,7 +30,8 @@ public class ExpiredMeasuresJob implements Job {
             Date date = new Date(new Date().getTime() - beforeDate);
             measureController.clearMeasuresByProfile(profile, date);
         } catch (Exception exception) {
-            System.out.println("scheduler.ExpiredMeasuresJob.execute() " + exception.getLocalizedMessage());
+            System.out.println("scheduler.ExpiredMeasuresJob.execute() " + exception.getMessage());
+            exception.printStackTrace();
         }
     }
 
