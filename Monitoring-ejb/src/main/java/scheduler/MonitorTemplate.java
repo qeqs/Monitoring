@@ -1,5 +1,9 @@
 package scheduler;
 
+import adapters.Adapter;
+import adapters.OpenStackAdapter;
+import adapters.SnmpAdapter;
+import adapters.TestAdapter;
 import scheduler.job.MeasuresJob;
 import scheduler.job.ExpiredMeasuresJob;
 import controllers.rmi.entities.Profile;
@@ -51,6 +55,23 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
 
     private MeasureController controller;
     private Scheduler scheduler;
+
+    private OpenStackAdapter restAdapter;
+    private TestAdapter testAdapter;
+    private SnmpAdapter snmpAdapter;
+
+
+    public void setRestAdapter(OpenStackAdapter restAdapter) {
+        this.restAdapter = restAdapter;
+    }
+
+    public void setTestAdapter(TestAdapter testAdapter) {
+        this.testAdapter = testAdapter;
+    }
+
+    public void setSnmpAdapter(SnmpAdapter snmpAdapter) {
+        this.snmpAdapter = snmpAdapter;
+    }
 
     public void setMetersFacade(MetersFacade metersFacade) {
         this.metersFacade = metersFacade;
@@ -168,10 +189,11 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                     JobDetail jobMain = JobBuilder.newJob(MeasuresJob.class)
                             .withIdentity(key.name() + JOB_NAME, JOB_GROUP_NAME)
                             .build();
-                    jobMain.getJobDataMap().put("adapter", key.getAdapterImpl());
+                    jobMain.getJobDataMap().put("adapter", getAdapterImpl(key));
                     jobMain.getJobDataMap().put("meters", metersFacade.findAll());
                     jobMain.getJobDataMap().put("profile", profile);
                     jobMain.getJobDataMap().put("controller", controller);
+                    jobMain.getJobDataMap().put("type", key);
 
                     jobsMain.put(key, jobMain);
                 }
@@ -184,5 +206,22 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                 jobExpired.getJobDataMap().put("profile", profile);
             }
         }
+    }
+
+    private Adapter getAdapterImpl(AdapterType type) {
+        
+        Adapter adapter=null;
+        switch(type){
+            case Rest:
+                adapter= restAdapter;
+                break;
+            case Snmp:
+                adapter = snmpAdapter;
+                break;
+            case Test:
+                adapter = testAdapter;
+                break;
+        }
+        return adapter;
     }
 }

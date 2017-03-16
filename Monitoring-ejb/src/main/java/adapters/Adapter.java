@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
-@Local({TestAdapter.class,OpenStackAdapter.class})
+@Local({TestAdapter.class,OpenStackAdapter.class,SnmpAdapter.class})
 public interface Adapter {
     controllers.rmi.entities.Meter getMeter(String name);//??? 
     controllers.rmi.entities.Measure getMeasure(controllers.rmi.entities.Meter meter);//timestamp = current time
