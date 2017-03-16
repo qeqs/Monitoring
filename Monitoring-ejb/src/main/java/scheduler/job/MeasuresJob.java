@@ -45,7 +45,7 @@ public class MeasuresJob implements Job {
             }
         } catch (Exception ex) {
             System.err.println("ERROR MeasureJob "+ type);
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
 
     }
