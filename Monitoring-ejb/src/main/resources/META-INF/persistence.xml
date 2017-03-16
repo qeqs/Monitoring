@@ -21,6 +21,7 @@
     <class>controllers.rmi.entities.Vnf</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
+      <property name="eclipselink.session.customizer" value="controllers.rmi.entities.UUIDSequence"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
       <property name="eclipselink.deploy-on-startup" value="True"/>
       <property name="eclipselink.weaving" value="static"/>

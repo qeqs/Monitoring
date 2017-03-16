@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.LocalBean;
@@ -61,7 +60,6 @@ public class SnmpAdapter implements Adapter {
             measure.setResource(profile.getIdSnmp().getTarget());
             measure.setSource("snmp");
             measure.setIdMeter(meter);
-            measure.setIdMeasure(UUID.randomUUID().toString());
             measure.setIdProfile(profile);
 
         } catch (IOException ex) {
@@ -84,7 +82,6 @@ public class SnmpAdapter implements Adapter {
             measure.setResource(instance.getIp());
             measure.setSource("snmp");
             measure.setIdMeter(meter);
-            measure.setIdMeasure(UUID.randomUUID().toString());
             measure.setIdProfile(profile);
 
         } catch (IOException ex) {

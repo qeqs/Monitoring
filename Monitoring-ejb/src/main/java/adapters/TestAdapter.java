@@ -42,7 +42,6 @@ public class TestAdapter implements Adapter{
     public Measure getMeasure(Meter meter, Date timestamp) {
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
-        measure.setIdMeasure(String.valueOf(random.nextLong()));
         measure.setIdMeter(meter);
         measure.setSource("test");
         measure.setResource(profile.getIdVnf().getName());
