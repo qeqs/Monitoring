@@ -57,6 +57,9 @@ public class Profile implements Serializable {
     @JoinColumn(name = "id_vnf", referencedColumnName = "id")
     @ManyToOne
     private Vnf idVnf;
+    @Size(max = 200)
+    @Column(name = "name")
+    private String name;
 
     public Profile() {
     }
@@ -114,6 +117,14 @@ public class Profile implements Serializable {
         this.idVnf = idVnf;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
