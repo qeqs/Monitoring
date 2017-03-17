@@ -22,6 +22,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpServletRequest;
+import org.quartz.SchedulerException;
+import scheduler.SchedulerController;
 
 @Named("profileController")
 @SessionScoped
@@ -31,15 +33,17 @@ public class ProfileController implements Serializable {
     private ProfileFacade ejbFacade;
     @EJB
     private UsersFacade userdFacade;
+    @EJB
+    private SchedulerController schedulerController;
     private List<Profile> items = null;
     private Profile selected;
     private Profile profileForView;
-    
-    public void setProfileForView(Profile profile){
-        this.profileForView = profile;   
+
+    public void setProfileForView(Profile profile) {
+        this.profileForView = profile;
     }
-    
-    public Profile getProfileForView(){
+
+    public Profile getProfileForView() {
         return profileForView;
     }
 
@@ -70,8 +74,13 @@ public class ProfileController implements Serializable {
         return selected;
     }
 
-    public void create() {      
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
+    public void create() {
+        try {
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
+            schedulerController.createMonitor(selected);
+        } catch (SchedulerException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -90,29 +99,26 @@ public class ProfileController implements Serializable {
     }
 
     public List<Profile> getItems() {
-        
-           HttpServletRequest request = (
-                HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
-        String username = request.getRemoteUser(); 
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String username = request.getRemoteUser();
 
         List<Profile> profiles = getFacade().findAll();
         List<User> users;
         items = new ArrayList<Profile>();
         for (Profile pr : profiles) {
-            users = pr.getUsersList(); 
-            if (users!= null) {
-                    for(User usr :users){                
-                        if(usr.getUsername().equals(username))
-                            items.add(pr);
-                  }               
+            users = pr.getUsersList();
+            if (users != null) {
+                for (User usr : users) {
+                    if (usr.getUsername().equals(username)) {
+                        items.add(pr);
+                    }
+                }
             }
         }
 
-   
         return items;
     }
-    
-    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
