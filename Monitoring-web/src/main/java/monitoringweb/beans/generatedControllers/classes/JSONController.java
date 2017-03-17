@@ -220,36 +220,9 @@ public class JSONController implements Serializable {
                     current = measureFacade.findAllForMeterAndProfileForTime(meter,profile,date);
                 if (!current.isEmpty()) {
                     measureLists.add(current);
-                }
-            
+                }            
         } 
-        
-        //else if (meter == null && pm != null && vm == null) {
-//            for (Meter met : meterFacade.findAll()) {
-//               // current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
-//                if (!current.isEmpty()) {
-//                    measureLists.add(current);
-//                }
-//            }
-//        } else if (meter != null && pm == null && vm == null) {
-//            current = measureFacade.findAllForMeterOrderedByTime(meter);
-//            if (!current.isEmpty()) {
-//                measureLists.add(current);
-//            }
-//        } else if (meter != null && pm != null && vm == null) {
-//            //current = measureFacade.findByPmAndMetOrderedByTime(pm, meter);
-//            if (!current.isEmpty()) {
-//                measureLists.add(current);
-//            }
-//        } //пока не знаю, нужен ли этот кейс, показывать список всех vm без pm
-//        //или его следует разбить на два, тк может быть метрика, у которой в recource будет pm
-//        else if (meter != null && vm != null) {
-//            //current = measureFacade.findByVmAndMetOrderedByTime(vm, meter);
-//            if (!current.isEmpty()) {
-//                measureLists.add(current);
-//            }
-//        }
-//        
+
     }
 
     

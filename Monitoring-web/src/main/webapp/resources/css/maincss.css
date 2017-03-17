@@ -112,7 +112,7 @@ tr.jsfcrud_even_row {
    background-color:#FADEBF;*/
 }
 .ui-widget-content {
-    background: #FFF7EE -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,0.9)), to(rgba(255, 255, 255,0.3)));
+    background: #FFFFFF;
     font-size: 12px !important;
 }
 .ui-widget {

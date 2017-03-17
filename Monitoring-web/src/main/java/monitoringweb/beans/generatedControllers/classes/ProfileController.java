@@ -69,8 +69,18 @@ public class ProfileController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-
-    public void create() {      
+ 
+    private List<User> prepareUserlist(){
+        HttpServletRequest request = (
+                HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
+        String username = request.getRemoteUser(); 
+        User user = userdFacade.getUserByUsername(username); 
+        List<User> list = new ArrayList();
+        list.add(user);
+        return list;
+    }
+    public void create() {   
+        selected.setUsersList(prepareUserlist());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -78,6 +88,7 @@ public class ProfileController implements Serializable {
     }
 
     public void update() {
+        selected.setUsersList(prepareUserlist());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProfileUpdated"));
     }
 
@@ -97,7 +108,7 @@ public class ProfileController implements Serializable {
 
         List<Profile> profiles = getFacade().findAll();
         List<User> users;
-        items = new ArrayList<Profile>();
+        items = new ArrayList<>();
         for (Profile pr : profiles) {
             users = pr.getUsersList(); 
             if (users!= null) {
@@ -107,8 +118,6 @@ public class ProfileController implements Serializable {
                   }               
             }
         }
-
-   
         return items;
     }
     
