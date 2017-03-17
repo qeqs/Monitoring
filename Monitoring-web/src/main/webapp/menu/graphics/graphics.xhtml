@@ -15,28 +15,28 @@
             <h:form id="mainForm">
                 <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{jsonController.initAfterRefresh()}" update="simpleButton noneButton" />
                  <h:panelGrid id ="panel" columns="6" style="margin-bottom:10px" cellpadding="15">
-                    <p:outputLabel for="meterId" value="Meter:" />
+                     
+                    <p:outputLabel for="meterId" value="Meter" />
                     <p:selectOneMenu id="meterId" value="#{jsonController.meter}">
-                        <f:selectItem itemLabel="#{bundle.AllMessage}" />
-                        <f:selectItems value="#{meterController.itemsAvailableSelectOne}"
+                            <f:selectItem itemLabel="#{bundle.AllMessage}" />
+                            <f:selectItems value="#{meterController.itemsAvailableSelectOne}"
                                            var="itemMet"
                                            itemValue="#{itemMet}"
                                            itemLabel="#{itemMet.name}"/>     
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />
+                            <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />
                     </p:selectOneMenu>
-                    
-                    <p:outputLabel for="res" value="Resource" />
-                    <p:selectOneMenu id="res" value="#{jsonController.pm}"  >
-                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}" />
-                        <f:selectItems value="#{pmController.itemsAvailableSelectOne}"
-                                           var="itemPM"
-                                           itemValue="#{itemPM}"
-                                           itemLabel="#{itemPM.idPm}"/>
-                    <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />    
+                        
+                    <p:outputLabel for="prId" value="Profile:" />
+                    <p:selectOneMenu id="prId" value="#{jsonController.profile}">
+                        <f:selectItem itemLabel="#{bundle.AllMessage}" />
+                        <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
+                                           var="itemPr"
+                                           itemValue="#{itemPr}"
+                                           itemLabel="#{itemPr.name}"/>     
+                        <f:ajax event="change" listener="#{jsonController.changeValue}"  immediate="true" execute="@form" render=":GraphicsForm:graphPanel" />
                     </p:selectOneMenu>
-                    
                    
-                     <p:outputLabel for="graphType" value="Graphic Type" />
+                    <p:outputLabel for="graphType" value="Graphic Type" />
                     <p:selectOneMenu id="graphType" value="#{jsonController.type}"  >
                         <f:selectItems  value="#{jsonController.availableTypes()}"
                                         var="item"
@@ -50,11 +50,12 @@
                      <p:inputText id="measureTimeValue" value="#{jsonController.timeForMeasure}"  > 
                          <p:ajax event="valueChange" listener="#{jsonController.changeValue}" immediate="true" update=":GraphicsForm:graphPanel"/>
                      </p:inputText>
+                    
                     <p:slider  for="measureTimeValue" id="measureTime" minValue="0" maxValue="180" step="1">
                         <p:ajax event="slideEnd" listener="#{jsonController.changeValue}" immediate="true" process="@form" update=":GraphicsForm:graphPanel"/>
                     </p:slider>
-                     <p:outputLabel id="measureLabel" value="Show measure for time" />
-                     <p:outputLabel id="measureLabel1" value="" />
+                    <p:outputLabel id="measureLabel" value="Show measure for time" />
+                    <p:outputLabel id="measureLabel1" value="" />
                      
                     <p:commandButton  id="noneButton" value="Static" actionListener="#{jsonController.changeAnimationToNone()}" onclick="PF('currentTimePoller').stop();" disabled="#{!jsonController.timerStarted}"  update="@this simpleButton :GraphicsForm:graphPanel"  >
                          <f:setPropertyActionListener value="#{false}" target="#{jsonController.timerStarted}"/>  

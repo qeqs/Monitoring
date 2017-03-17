@@ -12,8 +12,7 @@
             <h:form id="MeterCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{meterController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateMeterLabel_idMeters}" for="idMeters" />
-                        <p:inputText id="idMeters" value="#{meterController.selected.idMeters}" title="#{bundle.CreateMeterTitle_idMeters}" required="true" requiredMessage="#{bundle.CreateMeterRequiredMessage_idMeters}"/>
+                       
                         <p:outputLabel value="#{bundle.CreateMeterLabel_type}" for="type" />
                         <p:inputText id="type" value="#{meterController.selected.type}" title="#{bundle.CreateMeterTitle_type}" />
                         <p:outputLabel value="#{bundle.CreateMeterLabel_unit}" for="unit" />

@@ -12,8 +12,9 @@
             <h:form id="ProfileEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{profileController.selected != null}">
-                        <p:outputLabel value="IN" for="idPr" />
-                         <p:inputText id="idPr" value="#{profileController.selected.idProfile}"  required="true"/>
+                        
+                        <p:outputLabel value="Name" for="name" />
+                        <p:inputText id="name" value="#{profileController.selected.name}" required="true" requiredMessage = "Name is required" />
                            
                         <p:outputLabel value="Settings" for="idSettings" />
                         <p:selectOneMenu id="idSettings" value="#{profileController.selected.idSettings}" >

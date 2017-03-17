@@ -12,8 +12,6 @@
             <h:form id="EventCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{eventController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateEventLabel_idEvent}" for="idEvent" />
-                        <p:inputText id="idEvent" value="#{eventController.selected.idEvent}" title="#{bundle.CreateEventTitle_idEvent}" required="true" requiredMessage="#{bundle.CreateEventRequiredMessage_idEvent}"/>
                         <p:outputLabel value="#{bundle.CreateEventLabel_name}" for="name" />
                         <p:inputText id="name" value="#{eventController.selected.name}" title="#{bundle.CreateEventTitle_name}" />
                         <p:outputLabel value="#{bundle.CreateEventLabel_action}" for="action" />

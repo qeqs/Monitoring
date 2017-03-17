@@ -11,9 +11,7 @@
         <p:dialog id="VnfCreateDlg" widgetVar="VnfCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVnfTitle}">
             <h:form id="VnfCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateVnfLabel_idVnf}" for="idVnf" />
-                        <p:inputText id="idVnf" value="#{vnfController.selected.idVnf}" title="#{bundle.CreateVnfTitle_idVnf}" required="true" requiredMessage="#{bundle.CreateVnfRequiredMessage_idVnf}"/>
+                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">                
                         <p:outputLabel value="#{bundle.CreateVnfLabel_dateVnf}" for="dateVnf" />
                         <p:calendar id="dateVnf" pattern="MM/dd/yyyy" value="#{vnfController.selected.dateVnf}" title="#{bundle.EditVnfTitle_dateVnf}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateVnfLabel_typeVnf}" for="typeVnf" />

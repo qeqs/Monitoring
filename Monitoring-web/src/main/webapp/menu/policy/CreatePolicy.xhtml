@@ -12,8 +12,6 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
                         
-                        <p:outputLabel value="Id" for="idPolicy" />
-                        <p:inputText id="idPolicy" value="#{policyController.selected.idPolicy}" title="Id" required="true" requiredMessage="#{bundle.CreatePolicyRequiredMessage_idPolicy}"/>
                         
                         <p:outputLabel value="Meter" for="meterId" />
                         <p:selectOneMenu id="meterId" value="#{policyController.selected.idMeter}" >
