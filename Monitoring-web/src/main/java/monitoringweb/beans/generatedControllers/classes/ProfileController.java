@@ -1,11 +1,14 @@
 package monitoringweb.beans.generatedControllers.classes;
 
 import controllers.rmi.entities.Profile;
+import controllers.rmi.entities.User;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.ProfileFacade;
+import dao.UsersFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +21,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import util.ApplicationUsername;
+import javax.servlet.http.HttpServletRequest;
 
 @Named("profileController")
 @SessionScoped
@@ -25,6 +30,8 @@ public class ProfileController implements Serializable {
 
     @EJB
     private ProfileFacade ejbFacade;
+    @EJB
+    private UsersFacade userdFacade;
     private List<Profile> items = null;
     private Profile selected;
     private Profile profileForView;
@@ -84,11 +91,29 @@ public class ProfileController implements Serializable {
     }
 
     public List<Profile> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
+        
+           HttpServletRequest request = (
+                HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
+        String username = request.getRemoteUser(); 
+
+        List<Profile> profiles = getFacade().findAll();
+        List<User> users;
+        items = new ArrayList<Profile>();
+        for (Profile pr : profiles) {
+            users = pr.getUsersList(); 
+            if (users!= null) {
+                    for(User usr :users){                
+                        if(usr.getUsername().equals(username))
+                            items.add(pr);
+                  }               
+            }
         }
+
+   
         return items;
     }
+    
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {

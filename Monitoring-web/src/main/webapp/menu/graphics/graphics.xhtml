@@ -29,7 +29,7 @@
                     <p:outputLabel for="prId" value="Profile:" />
                     <p:selectOneMenu id="prId" value="#{jsonController.profile}">
                         <f:selectItem itemLabel="#{bundle.AllMessage}" />
-                        <f:selectItems value="#{profileController.itemsAvailableSelectOne}"
+                        <f:selectItems value="#{profileController.items}"
                                            var="itemPr"
                                            itemValue="#{itemPr}"
                                            itemLabel="#{itemPr.name}"/>     

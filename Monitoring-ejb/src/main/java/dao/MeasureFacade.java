@@ -63,17 +63,16 @@ public class MeasureFacade extends AbstractFacade<Measure> {
     }
     
     
-       public List<Measure> findAllForMeterAndProfileForTime(Meter met,Profile profile,Date date) {
+    public List<Measure> findAllForMeterAndProfileForTime(Meter met,Profile profile,Date date) {
          return em.createNamedQuery("Measure.selectByMeterAndProfileAfterTime").setParameter("idMeter", met).setParameter("idProfile", profile).setParameter("date", date).getResultList();   
     }
-     public List<Measure> findAllForMeterByProfileForTime(Profile profile ,Date date) {
+    
+    public List<Measure> findAllForMeterByProfileForTime(Profile profile ,Date date) {
         return em.createNamedQuery("Measure.selectByProfileAfterTime").setParameter("idProfile", profile).setParameter("date", date).getResultList();
-     }
+    }
      
-      public List<Measure> findAllForMeterOrderedByTimeForTime(Meter met,Date date) {
-
-         return em.createNamedQuery("Measure.selectByMeterAfterTime").setParameter("idMeter", met).setParameter("date", date).getResultList();
-      
+    public List<Measure> findAllForMeterOrderedByTimeForTime(Meter met,Date date) {
+        return em.createNamedQuery("Measure.selectByMeterAfterTime").setParameter("idMeter", met).setParameter("date", date).getResultList();    
     }
 
 

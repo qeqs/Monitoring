@@ -19,5 +19,9 @@ public class UsersFacade extends AbstractFacade<User> {
     public UsersFacade() {
         super(User.class);
     }
+    
+     public User getUserByUsername(String username) {
+         return (User)em.createNamedQuery("User.findByUsername").setParameter("username", username).getResultList().get(0);   
+    }
 
 }
