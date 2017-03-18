@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SNMPCreateDlg" widgetVar="SNMPCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Create SNMP">
+            <h:form id="SNMPCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{snmpController.selected != null}">                      
+                    <p:outputLabel value="Target" for="target" />
+                    <p:inputText id="target" value="#{snmpController.selected.target}" required="true" />
+                    <p:outputLabel value="Community" for="community" />
+                    <p:inputText id="community" value="#{snmpController.selected.community}" required="true" />
+                    </p:panelGrid>
+                    <p:commandButton id="createBut" action="#{snmpController.create}" value="#{bundle.Save}" update="display,:SNMPForm" oncomplete="handleSubmit(args,'SNMPCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SNMPCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

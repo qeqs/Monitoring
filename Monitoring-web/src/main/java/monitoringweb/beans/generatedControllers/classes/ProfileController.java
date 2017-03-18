@@ -73,7 +73,7 @@ public class ProfileController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-<<<<<<< HEAD
+
  
     private List<User> prepareUserlist(){
         HttpServletRequest request = (
@@ -84,19 +84,16 @@ public class ProfileController implements Serializable {
         list.add(user);
         return list;
     }
-    public void create() {   
-        selected.setUsersList(prepareUserlist());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
-=======
+
 
     public void create() {
         try {
+            selected.setUsersList(prepareUserlist());
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
             schedulerController.createMonitor(selected);
         } catch (SchedulerException ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
->>>>>>> 3eb2a7c89decc19746a7e1957b13038c28c4d719
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -133,10 +130,6 @@ public class ProfileController implements Serializable {
                 }
             }
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3eb2a7c89decc19746a7e1957b13038c28c4d719
         return items;
     }
 

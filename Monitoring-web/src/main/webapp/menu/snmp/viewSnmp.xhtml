@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/menupage.xhtml" >
+       
+        <ui:define name="body"> 
+         <h:form id="SNMPForm">
+             <p:dataTable id="datalist" value="#{snmpController.items}" var="item"
+                        selectionMode="single" 
+                        selection="#{snmpController.selected}"
+                        rowKey="#{item.idSnmp}"
+                        >
+                 
+                  <p:ajax event="rowSelect" update="createButton deleteButton editButton"/>
+                  <p:ajax event="rowUnselect" update="createButton deleteButton editButton"/>
+                <f:facet name="header">
+                   SNMP
+                </f:facet>
+                <p:column headerText="Target">
+                    <h:outputText value="#{item.target}"/>
+                </p:column>
+                <p:column headerText="Community">
+                    <h:outputText value="#{item.community}"/>
+                </p:column>
+        
+                  <f:facet name="footer">
+                     <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{snmpController.prepareCreate}" update=":SNMPCreateForm" oncomplete="PF('SNMPCreateDialog').show()"/>
+                     <p:commandButton id="editButton" icon="ui-icon-plus"   value="#{bundle.Edit}" update=":SNMPEditForm" oncomplete="PF('SNMPEditDialog').show()" disabled="#{empty snmpController.selected}"/>
+                     <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{snmpController.destroy}" update="datalist" disabled="#{empty snmpController.selected}"/>
+                  </f:facet>
+            </p:dataTable> 
+          </h:form>
+         <ui:include src="create.xhtml"/> 
+         <ui:include src="edit.xhtml"/> 
+        </ui:define>
+        </ui:composition>
+</html>

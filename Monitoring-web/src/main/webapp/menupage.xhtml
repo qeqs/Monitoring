@@ -17,7 +17,7 @@
        <h:outputStylesheet library="css" name="maincss.css"/>
          <p:layout fullPage="true" styleClass="headerstyle">
            <h:form id="mainmenuform">
-            <p:layoutUnit position="north" >
+<!--            <p:layoutUnit position="north" >
                  <p:menubar> 
                      <p:menuitem icon="ui-icon-home" value="#{bundle.Home}"/>
                      <p:submenu   icon="ui-icon-person" label="NotCoolUser">      
@@ -25,14 +25,15 @@
                             <p:menuitem icon="ui-icon-extlink" value="Log out"/>   
                      </p:submenu>
                  </p:menubar>
-                </p:layoutUnit >
+                </p:layoutUnit >-->
              <p:layoutUnit position="west" style="min-width:180px" >
                       <p:menu styleClass="menuheader" style="min-width:180px" >
                           <p:submenu label="My menu"  styleClass="menuheader">
                                  <p:menuitem icon="ui-icon-document" value="Policies" outcome="/menu/policy/policies.xhtml" />
                                  <p:menuitem value="Profiles" icon="ui-icon-newwin" outcome="/menu/profiles/viewProfiles.xhtml"/> 
                                  <p:menuitem value="Graphics" icon="ui-icon-image" outcome="/menu/graphics/graphics.xhtml" /> 
-                                 <p:menuitem icon="ui-icon-gear" value="Settings" outcome="/menu/settings/ViewSettings.xhtml" />
+                                 <p:menuitem icon="ui-icon-gear" value="Openstack Settings" outcome="/menu/settings/ViewSettings.xhtml" />
+                                  <p:menuitem icon="ui-icon-gear" value="SNMP Settings" outcome="/menu/snmp/viewSnmp.xhtml" />
                           </p:submenu> 
                           
                           <p:submenu label="Common menu"  styleClass="menuheader">

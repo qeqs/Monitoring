@@ -12,8 +12,6 @@
             <h:form id="PolicyListCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_idPolicylist}" for="idPolicylist" />
-                        <p:inputText id="idPolicylist" value="#{policyListController.selected.idPolicylist}" title="#{bundle.CreatePolicyListTitle_idPolicylist}" required="true" requiredMessage="#{bundle.CreatePolicyListRequiredMessage_idPolicylist}"/>
                         <p:outputLabel value="#{bundle.CreatePolicyListLabel_enabled}" for="enabled" />
                         <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
                         <p:outputLabel value="#{bundle.CreatePolicyListLabel_name}" for="name" />
