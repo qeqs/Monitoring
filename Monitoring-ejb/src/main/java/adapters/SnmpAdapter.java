@@ -107,6 +107,7 @@ public class SnmpAdapter implements Adapter {
         return SnmpAdapter.this;
     }
 
+    @Override
     public List<Measure> getMeasureList(controllers.rmi.entities.Meter meter, Date timestamp) {
         ArrayList<Measure> list = new ArrayList<>();
         for (Instance instance : profile.getIdVnf().getInstanceList()) {

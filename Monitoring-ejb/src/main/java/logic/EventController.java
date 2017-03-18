@@ -24,5 +24,8 @@ public class EventController {
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
+    public void removeListener(Listener listener){
+        listeners.remove(listener);
+    }
 
 }

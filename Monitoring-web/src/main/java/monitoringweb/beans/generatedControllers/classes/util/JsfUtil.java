@@ -6,6 +6,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import logic.events.Event;
 
 public class JsfUtil {
 
@@ -44,6 +45,31 @@ public class JsfUtil {
 
     public static void addErrorMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
+        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+    }
+
+    public static void addErrorMessage(Event event) {
+        FacesMessage.Severity severity;
+        switch (event.getSeverity()) {
+            case CLEAR:
+                return;
+            case INFO:
+            case MINOR:
+                severity = FacesMessage.SEVERITY_INFO;
+                break;
+            case WARNING:
+            case MAJOR:
+            case UNKNOWN:
+                severity = FacesMessage.SEVERITY_WARN;
+                break;
+            case CRITICAL:
+                severity = FacesMessage.SEVERITY_FATAL;
+                break;
+            default:
+                severity = FacesMessage.SEVERITY_ERROR;
+                break;
+        }
+        FacesMessage facesMsg = new FacesMessage(severity, event.toString(), event.description());
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
 

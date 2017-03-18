@@ -63,4 +63,16 @@ public class Event {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return severity.toString() + ": " + meter.getName() + " " + createdAt.toString();
+    }
+    
+    public String description(){
+        return "Meter value: "+getMeasure().getValue()+"\n"
+                +"Source: "+getMeasure().getSource()+"\n"
+                +"Resource: "+getMeasure().getResource()+"\n"
+                +"Treshold: "+getOrigin().getSign()+getOrigin().getTreshhold();
+    }
 }
