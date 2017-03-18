@@ -18,9 +18,7 @@
                 <f:facet name="header">
                     Policies
                 </f:facet>
-                <p:column headerText="Name">
-                    <h:outputText value="#{item.idPolicy}"/>
-                </p:column>
+             
                 <p:column headerText="Meter">
                     <h:outputText value="#{item.idMeter.name}"  />
                 </p:column>
@@ -39,9 +37,8 @@
                  <p:column headerText="Group">
                     <h:outputText value="#{item.idPolicylist.name}"/>
                 </p:column>
-  
-                <p:column style="width:50px">
-                    <p:selectBooleanCheckbox value="#{item.enabled}"/>
+                <p:column headerText="Enabled">
+                        <p:selectBooleanCheckbox value="#{item.enabled}" disabled="true"/>
                 </p:column>
                  <f:facet name="footer">
                      <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{policyController.prepareCreate}" update=":PoliciesCreateForm" oncomplete="PF('PolicyCreateDialog').show()"/>

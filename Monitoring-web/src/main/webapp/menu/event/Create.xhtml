@@ -20,6 +20,9 @@
                         <p:inputText id="priority" value="#{eventController.selected.priority}" title="#{bundle.CreateEventTitle_priority}" />
                         <p:outputLabel value="#{bundle.CreateEventLabel_description}" for="description" />
                         <p:inputText id="description" value="#{eventController.selected.description}" title="#{bundle.CreateEventTitle_description}" />
+                        <p:selectManyMenu>
+                            
+                        </p:selectManyMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{eventController.create}" value="#{bundle.Save}" update="display,:EventListForm:datalist" oncomplete="handleSubmit(args,'EventCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EventCreateDialog.hide()"/>

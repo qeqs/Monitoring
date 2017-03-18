@@ -52,6 +52,12 @@
                             </f:facet>
                             <h:outputText value="#{item.description}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Oid"/>
+                            </f:facet>
+                            <h:outputText value="#{item.oid}"/>
+                        </p:column>
                         <f:facet name="footer">
                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{meterController.prepareCreate}" update=":MeterCreateForm" oncomplete="PF('MeterCreateDialog').show()"/>               
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MeterEditForm" oncomplete="PF('MeterEditDialog').show()" disabled="#{empty meterController.selected}"/>
