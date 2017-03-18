@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,10 +29,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Measure.findByUserId", query = "SELECT m FROM Measure m WHERE m.userId = :userId")
     , @NamedQuery(name = "Measure.findByResource", query = "SELECT m FROM Measure m WHERE m.resource = :resource")
     , @NamedQuery(name = "Measure.findBySource", query = "SELECT m FROM Measure m WHERE m.source = :source")
-    , @NamedQuery(name ="Measure.deleteAll", query = "DELETE FROM Measure")
-    , @NamedQuery(name ="Measure.deleteAllByUser", query = "DELETE FROM Measure m WHERE m.userId = :userId")
-    , @NamedQuery(name ="Measure.deleteAllBeforeDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date")
-    , @NamedQuery(name ="Measure.deleteAllByResourceAndDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date and m.idProfile = :profile")})
+    , @NamedQuery(name = "Measure.deleteAll", query = "DELETE FROM Measure")
+    , @NamedQuery(name = "Measure.deleteAllByUser", query = "DELETE FROM Measure m WHERE m.userId = :userId")
+    , @NamedQuery(name = "Measure.deleteAllBeforeDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date")
+    , @NamedQuery(name = "Measure.deleteAllByResourceAndDate", query = "DELETE FROM Measure m WHERE m.tstamp <= :date and m.idProfile = :profile")
+    ,@NamedQuery(name = "Measure.selectByMeterAfterTime", query = "SELECT m from Measure m WHERE m.idMeter = :idMeter and m.tstamp > :date order by m.tstamp")
+    ,@NamedQuery(name = "Measure.selectByProfileAfterTime", query = "SELECT m from Measure m WHERE m.idProfile = :idProfile and m.tstamp > :date order by m.tstamp")
+        ,@NamedQuery(name = "Measure.selectByMeterAndProfileAfterTime", query = "SELECT m from Measure m WHERE m.idMeter = :idMeter and m.idProfile = :idProfile and m.tstamp > :date order by m.tstamp")
+})
 public class Measure implements Serializable {
 
     @JoinColumn(name = "id_profile", referencedColumnName = "id_profile")
@@ -42,6 +47,7 @@ public class Measure implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue(generator = "system-uuid")
     @Size(min = 1, max = 100)
     @Column(name = "id_measure")
     private String idMeasure;
@@ -126,7 +132,7 @@ public class Measure implements Serializable {
     public void setIdMeter(Meter idMeter) {
         this.idMeter = idMeter;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

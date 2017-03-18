@@ -112,7 +112,7 @@ tr.jsfcrud_even_row {
    background-color:#FADEBF;*/
 }
 .ui-widget-content {
-    background: #FFF7EE -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,0.9)), to(rgba(255, 255, 255,0.3)));
+    background: #FFFFFF;
     font-size: 12px !important;
 }
 .ui-widget {
@@ -143,4 +143,20 @@ h3 {
     margin-left: 0;
     margin-right: 0;
     font-weight: bold;
+}
+
+.table-with-borders td {
+    border-top-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+    border-right-style: solid;
+   
+}
+
+
+.ui-datatable tbody td tr {
+    border-top-style: none !important;
+    border-bottom-style: none !important;
+    border-left-style: none !important;
+    border-right-style: none !important;
 }

@@ -26,9 +26,11 @@ public class SchedulerController {
     public static final int DEFAULT_REPEAT_TIME = 5;//sec
     public static final int DEFAULT_EXPIRATION_TIME = 24 * 60 * 60 * 1000;//milisec
     private Scheduler scheduler;
-    
+
     @EJB
     private ProfileFacade profileFacade;
+    @EJB
+    private MonitorTemplateBuilder monitorTemplateBuilder;
 
     private ArrayList<MonitorTemplate> monitors;
 
@@ -43,20 +45,22 @@ public class SchedulerController {
 
             List<Profile> profileList = profileFacade.findAll();
             for (Profile profile : profileList) {
+                System.out.println("scheduler.SchedulerController.init() creating Monitor for profile " + profile.toString());
                 createMonitor(profile);
             }
+            scheduler.start();
 
         } catch (SchedulerException ex) {
             Logger.getLogger(SchedulerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
-    
+
     /**
-     * создает и запускает monitor для данного профиля, 
-     * если monitor для такого профиля уже есть, 
-     * то перезапускает со значениями по умолчанию
-     * 
-     * @param profile 
+     * создает и запускает monitor для данного профиля, если monitor для такого
+     * профиля уже есть, то перезапускает со значениями по умолчанию
+     *
+     * @param profile
      * @throws SchedulerException
      */
     public void createMonitor(Profile profile) throws SchedulerException {
@@ -65,19 +69,21 @@ public class SchedulerController {
 
     /**
      *
-     * @param profile 
+     * @param profile
      * @param repeatTime время в секундах между собором метрик
-     * @param expirationTime время в милисикундах по истечению которого метрики удаляются (0 если хранить вечно)
+     * @param expirationTime время в милисикундах по истечению которого метрики
+     * удаляются (0 если хранить вечно)
      * @throws SchedulerException
      */
     public void createMonitor(Profile profile, Integer repeatTime, Integer expirationTime) throws SchedulerException {
         if (!monitorExistsForVnf(profile)) {
-            MonitorTemplate monitorTemplate = new MonitorTemplate();
-            monitorTemplate.setScheduler(scheduler)
+            MonitorTemplate monitorTemplate = monitorTemplateBuilder.createInstance()
+                    .setScheduler(scheduler)
                     .setProfile(profile)
                     .setExpirationTime(expirationTime)
                     .setRepeatTime(repeatTime)
-                    .start();
+                    .build();
+            monitorTemplate.start();
             monitors.add(monitorTemplate);
         } else {
             find(profile).setRepeatTime(repeatTime)
@@ -92,7 +98,7 @@ public class SchedulerController {
     }
 
     public void linkCalendar(Profile profile, String calendarName) throws SchedulerException {
-        
+
         MonitorTemplate temp = find(profile);
         TriggerBuilder builder = TriggerBuilder.newTrigger()
                 .startNow()
@@ -100,7 +106,7 @@ public class SchedulerController {
                         .repeatForever()
                         .withIntervalInSeconds(DEFAULT_REPEAT_TIME))
                 .modifiedByCalendar(calendarName);
-        
+
         for (AdapterType adapter : AdapterType.values()) {
             temp.setMainTrigger(adapter, builder
                     .withIdentity(temp.getMainTrigger(adapter).getKey())
@@ -109,11 +115,11 @@ public class SchedulerController {
         temp.setExpirationTrigger(builder
                 .withIdentity(temp.getExpirationTrigger().getKey())
                 .build());
-        
+
         temp.restart();
     }
 
-    private boolean monitorExistsForVnf(Profile profile) {
+    public boolean monitorExistsForVnf(Profile profile) {
         boolean res = false;
         for (MonitorTemplate monitor : monitors) {
             if (res = monitor.getProfile().equals(profile)) {
@@ -123,7 +129,7 @@ public class SchedulerController {
         return res;
     }
 
-    private MonitorTemplate find(Profile profile) {
+    public MonitorTemplate find(Profile profile) {
         for (MonitorTemplate monitor : monitors) {
             if (monitor.getProfile().equals(profile)) {
                 return monitor;

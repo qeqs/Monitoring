@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ViewSnmpDlg" widgetVar="ViewSnmpDialog" modal="true" resizable="false" appendTo="@(body)" header="SNMP">
+            <h:form id="ViewSnmpForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profileController.profileForView != null}">
+                        
+                        <p:outputLabel value="SNMP Id" />         
+                        <h:outputText value="#{profileController.profileForView.idSnmp.idSnmp}"/>
+                        
+                        <h:outputText value="Target"/>
+                        <h:outputText value="#{profileController.profileForView.idSnmp.target}"/>
+                         
+                        <h:outputText value="Community"/>
+                        <h:outputText value="#{profileController.profileForView.idSnmp.community}"/>                        
+                     
+                    
+                    </p:panelGrid>   
+                    <p:commandButton value="Ok" onclick="PF('ViewSnmpDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

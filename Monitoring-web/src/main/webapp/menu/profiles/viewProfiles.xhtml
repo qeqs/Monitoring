@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/menupage.xhtml" >
+       
+        <ui:define name="body"> 
+         <h:form id="ProfileForm">
+             <p:dataTable id="datalist" value="#{profileController.items}" var="item"
+                        selectionMode="single" 
+                        selection="#{profileController.selected}"
+                        rowKey="#{item.idProfile}"
+                        >
+                 
+                  <p:ajax event="rowSelect" update="createButton deleteButton editButton"/>
+                  <p:ajax event="rowUnselect" update="createButton deleteButton editButton"/>
+                <f:facet name="header">
+                    Profiles
+                </f:facet>
+                <p:column headerText="Profile Name">
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+                    
+  
+         
+                      <p:column headerText="Profile Users coune">
+                          <h:outputText value="#{item.usersList.size()}"/>
+                    
+                </p:column>
+                  
+                <p:column headerText="Settings">
+                    <h:panelGrid columns="2" id="settGrid" > 
+                        <h:outputText value="#{item.idSettings.osUsername}"  />
+                        <p:commandButton id="viewSettingsButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewSettingForm" oncomplete="PF('ViewSettingDialog').show()" />
+                    </h:panelGrid>
+                </p:column>
+                 <p:column headerText="Snmp">
+                     <h:panelGrid columns="2">
+                         <h:outputText value="#{item.idSnmp.target}"  />
+                         <p:commandButton id="viewSnmpButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewSnmpForm" oncomplete="PF('ViewSnmpDialog').show()"/>
+                     </h:panelGrid>
+                </p:column>
+                <p:column headerText="Vnf">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{item.idVnf.name}"  /> 
+                         <p:commandButton id="viewVnfButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewVnfForm" oncomplete="PF('ViewVnfDialog').show()"/>
+                      </h:panelGrid >
+                </p:column>
+                <p:column headerText="Policy List">
+                    <h:outputText value="#{item.idPolicyList.name}"  />
+                </p:column>
+                  <f:facet name="footer">
+                     <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{profileController.prepareCreate}" update=":ProfileCreateForm" oncomplete="PF('ProfileCreateDialog').show()"/>
+                     <p:commandButton id="editButton" icon="ui-icon-plus"   value="#{bundle.Edit}" update=":ProfileEditForm" oncomplete="PF('ProfileEditDialog').show()" disabled="#{empty profileController.selected}"/>
+                     <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{profileController.destroy}" update="datalist" disabled="#{empty profileController.selected}"/>
+                  </f:facet>
+            </p:dataTable> 
+             
+          </h:form>
+         <ui:include src="create.xhtml"/>
+         <ui:include src="viewSettings.xhtml"/>
+         <ui:include src="viewSnmp.xhtml"/>
+         <ui:include src="viewVnf.xhtml"/>  
+         <ui:include src="edit.xhtml"/> 
+        </ui:define>
+        </ui:composition>
+</html>

@@ -12,8 +12,6 @@
             <h:form id="EventEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{eventController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditEventLabel_idEvent}" for="idEvent" />
-                        <p:inputText id="idEvent" value="#{eventController.selected.idEvent}" title="#{bundle.EditEventTitle_idEvent}" required="true" requiredMessage="#{bundle.EditEventRequiredMessage_idEvent}"/>
                         <p:outputLabel value="#{bundle.EditEventLabel_name}" for="name" />
                         <p:inputText id="name" value="#{eventController.selected.name}" title="#{bundle.EditEventTitle_name}" />
                         <p:outputLabel value="#{bundle.EditEventLabel_action}" for="action" />

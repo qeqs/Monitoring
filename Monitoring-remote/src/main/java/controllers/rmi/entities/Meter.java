@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,6 +34,7 @@ public class Meter implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue(generator = "system-uuid")
     @Size(min = 1, max = 100)
     @Column(name = "id_meters")
     private String idMeters;

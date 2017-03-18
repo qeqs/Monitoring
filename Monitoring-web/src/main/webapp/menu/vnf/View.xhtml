@@ -11,9 +11,7 @@
         <p:dialog id="VnfViewDlg" widgetVar="VnfViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewVnfTitle}">
             <h:form id="VnfViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">
-                        <h:outputText value="#{bundle.ViewVnfLabel_idVnf}"/>
-                        <h:outputText value="#{vnfController.selected.idVnf}" title="#{bundle.ViewVnfTitle_idVnf}"/>
+                    <p:panelGrid columns="2" rendered="#{vnfController.selected != null}">                  
                         <h:outputText value="#{bundle.ViewVnfLabel_dateVnf}"/>
                         <h:outputText value="#{vnfController.selected.dateVnf}" title="#{bundle.ViewVnfTitle_dateVnf}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />

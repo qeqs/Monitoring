@@ -12,8 +12,7 @@
             <h:form id="PolicyEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyController.selected != null}">
-                        <p:outputLabel value="Id" for="idPolicy" />
-                        <p:inputText id="idPolicy" value="#{policyController.selected.idPolicy}" title="#{bundle.EditPolicyTitle_idPolicy}" required="true" requiredMessage="#{bundle.EditPolicyRequiredMessage_idPolicy}"/>
+                       
                         <p:outputLabel value="#{bundle.EditPolicyLabel_resource}" for="resource" />
                         <p:inputText id="resource" value="#{policyController.selected.resource}" title="#{bundle.EditPolicyTitle_resource}" />
                         <p:outputLabel value="#{bundle.EditPolicyLabel_treshhold}" for="treshhold" />

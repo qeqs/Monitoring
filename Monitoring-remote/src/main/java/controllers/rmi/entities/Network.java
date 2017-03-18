@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Network.findByUsername", query = "SELECT n FROM Network n WHERE n.username = :username")})
 public class Network implements Serializable {
 
+    @OneToMany(mappedBy = "idNetwork")
+    private List<Subnet> subnetList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -210,6 +213,15 @@ public class Network implements Serializable {
     @Override
     public String toString() {
         return "entities.Network[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Subnet> getSubnetList() {
+        return subnetList;
+    }
+
+    public void setSubnetList(List<Subnet> subnetList) {
+        this.subnetList = subnetList;
     }
 
 }

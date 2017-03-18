@@ -11,9 +11,7 @@
         <p:dialog id="MeterEditDlg" widgetVar="MeterEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMeterTitle}">
             <h:form id="MeterEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{meterController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditMeterLabel_idMeters}" for="idMeters" />
-                        <p:inputText id="idMeters" value="#{meterController.selected.idMeters}" title="#{bundle.EditMeterTitle_idMeters}" required="true" requiredMessage="#{bundle.EditMeterRequiredMessage_idMeters}"/>
+                    <p:panelGrid columns="2" rendered="#{meterController.selected != null}">                     
                         <p:outputLabel value="#{bundle.EditMeterLabel_type}" for="type" />
                         <p:inputText id="type" value="#{meterController.selected.type}" title="#{bundle.EditMeterTitle_type}" />
                         <p:outputLabel value="#{bundle.EditMeterLabel_unit}" for="unit" />

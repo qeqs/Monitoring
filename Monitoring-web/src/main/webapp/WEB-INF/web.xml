@@ -4,6 +4,15 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <filter>
+        <filter-name>html5-cors</filter-name>
+        <filter-class>monitoringweb.beans.rest.swagger.HTML5CorsFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>html5-cors</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>       
@@ -33,6 +42,42 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/menupage.xhtml</welcome-file>
+        <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    
+    
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>secureDomain</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/loginerror.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    
+    <security-constraint>
+        <display-name>Main Pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Area</web-resource-name>
+            <description></description>
+            <url-pattern>/faces/menu/*</url-pattern>
+            <url-pattern>/faces/menupage.xhtml</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>CONFIRMEDUSER</role-name>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    
+   
+    
 </web-app>

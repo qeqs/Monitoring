@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProfileCreateDlg" widgetVar="ProfileCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePolicyTitle}">
+            <h:form id="ProfileCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profileController.selected != null}">
+                        
+                        <p:outputLabel value="Name" for="name" />
+                        <p:inputText id="name" value="#{profileController.selected.name}" required="true" requiredMessage = "Name is required" />
+                        <p:outputLabel value="Settings" for="idSettings" />
+                        <p:selectOneMenu id="idSettings" value="#{profileController.selected.idSettings}" >
+                        <f:selectItems value="#{settingsController.itemsAvailableSelectOne}"
+                                           var="idSettings"
+                                           itemValue="#{idSettings}"
+                                           itemLabel="#{idSettings.osUsername}"/>
+                        </p:selectOneMenu>
+                        
+                           <p:outputLabel value="Policy List" for="policyList" />
+                           <p:selectOneMenu id="policyList" value="#{profileController.selected.idPolicyList}" >
+                        <f:selectItems value="#{policyListController.itemsAvailableSelectOne}"
+                                           var="policyList"
+                                           itemValue="#{policyList}"
+                                           itemLabel="#{policyList.name}"/>
+                        </p:selectOneMenu>
+                          
+                           <p:outputLabel value="SNMP" for="SNMP" />
+                           <p:selectOneMenu id="SNMP" value="#{profileController.selected.idSnmp}" >
+                        <f:selectItems value="#{snmpController.itemsAvailableSelectOne}"
+                                           var="SNMP"
+                                           itemValue="#{SNMP}"
+                                           itemLabel="#{SNMP.target}"/>
+                        </p:selectOneMenu>
+                        
+                            <p:outputLabel value="VNF" for="vnf" />
+                            <p:selectOneMenu id="vnf" value="#{profileController.selected.idVnf}" >
+                         <f:selectItems value="#{vnfController.itemsAvailableSelectOne}"
+                                           var="item"
+                                           itemValue="#{vnf}"
+                                           itemLabel="#{vnf.name}"/>
+                        </p:selectOneMenu>
+                             
+                    </p:panelGrid>
+                    <p:commandButton id="createBut" action="#{profileController.create}" value="#{bundle.Save}" update="display,:ProfileForm" oncomplete="handleSubmit(args,'ProfileCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ProfileCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

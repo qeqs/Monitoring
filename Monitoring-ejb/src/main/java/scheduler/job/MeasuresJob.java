@@ -1,7 +1,6 @@
 package scheduler.job;
 
 import adapters.Adapter;
-import adapters.OpenStackAdapter;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
@@ -33,24 +32,22 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
-            if (adapter == null || meters == null || controller == null || profile == null || type == null) {
-                return;
-            }
-            boolean isSnmp = type.equals(AdapterType.Snmp);
+            boolean isSnmp = type == AdapterType.Snmp;
 
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
                 if (isSnmp) {
                     controller.storeMeasure(adapter.getMeasure(meter), profile);
                 }
-                for (Measure measure : ((OpenStackAdapter) adapter).getMeasureList(meter, new Date())) {
+                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
                     controller.storeMeasure(measure, profile);
                 }
             }
-
-        } catch (Exception exception) {
-            System.out.println("WARNING! scheduler.MeasuresJob.execute() " + exception.getLocalizedMessage());
+        } catch (Exception ex) {
+            System.err.println("ERROR MeasureJob "+ type);
+            //ex.printStackTrace();
         }
+
     }
 
 }

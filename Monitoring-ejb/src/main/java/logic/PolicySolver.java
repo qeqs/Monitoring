@@ -17,8 +17,10 @@ public class PolicySolver {
     @EJB
     EventController controller;
 
-    public void solve(Measure measure, Profile profile) {     
-        
+    public void solve(Measure measure, Profile profile) {
+        if (profile.getIdPolicyList() == null || profile.getIdPolicyList().getPolicyList() == null) {
+            return;
+        }
         List<Policy> policies = profile.getIdPolicyList().getPolicyList();//policyFacade.findAllByUserAndMeter(measure.getIdMeter(), measure.getUserId());
         for (Policy policy : policies) {
             if (policy.getEnabled() && policy.getIdPolicylist().getEnabled()) {

@@ -15,8 +15,8 @@ import dao.MeasureFacade;
 import dao.MetersFacade;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
-//import entities.Pm;
-//import entities.Vm;
+import controllers.rmi.entities.Profile;
+import java.util.Date;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.*;
 
@@ -31,14 +31,15 @@ public class JSONController implements Serializable {
     
     private JSONObject json;
     private Meter meter;
-    private Object vm;
-    private Object pm;
+    private Profile profile;
+    private Object resource;
     private StringBuilder title;
     private List<List<Measure>> measureLists;
     private boolean valueChanged;
     private GraphicType type;
     private AnimationType animation;
     private boolean timerStarted;
+    private int timeForMeasure; //minutes
   
     @EJB
     private MeasureFacade measureFacade;
@@ -55,29 +56,32 @@ public class JSONController implements Serializable {
         timerStarted=false;
     }
     
+     public void setTimeForMeasure(int timeForMeasure)
+    {
+        this.timeForMeasure = timeForMeasure;
+    }
+    public int getTimeForMeasure()
+    {
+        return timeForMeasure;
+    }
+    
      public void setMeter(Meter meter) {
         this.meter = meter;
     }
 
-    public void setVm(Object vm) {
-        this.vm = vm;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
-
-    public void setPm(Object pm) {
-        this.pm = pm;
-    }
-
+ 
     public Meter getMeter() {
         return meter;
     }
 
-    public Object getVm() {
-        return vm;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public Object getPm() {
-        return pm;
-    }
+
      public void setTitle(StringBuilder title) {
         this.title = title;
     }
@@ -89,9 +93,9 @@ public class JSONController implements Serializable {
             title.append(" ");
             title.append(meter.getName());
         }
-        if(vm!=null){
+        if(profile!=null){
             title.append(" ");
-            //title.append(vm.getName());
+            title.append(profile.getName());
          }      
         return title;
     }
@@ -185,47 +189,42 @@ public class JSONController implements Serializable {
     private void setMeasureList() {
         measureLists.clear();
         List<Measure> current = new ArrayList();
-        if (meter == null && pm == null && vm == null) {
-            for (Meter m : meterFacade.findAll()) {
-                current = measureFacade.findAllForMeterOrderedByTime(m);
-                if (!current.isEmpty()) {
-                    measureLists.add(current);
-                }
-            }
-        } else if (meter == null && pm != null && vm != null) {
-            for (Meter met : meterFacade.findAll()) {
-                //current = measureFacade.findByVmAndMetOrderedByTime(vm, met);
-                if (!current.isEmpty()) {
-                    measureLists.add(current);
-                }
-            }
-        } else if (meter == null && pm != null && vm == null) {
-            for (Meter met : meterFacade.findAll()) {
-                //current = measureFacade.findByPmAndMetOrderedByTime(pm, met);
-                if (!current.isEmpty()) {
-                    measureLists.add(current);
-                }
-            }
-        } else if (meter != null && pm == null && vm == null) {
-            current = measureFacade.findAllForMeterOrderedByTime(meter);
-            if (!current.isEmpty()) {
-                measureLists.add(current);
-            }
-        } else if (meter != null && pm != null && vm == null) {
-            //current = measureFacade.findByPmAndMetOrderedByTime(pm, meter);
-            if (!current.isEmpty()) {
-                measureLists.add(current);
-            }
-        } //пока не знаю, нужен ли этот кейс, показывать список всех vm без pm
-        //или его следует разбить на два, тк может быть метрика, у которой в recource будет pm
-        else if (meter != null && vm != null) {
-            //current = measureFacade.findByVmAndMetOrderedByTime(vm, meter);
-            if (!current.isEmpty()) {
-                measureLists.add(current);
-            }
-        }
         
+        Date date = new Date(new Date().getTime()-timeForMeasure*60*1000);
+        
+        if (meter == null && profile == null) {
+            for (Meter m : meterFacade.findAll()) {
+                    current = measureFacade.findAllForMeterOrderedByTimeForTime(m,date);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }
+            }
+        } 
+        else if (meter == null && profile != null ) {
+            for (Meter met : meterFacade.findAll()) {
+                 current = measureFacade.findAllForMeterAndProfileForTime(met,profile,date);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }
+            }
+        } 
+          else if (meter != null && profile == null ) {
+                 current = measureFacade.findAllForMeterOrderedByTimeForTime(meter,date);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }        
+        } 
+        
+        
+         else if (meter != null && profile != null ) {
+                    current = measureFacade.findAllForMeterAndProfileForTime(meter,profile,date);
+                if (!current.isEmpty()) {
+                    measureLists.add(current);
+                }            
+        } 
+
     }
+
     
     public void changeAnimationToNone(){
         this.animation=AnimationType.none;
@@ -287,30 +286,28 @@ public class JSONController implements Serializable {
     public JSONObject createX() throws JSONException{
         JSONObject x = new JSONObject();
         x.put("type", "datetime");
-        x.put("minRange", 0.5);
+        x.put("minRange", 0.05);
         return x;
     
     }
     
     private JSONArray createSeries() throws JSONException{
         JSONArray series = new JSONArray();
-        for(List<Measure> list:measureLists)
-        {
-            
-        JSONObject line = new JSONObject();
-        JSONArray points=new JSONArray();
+        for(List<Measure> list : measureLists)
+        {   
+             JSONObject line = new JSONObject();
+             JSONArray points=new JSONArray();
       
-       for(Measure m : list)
-       {
-           JSONObject point= new JSONObject();
-           point.put("x", m.getTstamp().getTime());
-           point.put("y", m.getValue());
-           point.put("name", m.getTstamp().toString()+m.getIdMeasure());
-           points.put(point);
-       
-       }
+                for(Measure m : list)
+                   {
+                    JSONObject point= new JSONObject();
+                    point.put("x", m.getTstamp().getTime());
+                    point.put("y", m.getValue());
+                    point.put("name", m.getTstamp().toString()+m.getResource());
+                    points.put(point);       
+                    }
 
-        line.put("data", points);
+         line.put("data", points);
           switch(type){
             case line:
                line.put("type", "line");
@@ -328,7 +325,7 @@ public class JSONController implements Serializable {
                 line.put("type", "column");
                 break;
         }
-        line.put("name", "");
+        line.put("name", list.get(0).getIdMeter().getName());
         series.put(line);
         }
         return series;
@@ -339,7 +336,7 @@ public class JSONController implements Serializable {
         JSONObject line = new JSONObject();
         JSONObject marker = new JSONObject();
         JSONObject series = new JSONObject();
-        marker.put("radius",4);
+        marker.put("radius",3);
         marker.put("enabled", true);
         line.put("marker", marker);
         series.put("animation", false);
