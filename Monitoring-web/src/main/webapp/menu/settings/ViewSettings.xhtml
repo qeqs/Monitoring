@@ -37,7 +37,7 @@
                  <f:facet name="footer">
                       <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{settingsController.prepareCreate}" update=":SettingsCreateForm" oncomplete="PF('SettingsCreateDialog').show()"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SettingsEditForm" oncomplete="PF('SettingsEditDialog').show()" disabled="#{empty settingsController.selected}"/>
-                  <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{settingsController.destroy}" update="datalist" disabled="#{empty settingsController.selected}"/>
+                  <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{settingsController.destroy}" update="datalist,:growl" disabled="#{empty settingsController.selected}"/>
                  </f:facet>
             </p:dataTable> 
              

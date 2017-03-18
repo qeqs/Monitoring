@@ -43,7 +43,7 @@
                  <f:facet name="footer">
                      <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{policyController.prepareCreate}" update=":PoliciesCreateForm" oncomplete="PF('PolicyCreateDialog').show()"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PolicyEditForm" oncomplete="PF('PolicyEditDialog').show()" disabled="#{empty policyController.selected}"/>
-                   <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{policyController.destroy}" update="datalist" disabled="#{empty policyController.selected}"/>
+                   <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{policyController.destroy}" update="datalist,:growl" disabled="#{empty policyController.selected}"/>
                  </f:facet>
             </p:dataTable> 
              

@@ -48,7 +48,7 @@
                                            itemLabel="#{idPolicylistItem.name}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{policyController.update}" value="#{bundle.Save}" update="display,:PoliciesForm:datalist" oncomplete="handleSubmit(args, 'PolicyEditDialog');"/>
+                    <p:commandButton actionListener="#{policyController.update}" value="#{bundle.Save}" update="display,:PoliciesForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

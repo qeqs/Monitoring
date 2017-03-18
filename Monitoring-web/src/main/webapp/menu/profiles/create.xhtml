@@ -47,7 +47,7 @@
                         </p:selectOneMenu>
                              
                     </p:panelGrid>
-                    <p:commandButton id="createBut" action="#{profileController.create}" value="#{bundle.Save}" update="display,:ProfileForm" oncomplete="handleSubmit(args,'ProfileCreateDialog');"/>
+                    <p:commandButton id="createBut" action="#{profileController.create}" value="#{bundle.Save}" update="display,:ProfileForm,:growl" oncomplete="handleSubmit(args,'ProfileCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ProfileCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

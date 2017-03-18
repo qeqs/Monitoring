@@ -16,7 +16,7 @@
                     <p:inputText id="target" value="#{snmpController.selected.target}" required="true" />
                     <p:outputLabel value="Community" for="community" />
                     <p:inputText id="community" value="#{snmpController.selected.community}" required="true" />
-                        <p:commandButton actionListener="#{snmpController.update}" value="#{bundle.Save}" update="display,:SNMPForm:datalist" oncomplete="handleSubmit(args, 'SNMPEditDialog');"/>
+                        <p:commandButton actionListener="#{snmpController.update}" value="#{bundle.Save}" update="display,:SNMPForm:datalist,:growl" oncomplete="handleSubmit(args, 'SNMPEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('SNMPEditDialog').hide()"/>
                     </p:panelGrid>
                 </h:panelGroup>

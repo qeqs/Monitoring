@@ -29,7 +29,7 @@
                         <p:inputText id="tenantName" value="#{settingsController.selected.tenantName}" />
                         
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{settingsController.create}" value="#{bundle.Save}" update="display,:SettingsForm:datalist" oncomplete="handleSubmit(args,'SettingsCreateDialog');"/>
+                    <p:commandButton actionListener="#{settingsController.create}" value="#{bundle.Save}" update="display,:SettingsForm:datalist,:growl" oncomplete="handleSubmit(args,'SettingsCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SettingsCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

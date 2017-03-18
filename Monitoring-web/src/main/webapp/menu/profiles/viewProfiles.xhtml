@@ -54,7 +54,7 @@
                   <f:facet name="footer">
                      <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{profileController.prepareCreate}" update=":ProfileCreateForm" oncomplete="PF('ProfileCreateDialog').show()"/>
                      <p:commandButton id="editButton" icon="ui-icon-plus"   value="#{bundle.Edit}" update=":ProfileEditForm" oncomplete="PF('ProfileEditDialog').show()" disabled="#{empty profileController.selected}"/>
-                     <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{profileController.destroy}" update="datalist" disabled="#{empty profileController.selected}"/>
+                     <p:commandButton id="deleteButton" icon="ui-icon-plus"   value="#{bundle.Delete}" actionListener="#{profileController.destroy}" update="datalist,:growl" disabled="#{empty profileController.selected}"/>
                   </f:facet>
             </p:dataTable> 
              

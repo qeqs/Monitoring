@@ -52,7 +52,7 @@
                         <f:facet name="footer">
                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{eventController.prepareCreate}" update=":EventCreateForm" oncomplete="PF('EventCreateDialog').show()"/>                          
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EventEditForm" oncomplete="PF('EventEditDialog').show()" disabled="#{empty eventController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{eventController.destroy}" update="datalist" disabled="#{empty eventController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{eventController.destroy}" update="datalist,:growl" disabled="#{empty eventController.selected}"/>
                         </f:facet>
                     </p:dataTable>
             </h:form>

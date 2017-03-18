@@ -16,7 +16,7 @@
                     <p:outputLabel value="Community" for="community" />
                     <p:inputText id="community" value="#{snmpController.selected.community}" required="true" />
                     </p:panelGrid>
-                    <p:commandButton id="createBut" action="#{snmpController.create}" value="#{bundle.Save}" update="display,:SNMPForm" oncomplete="handleSubmit(args,'SNMPCreateDialog');"/>
+                    <p:commandButton id="createBut" action="#{snmpController.create}" value="#{bundle.Save}" update="display,:SNMPForm,:growl" oncomplete="handleSubmit(args,'SNMPCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SNMPCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

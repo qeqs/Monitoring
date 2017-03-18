@@ -24,7 +24,7 @@
                             
                         </p:selectManyMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{eventController.create}" value="#{bundle.Save}" update="display,:EventListForm:datalist" oncomplete="handleSubmit(args,'EventCreateDialog');"/>
+                    <p:commandButton actionListener="#{eventController.create}" value="#{bundle.Save}" update="display,:EventListForm:datalist,:growl" oncomplete="handleSubmit(args,'EventCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EventCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

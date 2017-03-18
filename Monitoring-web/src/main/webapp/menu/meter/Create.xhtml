@@ -22,7 +22,7 @@
                         <p:outputLabel value="#{bundle.CreateMeterLabel_name}" for="name" />
                         <p:inputText id="name" value="#{meterController.selected.name}" title="#{bundle.CreateMeterTitle_name}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{meterController.create}" value="#{bundle.Save}" update="display,:MetersForm:datalist" oncomplete="handleSubmit(args,'MeterCreateDialog');"/>
+                    <p:commandButton actionListener="#{meterController.create}" value="#{bundle.Save}" update="display,:MetersForm:datalist,:growl" oncomplete="handleSubmit(args,'MeterCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="MeterCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -28,7 +28,7 @@
                         <p:inputText id="tenantName" value="#{settingsController.selected.tenantName}" />
                         
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{settingsController.update}" value="#{bundle.Save}" update="display,:SettingsForm:datalist" oncomplete="handleSubmit(args, 'SettingsEditDialog');"/>
+                    <p:commandButton actionListener="#{settingsController.update}" value="#{bundle.Save}" update="display,:SettingsForm:datalist,:growl" oncomplete="handleSubmit(args, 'SettingsEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SettingsEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

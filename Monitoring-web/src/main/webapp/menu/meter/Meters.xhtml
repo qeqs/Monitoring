@@ -61,7 +61,7 @@
                         <f:facet name="footer">
                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{meterController.prepareCreate}" update=":MeterCreateForm" oncomplete="PF('MeterCreateDialog').show()"/>               
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MeterEditForm" oncomplete="PF('MeterEditDialog').show()" disabled="#{empty meterController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{meterController.destroy}" update="datalist" disabled="#{empty meterController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{meterController.destroy}" update="datalist,:growl" disabled="#{empty meterController.selected}"/>
                         </f:facet>
                     </p:dataTable>
             </h:form>
