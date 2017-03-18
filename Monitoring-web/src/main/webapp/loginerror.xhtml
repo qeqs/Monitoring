@@ -4,12 +4,13 @@
       xmlns:p="http://primefaces.org/ui" 
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
-        <title>"Error" </title>
+        <title>"#{bundle.LoginErrorPage_HEADER}" </title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
     </h:head>
     <h:body>
         <p:panel header="Login Error">
-        "Error"
+            #{bundle.LoginErrorPage_ERROR_TEXT_FIRSTLINE}<br />#{bundle.LoginErrorPage_ERROR_TEXT_SECONDLINE} <br />
+            <a href="#{facesContext.externalContext.requestContextPath}/" >#{bundle.LoginErrorPage_HREF_BACK_TEXT}</a>
         </p:panel>
     </h:body>
 </html>

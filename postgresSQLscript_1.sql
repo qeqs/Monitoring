@@ -10,34 +10,6 @@ gather_type character(100),
 constraint PK_Meters primary key (id_meters)
 );
 
-create table Profile
-(
-id_profile character(100) primary key,
-id_settings character(100),
-id_vnf character(100),
-id_policy_list character(100),
-id_snmp character(100),
-name character(200),
-constraint FK_Policy_List foreign key (id_policy_list) references Policy_List(id_policyList),
-constraint FK_Settings foreign key (id_settings) references Settings(id_settings),
-constraint FK_Snmp foreign key (id_snmp) references Snmp_Settings(id_snmp),
-constraint FK_Vnf foreign key (id_vnf) references vnf(id)
-);
-CREATE TABLE Measure
-(
-id_Measure character(100),
-value float,
-tstamp timestamp,
-id_meter character(100),
-user_id character(100),
-resource character(100),
-id_profile character(100),
-source character(100),
-constraint PK_Measure primary key (id_Measure),
-constraint FK_Meters foreign key (id_meter) references Meters(id_meters),
-constraint FK_MeasuresProfile foreign key (id_profile) references Profile(id_profile)
-);
-
 CREATE TABLE Event
 (
 id_event character(100),
@@ -47,7 +19,6 @@ priority character(100),
 description character(100),
 constraint PK_Event primary key (id_event)
 );
-
 
 CREATE TABLE Policy_List
 (
@@ -101,24 +72,39 @@ target character(100),
 constraint PK_SNMP primary key(id_snmp)
 );
 
-CREATE TABLE Users(
-uid VARCHAR(255) PRIMARY KEY,
-username VARCHAR(255) UNIQUE NOT NULL, 
-profiles integer,
-passwd VARCHAR(255));
-
-create table users_profiles
+create table Profile
 (
-id_profile character(100),
-uid varchar(255),
-primary key (id_profile,uid),
-constraint FK_users foreign key (uid) references Users(uid),
-constraint FK_profiles foreign key (id_profile) references Profile(id_profile)
+id_profile character(100) primary key,
+id_settings character(100),
+id_vnf character(100),
+id_policy_list character(100),
+id_snmp character(100),
+name character(200),
+constraint FK_Policy_List foreign key (id_policy_list) references Policy_List(id_policyList),
+constraint FK_Settings foreign key (id_settings) references Settings(id_settings),
+constraint FK_Snmp foreign key (id_snmp) references Snmp_Settings(id_snmp),
+constraint FK_Vnf foreign key (id_vnf) references vnf(id)
 );
 
-
+CREATE TABLE Users(
+username VARCHAR(255) PRIMARY KEY,
+email VARCHAR(255),
+first_name VARCHAR(255),
+last_name VARCHAR(255), 
+passwd VARCHAR(255),
+issocial boolean);
 
 CREATE TABLE UserRoles(
 username VARCHAR(255), 
 role VARCHAR(32),
 primary key (username,role)); 
+
+create table users_profiles
+(
+id_profile character(100),
+username varchar(255),
+primary key (id_profile,username),
+constraint FK_users foreign key (username) references Users(username),
+constraint FK_profiles foreign key (id_profile) references Profile(id_profile)
+);
+

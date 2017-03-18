@@ -1,15 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
 
-    <body>
-               
-            <h:outputText value="#{bundle.AppName}"></h:outputText>
-           <br/>
-          <p:link outcome="menupage" value="Войти" /><br />
-    </body>
+    <h:head>
+        <title>#{bundle.FirstPage_TITLE}</title>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <script src="https://apis.google.com/js/platform.js"></script>
+        <meta name="google-signin-client_id" content="676481533886-1got6nig4kk29i1rhk9b0cvuacruaku2.apps.googleusercontent.com"/>
+    </h:head>
+    <h:body>
+        <p:panel header="#{bundle.FirstPage_HEADER}" style="margin: 0 auto">
+            <p:link outcome="menupage" value="#{bundle.FirstPage_LOGIN_TEXT}" /><br />
+            <p:link outcome="RegisterArea/index" value="#{bundle.FirstPage_REGISTER_TEXT}" /><br/><br/>
+            <h:form>
+                <h:commandLink action="#{googleAuth.authorize()}" title="Google" id="googleLogin" style="text-decoration: none">
+                    <img src="http://www.trafficrules.com.ua/habrapack/google.png" height="30" width="30" alt="Google" />
+                </h:commandLink>
+                <h:commandLink action="#{fbAuth.authorize()}" title="Facebook" id="facebookLogin" style="text-decoration: none">
+                    <img src="http://www.trafficrules.com.ua/habrapack/facebook.png" height="30" width="30" alt="Facebook" />
+                </h:commandLink>
+                <h:commandLink action="#{vkAuth.authorize()}" title="VK" id="vkLogin" style="text-decoration: none">
+                    <img src="http://www.trafficrules.com.ua/habrapack/vk.png" height="30" width="30" alt="Vkontakte" />
+                </h:commandLink>
+            </h:form>
 
+        </p:panel>
+    </h:body>
 </html>

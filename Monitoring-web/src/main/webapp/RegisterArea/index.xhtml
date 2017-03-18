@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>#{bundle.RegisterAreaMain_TITLE}</title>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <p:panel header="#{bundle.RegisterAreaMain_HEADER}">
+            <h:form id="registerForm">
+                <h:panelGrid id="grid" columns="3"> 
+                    <p:outputLabel value="#{bundle.RegisterAreaMain_LOGIN}" />
+                    <p:inputText id="login" value="#{user.login}"
+                                 required="true" requiredMessage="#{bundle.RegisterAreaMain_LOGIN_REQUIRED_MSG}" />
+                    <p:message for="login" style="color:red" />
+
+                    <p:outputLabel value="#{bundle.RegisterAreaMain_FIRST_NAME}" />
+                    <p:inputText id="fname" value="#{user.firstName}"
+                                 required="false" />
+                    <p:message for="fname" style="color:red" />
+
+                    <p:outputLabel value="#{bundle.RegisterAreaMain_LAST_NAME}" />
+                    <p:inputText id="lname" value="#{user.lastName}"
+                                 required="false"/>
+                    <p:message for="lname" style="color:red" />
+
+                    <p:outputLabel value="#{bundle.RegisterAreaMain_EMAIL}" />
+                    <p:inputText id="email" value="#{user.email}"
+                                 required="false"/>
+                    <p:message for="email" style="color:red" />
+
+                    <p:outputLabel value="#{bundle.RegisterAreaMain_PASSWORD}" />
+                    <p:password id="psw" value="#{user.password}"
+                                required="true" requiredMessage="#{bundle.RegisterAreaMain_PASSWORD_REQUIRED_MSG}" />
+                    <p:message for="psw" style="color:red" />
+                </h:panelGrid>
+                
+                <p:commandButton value="#{bundle.RegisterAreaMain_REGISTER_BUTTON}" action="#{user.add}" update="grid"/><br/><br/>
+                <p:link outcome="/index" value="#{bundle.RegisterAreaMain_BACK_TEXT}" />
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>
+
