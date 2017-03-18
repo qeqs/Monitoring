@@ -43,10 +43,10 @@ public class FacebookAuthorization extends SocialNetworkAuthorization implements
     RegistrationBean regBean;
 
     public FacebookAuthorization() {
-        clientId = "277534266015132";
-        clientSecret = "8274e7a1ea7c271f98c857a026496fa4";
+        clientId = "1238815599547579";
+        clientSecret = "4d293a0354bb7bccb9725fc52614ae6a";
        // redirectUri = "https://localhost:8443/VNFManagerApp-web/faces/authSocial/authFacebook.xhtml";
-        redirectUri = "https://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authFacebook.xhtml";
+        redirectUri = "http://185.5.251.73:28080/Monitoring-web/faces/authSocial/authFacebook.xhtml";
         userInfoUrl = "https://graph.facebook.com/me";
         isError = false;
     }

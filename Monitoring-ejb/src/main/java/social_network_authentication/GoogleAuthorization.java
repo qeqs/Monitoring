@@ -51,10 +51,10 @@ public class GoogleAuthorization extends SocialNetworkAuthorization implements S
     RegistrationBean regBean;
 
     public GoogleAuthorization() {
-        clientId = "676481533886-1got6nig4kk29i1rhk9b0cvuacruaku2.apps.googleusercontent.com";
-        clientSecret = "VL4iZ3Pw_NMFB5SjegQq309z";
+        clientId = "917212436277-7f9l5b305t35ajrcvi1vgj8kojjk6102.apps.googleusercontent.com";
+        clientSecret = "7AXawWJ-60S2zVBbM5JJHruL ";
        // redirectUri = "https://localhost:8443/VNFManagerApp-web/faces/authSocial/authGoogle.xhtml";
-        redirectUri = "https://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authGoogle.xhtml";
+        redirectUri = "http://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authGoogle.xhtml";
         userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
         isError = false;
     }

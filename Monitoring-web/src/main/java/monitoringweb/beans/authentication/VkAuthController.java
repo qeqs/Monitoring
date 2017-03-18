@@ -81,7 +81,7 @@ public class VkAuthController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(username, password);
-            context.getExternalContext().redirect("../ConfirmedArea/instance.xhtml");
+            context.getExternalContext().redirect("../menupage.xhtml");
         } catch (ServletException ex) {
             Logger.getLogger(VkAuthController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

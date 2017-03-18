@@ -55,7 +55,7 @@ public class GoogleAuthController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(username, password);
-            context.getExternalContext().redirect("../ConfirmedArea/instance.xhtml");
+            context.getExternalContext().redirect("../menupage.xhtml");
         } catch (ServletException ex) {
             Logger.getLogger(GoogleAuthController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

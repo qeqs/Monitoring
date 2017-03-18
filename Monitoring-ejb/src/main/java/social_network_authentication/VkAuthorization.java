@@ -45,10 +45,10 @@ public class VkAuthorization extends SocialNetworkAuthorization implements Seria
     RegistrationBean regBean;
 
     public VkAuthorization() {
-        clientId = "5914745";
-        clientSecret = "3bXhLpFxrfQLqapZ3qGz";
+        clientId = "5933225";
+        clientSecret = "mD4sT0rbqE6FxPDmqKTK";
        // redirectUri = "https://localhost:8443/VNFManagerApp-web/faces/authSocial/authVk.xhtml";
-        redirectUri = "https://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authVk.xhtml";
+        redirectUri = "http://185.5.251.73:28080/Monitoring-web/faces/authSocial/authVk.xhtml";
         userInfoUrl = "https://api.vk.com/method/users.get";
         isError = false;
     }
