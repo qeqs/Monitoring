@@ -74,14 +74,17 @@ public class ProfileController implements Serializable {
         return selected;
     }
 
-    private List<User> prepareUserlist() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
-        User user = userdFacade.getUserByUsername(username);
+ 
+    private List<User> prepareUserlist(){
+        HttpServletRequest request = (
+                HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
+        String username = request.getRemoteUser(); 
+        User user = userdFacade.getUserByUsername(username); 
         List<User> list = new ArrayList();
         list.add(user);
         return list;
     }
+
 
     public void create() {
         try {
