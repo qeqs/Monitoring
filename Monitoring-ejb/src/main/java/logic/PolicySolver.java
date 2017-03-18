@@ -21,7 +21,7 @@ public class PolicySolver {
         if (profile.getIdPolicyList() == null || profile.getIdPolicyList().getPolicyList() == null) {
             return;
         }
-        List<Policy> policies = profile.getIdPolicyList().getPolicyList();//policyFacade.findAllByUserAndMeter(measure.getIdMeter(), measure.getUserId());
+        List<Policy> policies = profile.getIdPolicyList().getPolicyList();
         for (Policy policy : policies) {
             if (policy.getEnabled() && policy.getIdPolicylist().getEnabled()) {
                 double treshhold = policy.getTreshhold();

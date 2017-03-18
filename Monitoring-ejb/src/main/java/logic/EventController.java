@@ -1,4 +1,3 @@
-
 package logic;
 
 import java.util.ArrayList;
@@ -8,16 +7,17 @@ import rmi.Action;
 
 @Stateless
 public class EventController {
-    
-    
+
     ArrayList<Listener> listeners = new ArrayList<>();
-    
+
     public void storeEvent(Event event) {
         for (Listener listener : listeners) {
             listener.onStoreEvent(event);
         }
-        for(Action act: event.getActions()){
-            act.execute(event.getMeasure().getIdProfile());
+        if (event.getActions() != null) {
+            for (Action act : event.getActions()) {
+                act.execute(event.getMeasure().getIdProfile());
+            }
         }
     }
 
