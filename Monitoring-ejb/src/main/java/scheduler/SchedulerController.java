@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import org.quartz.CronExpression;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -92,11 +93,37 @@ public class SchedulerController {
         }
     }
 
+    /**
+     * создает новое расписание в планировщике (нужно еще связать с профилем)
+     * @param cronString собственно расписание, типа как в линуксе есть cron календарь
+     * @see http://www.quartz-scheduler.org/api/2.2.1/org/quartz/CronExpression.html
+     * @param calendarName просто любое имя, главное чтобы не совпадало с уже имеющимся в планировщике иначе плюнет эксепшн
+     * @throws ParseException
+     * @throws SchedulerException
+     */
     public void setCronCalendar(String cronString, String calendarName) throws ParseException, SchedulerException {
-        CronCalendar calendar = new CronCalendar(cronString);
+        setCronCalendar(new CronExpression(cronString), calendarName);
+    }
+    /**
+     * создает новое расписание в планировщике (нужно еще связать с профилем)
+     * @param cronString у этого класса юзер френдли интерфейс
+     * @see http://www.quartz-scheduler.org/api/2.2.1/org/quartz/CronExpression.html
+     * @param calendarName просто любое имя, главное чтобы не совпадало с уже имеющимся в планировщике иначе плюнет эксепшн
+     * @throws ParseException
+     * @throws SchedulerException
+     */
+    public void setCronCalendar(CronExpression cronString, String calendarName) throws ParseException, SchedulerException {
+        CronCalendar calendar = new CronCalendar(null);
+        calendar.setCronExpression(cronString);
         scheduler.addCalendar(calendarName, calendar, true, true);
     }
-
+    
+    /**
+     * привязывает профиль к календарю, можно привязать много профилей к одному календарю
+     * @param profile
+     * @param calendarName
+     * @throws SchedulerException
+     */
     public void linkCalendar(Profile profile, String calendarName) throws SchedulerException {
 
         MonitorTemplate temp = find(profile);

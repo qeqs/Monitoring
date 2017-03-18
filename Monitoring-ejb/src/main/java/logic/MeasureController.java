@@ -25,7 +25,7 @@ public class MeasureController {
             listener.onStoreMeasure(measure);
         }
         measureFacade.create(measure);
-       // solver.solve(measure, profile);
+        solver.solve(measure, profile);
     }
     public void clearMeasures(){
         measureFacade.deleteAll();
