@@ -80,7 +80,7 @@ public class MeasureFacade extends AbstractFacade<Measure> {
         em.createNamedQuery("Measure.deleteAll").executeUpdate();
     }
     public void deleteAllByUser(User userId){
-        em.createNamedQuery("Measure.deleteAllByUser").setParameter("userId", userId.getUid()).executeUpdate();        
+        em.createNamedQuery("Measure.deleteAllByUser").setParameter("userId", userId.getUsername()).executeUpdate();        
     }
     public void deleteAllBeforeDate(Date date){
         em.createNamedQuery("Measure.deleteAllBeforeDate").setParameter("date", date).executeUpdate();

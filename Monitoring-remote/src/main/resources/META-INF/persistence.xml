@@ -2,6 +2,22 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="virtualizationapp_Monitoring-remote_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>controllers.rmi.entities.Network_1</class>
+    <class>controllers.rmi.entities.Policy_1</class>
+    <class>controllers.rmi.entities.Userroles</class>
+    <class>controllers.rmi.entities.RouterInterface_1</class>
+    <class>controllers.rmi.entities.Meter_1</class>
+    <class>controllers.rmi.entities.User</class>
+    <class>controllers.rmi.entities.Measure_1</class>
+    <class>controllers.rmi.entities.SnmpSettings_1</class>
+    <class>controllers.rmi.entities.PolicyList_1</class>
+    <class>controllers.rmi.entities.Settings_1</class>
+    <class>controllers.rmi.entities.Profile</class>
+    <class>controllers.rmi.entities.Instance_1</class>
+    <class>controllers.rmi.entities.Subnet_1</class>
+    <class>controllers.rmi.entities.Event_1</class>
+    <class>controllers.rmi.entities.Router_1</class>
+    <class>controllers.rmi.entities.Vnf_1</class>
     <properties>
       <property name="eclipselink.session.customizer" value="controllers.rmi.entities.UUIDSequence"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Monitoring"/>
