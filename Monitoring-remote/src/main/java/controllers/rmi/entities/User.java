@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -21,51 +20,44 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-    , @NamedQuery(name = "User.findByUid", query = "SELECT u FROM User u WHERE u.uid = :uid")
     , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
-    , @NamedQuery(name = "User.findByProfiles", query = "SELECT u FROM User u WHERE u.profiles = :profiles")
-    , @NamedQuery(name = "User.findByPasswd", query = "SELECT u FROM User u WHERE u.passwd = :passwd")})
+    , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+    , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
+    , @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName")
+    , @NamedQuery(name = "User.findByPasswd", query = "SELECT u FROM User u WHERE u.passwd = :passwd")
+    , @NamedQuery(name = "User.findByIssocial", query = "SELECT u FROM User u WHERE u.issocial = :issocial")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @GeneratedValue(generator = "system-uuid")
-    @Size(min = 1, max = 255)
-    @Column(name = "uid")
-    private String uid;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "username")
     private String username;
-    @Column(name = "profiles")
-    private Integer profiles;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Недопустимый адрес электронной почты")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 255)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 255)
+    @Column(name = "first_name")
+    private String firstName;
+    @Size(max = 255)
+    @Column(name = "last_name")
+    private String lastName;
     @Size(max = 255)
     @Column(name = "passwd")
     private String passwd;
-    @ManyToMany(mappedBy = "usersList")
+    @Column(name = "issocial")
+    private Boolean issocial;
+    @ManyToMany(mappedBy = "userList")
     private List<Profile> profileList;
 
     public User() {
     }
 
-    public User(String uid) {
-        this.uid = uid;
-    }
-
-    public User(String uid, String username) {
-        this.uid = uid;
+    public User(String username) {
         this.username = username;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getUsername() {
@@ -76,12 +68,28 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Integer getProfiles() {
-        return profiles;
+    public String getEmail() {
+        return email;
     }
 
-    public void setProfiles(Integer profiles) {
-        this.profiles = profiles;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPasswd() {
@@ -90,6 +98,14 @@ public class User implements Serializable {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public Boolean getIssocial() {
+        return issocial;
+    }
+
+    public void setIssocial(Boolean issocial) {
+        this.issocial = issocial;
     }
 
     @XmlTransient
@@ -104,7 +120,7 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (uid != null ? uid.hashCode() : 0);
+        hash += (username != null ? username.hashCode() : 0);
         return hash;
     }
 
@@ -115,7 +131,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.uid == null && other.uid != null) || (this.uid != null && !this.uid.equals(other.uid))) {
+        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
             return false;
         }
         return true;
@@ -123,7 +139,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "controllers.rmi.entities.Users[ uid=" + uid + " ]";
+        return "controllers.rmi.entities.User[ username=" + username + " ]";
     }
 
 }

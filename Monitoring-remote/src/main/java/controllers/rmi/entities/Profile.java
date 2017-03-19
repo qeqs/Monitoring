@@ -27,25 +27,25 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Profile.findAll", query = "SELECT p FROM Profile p")
     , @NamedQuery(name = "Profile.findByIdProfile", query = "SELECT p FROM Profile p WHERE p.idProfile = :idProfile")
-    , @NamedQuery(name = "Profile.findByVnf", query = "SELECT p FROM Profile p WHERE p.idVnf = :vnf")})
+    , @NamedQuery(name = "Profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
 public class Profile implements Serializable {
-
-    @OneToMany(mappedBy = "idProfile", cascade = CascadeType.PERSIST)
-    private List<Measure> measureList;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @GeneratedValue(generator = "system-uuid")
     @Size(min = 1, max = 100)
     @Column(name = "id_profile")
+    @GeneratedValue(generator = "system-uuid")
     private String idProfile;
+    @Size(max = 200)
+    @Column(name = "name")
+    private String name;
     @JoinTable(name = "users_profiles", joinColumns = {
         @JoinColumn(name = "id_profile", referencedColumnName = "id_profile")}, inverseJoinColumns = {
-        @JoinColumn(name = "uid", referencedColumnName = "uid")})
+        @JoinColumn(name = "username", referencedColumnName = "username")})
     @ManyToMany
-    private List<User> usersList;
+    private List<User> userList;
     @JoinColumn(name = "id_policy_list", referencedColumnName = "id_policylist")
     @ManyToOne
     private PolicyList idPolicyList;
@@ -58,9 +58,8 @@ public class Profile implements Serializable {
     @JoinColumn(name = "id_vnf", referencedColumnName = "id")
     @ManyToOne
     private Vnf idVnf;
-    @Size(max = 200)
-    @Column(name = "name")
-    private String name;
+    @OneToMany(mappedBy = "idProfile",cascade = CascadeType.PERSIST)
+    private List<Measure> measureList;
 
     public Profile() {
     }
@@ -77,13 +76,21 @@ public class Profile implements Serializable {
         this.idProfile = idProfile;
     }
 
-    @XmlTransient
-    public List<User> getUsersList() {
-        return usersList;
+    public String getName() {
+        return name;
     }
 
-    public void setUsersList(List<User> usersList) {
-        this.usersList = usersList;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @XmlTransient
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     public PolicyList getIdPolicyList() {
@@ -118,14 +125,15 @@ public class Profile implements Serializable {
         this.idVnf = idVnf;
     }
 
-    public String getName() {
-        return name;
+    @XmlTransient
+    public List<Measure> getMeasureList() {
+        return measureList;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMeasureList(List<Measure> measureList) {
+        this.measureList = measureList;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -149,15 +157,6 @@ public class Profile implements Serializable {
     @Override
     public String toString() {
         return "controllers.rmi.entities.Profile[ idProfile=" + idProfile + " ]";
-    }
-
-    @XmlTransient
-    public List<Measure> getMeasureList() {
-        return measureList;
-    }
-
-    public void setMeasureList(List<Measure> measureList) {
-        this.measureList = measureList;
     }
 
 }

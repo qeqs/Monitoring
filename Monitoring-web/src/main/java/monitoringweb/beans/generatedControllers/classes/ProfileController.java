@@ -83,7 +83,7 @@ public class ProfileController implements Serializable {
     }
 
     public void create() {
-        selected.setUsersList(prepareUserlist());
+        selected.setUserList(prepareUserlist());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -91,7 +91,7 @@ public class ProfileController implements Serializable {
     }
 
     public void update() {
-        selected.setUsersList(prepareUserlist());
+        selected.setUserList(prepareUserlist());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProfileUpdated"));
 
     }
@@ -113,7 +113,7 @@ public class ProfileController implements Serializable {
         List<User> users;
         items = new ArrayList<>();
         for (Profile pr : profiles) {
-            users = pr.getUsersList();
+            users = pr.getUserList();
             if (users != null) {
                 for (User usr : users) {
                     if (usr.getUsername().equals(username)) {
