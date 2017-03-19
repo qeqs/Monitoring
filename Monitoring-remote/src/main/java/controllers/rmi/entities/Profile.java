@@ -3,6 +3,7 @@ package controllers.rmi.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Profile.findByVnf", query = "SELECT p FROM Profile p WHERE p.idVnf = :vnf")})
 public class Profile implements Serializable {
 
-    @OneToMany(mappedBy = "idProfile")
+    @OneToMany(mappedBy = "idProfile", cascade = CascadeType.PERSIST)
     private List<Measure> measureList;
 
     private static final long serialVersionUID = 1L;

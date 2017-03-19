@@ -57,7 +57,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     private TestAdapter testAdapter;
     private SnmpAdapter snmpAdapter;
 
-
     public void setRestAdapter(OpenStackAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
@@ -156,6 +155,14 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
 
     }
 
+    public void clear() throws SchedulerException {
+        for (Map.Entry<AdapterType, Trigger> entry : mainTriggers.entrySet()) {
+            scheduler.unscheduleJob(entry.getValue().getKey());
+        }
+
+        scheduler.unscheduleJob(expirationTrigger.getKey());
+    }
+
     private void init() throws SchedulerException {
         if (scheduler == null) {
             throw new SchedulerException("scheduler was not set");
@@ -187,7 +194,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                             .withIdentity(key.name() + JOB_NAME, JOB_GROUP_NAME)
                             .build();
                     jobMain.getJobDataMap().put("adapter", getAdapterImpl(key));
-                    jobMain.getJobDataMap().put("meters", metersFacade.findAll());
+                    jobMain.getJobDataMap().put("meters", metersFacade);
                     jobMain.getJobDataMap().put("profile", profile);
                     jobMain.getJobDataMap().put("controller", controller);
                     jobMain.getJobDataMap().put("type", key);
@@ -206,11 +213,11 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     }
 
     private Adapter getAdapterImpl(AdapterType type) {
-        
-        Adapter adapter=null;
-        switch(type){
+
+        Adapter adapter = null;
+        switch (type) {
             case Rest:
-                adapter= restAdapter;
+                adapter = restAdapter;
                 break;
             case Snmp:
                 adapter = snmpAdapter;

@@ -4,6 +4,7 @@ import adapters.Adapter;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
+import dao.MetersFacade;
 import java.util.Date;
 import java.util.List;
 import org.quartz.Job;
@@ -28,7 +29,7 @@ public class MeasuresJob implements Job {
         JobDataMap jdm = jec.getMergedJobDataMap();
         try {
             adapter = (Adapter) jdm.get("adapter");
-            meters = (List<Meter>) jdm.get("meters");
+            meters = ((MetersFacade) jdm.get("meters")).findAll();
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");

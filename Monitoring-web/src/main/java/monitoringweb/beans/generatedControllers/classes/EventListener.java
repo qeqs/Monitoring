@@ -4,14 +4,16 @@ import controllers.rmi.entities.Measure;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.persistence.PostLoad;
 import logic.Listener;
 import logic.events.Event;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 
 
-@Stateful
+@Singleton
+@Startup
 public class EventListener implements Serializable{
     @EJB
     private logic.EventController eventController;
