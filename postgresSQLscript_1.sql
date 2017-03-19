@@ -45,13 +45,19 @@ constraint FK_Meters foreign key (id_meter) references Meters(id_meters),
 constraint FK_Event foreign key (id_event) references Event(id_event),
 constraint FK_PolicyList foreign key (id_policyList) references Policy_List(id_policyList)
 );
-
-create table vnf(
-id varchar(255) primary key,
-createdat timestamp not null,
-modifiedat timestamp,
-name varchar(45),
-username varchar(255)
+CREATE TABLE Measure
+(
+id_Measure character(100),
+value float,
+tstamp timestamp,
+id_meter character(100),
+user_id character(100),
+resource character(100),
+id_profile character(100),
+source character(100),
+constraint PK_Measure primary key (id_Measure),
+constraint FK_Meters foreign key (id_meter) references Meters(id_meters),
+constraint FK_MeasuresProfile foreign key (id_profile) references Profile(id_profile)
 );
 
 CREATE TABLE Settings
