@@ -86,6 +86,7 @@ public class EventController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    selected.setAction(null);
                     getFacade().edit(selected);
                 } else {
                     getFacade().remove(selected);

@@ -58,7 +58,7 @@ public class SchedulerController {
     }
     public void restartAll() throws SchedulerException{
         for (MonitorTemplate monitor : monitors) {
-            monitor.restart();            
+            monitor.restart(profileFacade.findAll());            
         }
     }
     public void delete(Profile profile) throws SchedulerException{
