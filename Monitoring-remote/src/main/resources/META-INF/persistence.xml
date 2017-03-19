@@ -4,10 +4,10 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <properties>
       <property name="eclipselink.session.customizer" value="controllers.rmi.entities.UUIDSequence"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Monitoring"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Monitoring1"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="110371"/>
+      <property name="javax.persistence.jdbc.password" value="pass"/>
     </properties>
   </persistence-unit>
 </persistence>
