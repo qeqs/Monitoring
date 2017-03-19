@@ -54,7 +54,7 @@ public class GoogleAuthorization extends SocialNetworkAuthorization implements S
         clientId = "917212436277-7f9l5b305t35ajrcvi1vgj8kojjk6102.apps.googleusercontent.com";
         clientSecret = "7AXawWJ-60S2zVBbM5JJHruL ";
        // redirectUri = "https://localhost:8443/VNFManagerApp-web/faces/authSocial/authGoogle.xhtml";
-        redirectUri = "http://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authGoogle.xhtml";
+        redirectUri = "http://185.5.251.73:28080/Monitoring-web/faces/authSocial/authGoogle.xhtml";
         userInfoUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
         isError = false;
     }
@@ -103,18 +103,13 @@ public class GoogleAuthorization extends SocialNetworkAuthorization implements S
     }
 
 
-    public void authorize() {
+    public String authorize() {
         StringBuilder sb = new StringBuilder();
         sb.append("https://accounts.google.com/o/oauth2/auth?redirect_uri=");
         sb.append(redirectUri);
         sb.append("&response_type=code&client_id=");
         sb.append(clientId);
         sb.append("&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile");
-        try {
-            ec.redirect(sb.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(GoogleAuthorization.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
+        return sb.toString();
     }
 }

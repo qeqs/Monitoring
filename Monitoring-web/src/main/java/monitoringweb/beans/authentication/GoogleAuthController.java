@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,14 @@ public class GoogleAuthController implements Serializable {
     GoogleAuthorization googleBean;
 
     public void authorize() {
-        googleBean.authorize();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    
+        String redirectUri = googleBean.authorize();
+        try {
+            ec.redirect(redirectUri);
+        } catch (IOException ex) {
+            Logger.getLogger(GoogleAuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected String authCode;

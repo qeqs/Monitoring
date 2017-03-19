@@ -56,13 +56,7 @@ public class FacebookAuthorization extends SocialNetworkAuthorization implements
         String plainUrl = "https://www.facebook.com/dialog/oauth?client_id=" + clientId
                 + "&scope=user_about_me,user_status&redirect_uri=" + redirectUri
                 + "&state=" + state;
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(plainUrl);
-        } catch (IOException ex) {
-            Logger.getLogger(FacebookAuthorization.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return plainUrl;
     }
 
     @Override

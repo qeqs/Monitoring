@@ -63,14 +63,7 @@ public class VkAuthorization extends SocialNetworkAuthorization implements Seria
                 + "&scope=notify,status"
                 + "&redirect_uri=" + redirectUri
                 + "&response_type=code";
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(plainUrl);
-        } catch (IOException ex) {
-            Logger.getLogger(VkAuthorization.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return "";
+        return plainUrl;
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +29,15 @@ public class VkAuthController implements Serializable {
     VkAuthorization vkBean;
 
     public void authorize() {
-        vkBean.authorize();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    
+        String redirectUri = vkBean.authorize();
+        try {
+            ec.redirect(redirectUri);
+        } catch (IOException ex) {
+            Logger.getLogger(GoogleAuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
     protected String authCode;
     protected String error;
     protected String error_reason;
