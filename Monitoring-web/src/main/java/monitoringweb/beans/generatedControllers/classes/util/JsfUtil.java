@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import logic.events.Event;
+import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
 
@@ -71,6 +72,7 @@ public class JsfUtil {
         }
         FacesMessage facesMsg = new FacesMessage(severity, event.toString(), event.description());
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+        RequestContext.getCurrentInstance().update("growl");
     }
 
     public static void addSuccessMessage(String msg) {
