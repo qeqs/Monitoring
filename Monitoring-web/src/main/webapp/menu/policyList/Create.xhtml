@@ -12,12 +12,10 @@
             <h:form id="PolicyListCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_enabled}" for="enabled" />
-                        <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
                         <p:outputLabel value="#{bundle.CreatePolicyListLabel_name}" for="name" />
                         <p:inputText id="name" value="#{policyListController.selected.name}" title="#{bundle.CreatePolicyListTitle_name}" />
-                        <p:outputLabel value="#{bundle.CreatePolicyListLabel_uid}" for="uid" />
-                        <p:inputText id="uid" value="#{policyListController.selected.uid}" title="#{bundle.CreatePolicyListTitle_uid}" />
+                         <p:outputLabel value="#{bundle.CreatePolicyListLabel_enabled}" for="enabled" />
+                        <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{policyListController.create}" value="#{bundle.Save}" update="display,:PolicyListListForm:datalist,:growl" oncomplete="handleSubmit(args,'PolicyListCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyListCreateDialog.hide()"/>
