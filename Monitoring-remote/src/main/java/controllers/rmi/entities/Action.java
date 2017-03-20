@@ -1,6 +1,6 @@
-package rmi;
+package controllers.rmi.entities;
 
-import controllers.rmi.entities.Profile;
+
 
 public enum Action {
     CreateInstance {

@@ -5,7 +5,7 @@ import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Policy;
 import java.util.Date;
 import java.util.List;
-import rmi.Action;
+import controllers.rmi.entities.Action;
 
 public class Event {
 

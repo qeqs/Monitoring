@@ -6,6 +6,7 @@ import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistActi
 import dao.EventFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +19,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import logic.events.Severity;
+
 
 @Named("eventController")
 @SessionScoped
@@ -27,8 +30,21 @@ public class EventController implements Serializable {
     private EventFacade ejbFacade;
     private List<Event> items = null;
     private Event selected;
+    private List<String> listActions;
+
+    public List<String> getListActions() {
+        return listActions;
+    }
+
+    public void setListActions(List<String> listActions) {
+        this.listActions = listActions;
+    }
+    private List<Severity> priorities;
 
     public EventController() {
+        listActions = new ArrayList();
+        listActions.add("CreateInstance");
+        listActions.add("DeleteInstance");
     }
 
     public Event getSelected() {
@@ -54,6 +70,34 @@ public class EventController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
+    
+    public List<String> getActions(){
+     
+        return listActions;
+    }
+    
+     public void setActions( List<String> list){
+         this.listActions = list;
+    }
+     
+      public List<Severity> getPriorities(){
+       priorities = new ArrayList();
+       priorities.add(Severity.CLEAR);
+       priorities.add(Severity.INFO);
+       priorities.add(Severity.MINOR);
+       priorities.add(Severity.UNKNOWN);
+       priorities.add(Severity.MEDIUM);
+       priorities.add(Severity.WARNING);
+       priorities.add(Severity.MAJOR);
+       priorities.add(Severity.CRITICAL);
+        
+        return priorities;
+    }
+    
+     public void setPriorities( List<Severity> list){
+         this.priorities = list;
+    }
+
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));

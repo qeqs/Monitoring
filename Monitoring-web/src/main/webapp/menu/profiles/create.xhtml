@@ -38,8 +38,8 @@
                                            itemLabel="#{SNMP.target}"/>
                         </p:selectOneMenu>
                         
-                            <p:outputLabel value="VNF" for="vnf" />
-                            <p:selectOneMenu id="vnf" value="#{profileController.selected.idVnf}" >
+                          <p:outputLabel value="VNF" for="vnf" />
+                        <p:selectOneMenu id="vnf" value="#{profileController.selected.idVnf}" >
                          <f:selectItems value="#{vnfController.itemsAvailableSelectOne}"
                                            var="item"
                                            itemValue="#{vnf}"
@@ -47,7 +47,7 @@
                         </p:selectOneMenu>
                              
                     </p:panelGrid>
-                    <p:commandButton id="createBut" action="#{profileController.create}" value="#{bundle.Save}" update="display,:ProfileForm,:growl" oncomplete="handleSubmit(args,'ProfileCreateDialog');"/>
+                    <p:commandButton id="createBut" action="#{profileController.create}" value="#{bundle.Save}" update="display,:ProfileForm:datalist,:growl" oncomplete="handleSubmit(args,'ProfileCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ProfileCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -12,16 +12,19 @@
             <h:form id="MeterEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{meterController.selected != null}">   
-                        <p:inputText id="description" value="#{meterController.selected.description}" title="#{bundle.EditMeterTitle_description}" required="true" requiredMessage ="Name is required" />
+                        
                         <p:outputLabel value="#{bundle.EditMeterLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{meterController.selected.name}" title="#{bundle.EditMeterTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditMeterLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{meterController.selected.description}" title="#{bundle.EditMeterTitle_description}" required="true" requiredMessage ="Name is required" />
                         <p:outputLabel value="#{bundle.EditMeterLabel_type}" for="type" />
                         <p:inputText id="type" value="#{meterController.selected.type}" title="#{bundle.EditMeterTitle_type}" />
                         <p:outputLabel value="#{bundle.EditMeterLabel_unit}" for="unit" />
                         <p:inputText id="unit" value="#{meterController.selected.unit}" title="#{bundle.EditMeterTitle_unit}" />
                         <p:outputLabel value="OID" for="oid" />
                         <p:inputText id="oid" value="#{meterController.selected.oid}" />
-                        <p:outputLabel value="#{bundle.EditMeterLabel_description}" for="description" />
-                        <p:inputText id="name" value="#{meterController.selected.name}" title="#{bundle.EditMeterTitle_name}" />
+                 
+                        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{meterController.update}" value="#{bundle.Save}" update="display,:MetersForm:datalist,:growl" oncomplete="handleSubmit(args, 'MeterEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="MeterEditDialog.hide()"/>
