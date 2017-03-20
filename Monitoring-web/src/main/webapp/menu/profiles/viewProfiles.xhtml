@@ -21,15 +21,6 @@
                 </f:facet>
                 <p:column headerText="Profile Name">
                     <h:outputText value="#{item.name}"/>
-                </p:column>
-                    
-  
-         
-                      <p:column headerText="Profile Users coune">
-                          <h:outputText value="#{item.userList.size()}"/>
-                    
-                </p:column>
-                  
                 <p:column headerText="Settings">
                     <h:panelGrid columns="2" id="settGrid" > 
                         <h:outputText value="#{item.idSettings.osUsername}"  />
