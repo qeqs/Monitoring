@@ -61,7 +61,7 @@ public class SnmpAdapter implements Adapter {
             measure.setSource("snmp");
             measure.setIdMeter(meter);
             measure.setIdProfile(profile);
-
+            System.err.println("Created snmp measure with value " + measure.getValue());
         } catch (IOException ex) {
             Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -73,7 +73,8 @@ public class SnmpAdapter implements Adapter {
         }
         return measure;
     }
-    public Measure getMeasure(Meter meter, Date timestamp,Instance instance) {
+
+    public Measure getMeasure(Meter meter, Date timestamp, Instance instance) {
         Measure measure = new Measure();
         try {
             start();
@@ -183,6 +184,8 @@ public class SnmpAdapter implements Adapter {
     }
 
     private Target getTarget() {
+        if(profile==null||profile.getIdSnmp()==null||profile.getIdSnmp().getTarget()==null)
+            System.err.println("PROFILE NULL"+profile);
         return getTarget(profile.getIdSnmp().getTarget());
     }
 
