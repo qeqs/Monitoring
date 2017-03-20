@@ -47,7 +47,7 @@ public class TestAdapter implements Adapter {
             measure.setValue(75 - (Math.abs(random.nextDouble()*100)) % 50);
         }
         if(meter.getName().equals("memory")){
-            measure.setValue(500+(random.nextDouble()*1000) % 1000-(random.nextDouble()*1000) % 1000);            
+            measure.setValue(500+(random.nextDouble()*100) % 50-(random.nextDouble()*100) % 50);            
         }
         if(meter.getOid()!=null)
             return null;
@@ -79,7 +79,7 @@ public class TestAdapter implements Adapter {
     @Override
     public List<Measure> getMeasureList(Meter meter, Date timestamp) {
         ArrayList<Measure> list = new ArrayList<>();
-        for (int i = 0; i < new Random(new Date().getTime()).nextInt() % 10; i++) {
+        for (int i = 0; i < 1; i++) {
             list.add(getMeasure(meter, timestamp));
         }
         return list;
