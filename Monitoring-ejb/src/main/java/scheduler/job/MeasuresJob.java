@@ -5,7 +5,6 @@ import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
-import java.util.Date;
 import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -33,20 +32,19 @@ public class MeasuresJob implements Job {
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
-            boolean isSnmp = type == AdapterType.Snmp;
-            boolean isRest = type ==AdapterType.Rest;
 
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
-                if (!isRest) {
-                    controller.storeMeasure(adapter.getMeasure(meter), profile);
+                Measure measure = adapter.getMeasure(meter);
+                if (measure != null) {
+                    controller.storeMeasure(measure, profile);
                 }
 //                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
 //                    controller.storeMeasure(measure, profile);
 //                }
             }
         } catch (Exception ex) {
-            System.err.println("ERROR MeasureJob "+ type);
+            System.err.println("ERROR MeasureJob " + type);
             //ex.printStackTrace();
         }
 

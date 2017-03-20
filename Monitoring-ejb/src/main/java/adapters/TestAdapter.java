@@ -43,13 +43,11 @@ public class TestAdapter implements Adapter {
 
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
-        if (meter.getName().equals("cpu")) {
             measure.setValue(75 - (Math.abs(random.nextDouble() * 100)) % 50);
-        }
         if (meter.getName().equals("memory")) {
-            measure.setValue(500 + (random.nextDouble() * 100) % 50 - (random.nextDouble() * 100) % 50);
+            measure.setValue(500 + (random.nextDouble() * 100) % 4 - (random.nextDouble() * 100) % 4);
         }
-        if (meter.getOid() != null) {
+        if (meter.getOid() != null && !meter.getOid().equals("")) {
             return null;
         }
         measure.setIdMeter(meter);

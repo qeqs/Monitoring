@@ -226,9 +226,9 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
 
         Adapter adapter = null;
         switch (type) {
-            case Rest:
-                adapter = restAdapter;
-                break;
+//            case Rest:
+//                adapter = restAdapter;
+//                break;
             case Snmp:
                 adapter = snmpAdapter;
                 break;
