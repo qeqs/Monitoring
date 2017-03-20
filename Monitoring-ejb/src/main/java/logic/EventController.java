@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import logic.events.Event;
-import rmi.Action;
+import controllers.rmi.entities.Action;
 
 @Singleton
 @Startup

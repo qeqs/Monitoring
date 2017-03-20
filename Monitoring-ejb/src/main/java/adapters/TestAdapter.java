@@ -44,20 +44,17 @@ public class TestAdapter implements Adapter {
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
         if (meter.getName().equals("cpu")) {
-            measure.setValue(75 - (Math.abs(random.nextDouble()*100)) % 50);
+            measure.setValue(75 - (Math.abs(random.nextDouble() * 100)) % 50);
         }
-        if(meter.getName().equals("memory")){
-            measure.setValue(500+(random.nextDouble()*100) % 50-(random.nextDouble()*100) % 50);            
+        if (meter.getName().equals("memory")) {
+            measure.setValue(500 + (random.nextDouble() * 100) % 50 - (random.nextDouble() * 100) % 50);
         }
-        if(meter.getOid()!=null)
+        if (meter.getOid() != null) {
             return null;
+        }
         measure.setIdMeter(meter);
         measure.setSource("openstack");
-        if (profile.getIdVnf() != null && profile.getIdVnf().getInstanceList() != null) {
-            measure.setResource(profile.getIdVnf().getInstanceList().get(random.nextInt()%profile.getIdVnf().getInstanceList().size()-1).getIp());
-        } else {
-            measure.setResource(meter.getIdMeters());
-        }
+        measure.setResource(meter.getIdMeters());
         measure.setTstamp(timestamp);
         measure.setIdProfile(profile);
 

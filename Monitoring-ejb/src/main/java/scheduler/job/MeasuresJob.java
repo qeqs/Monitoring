@@ -34,15 +34,16 @@ public class MeasuresJob implements Job {
             profile = (Profile) jdm.get("profile");
             type = (AdapterType) jdm.get("type");
             boolean isSnmp = type == AdapterType.Snmp;
+            boolean isRest = type ==AdapterType.Rest;
 
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
-                if (isSnmp) {
+                if (!isRest) {
                     controller.storeMeasure(adapter.getMeasure(meter), profile);
                 }
-                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
-                    controller.storeMeasure(measure, profile);
-                }
+//                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
+//                    controller.storeMeasure(measure, profile);
+//                }
             }
         } catch (Exception ex) {
             System.err.println("ERROR MeasureJob "+ type);
