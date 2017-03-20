@@ -12,14 +12,10 @@
             <h:form id="PolicyListEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditPolicyListLabel_idPolicylist}" for="idPolicylist" />
-                        <p:inputText id="idPolicylist" value="#{policyListController.selected.idPolicylist}" title="#{bundle.EditPolicyListTitle_idPolicylist}" required="true" requiredMessage="#{bundle.EditPolicyListRequiredMessage_idPolicylist}"/>
+                        <p:outputLabel value="#{bundle.EditPolicyListLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{policyListController.selected.name}"  required ="true" requiredMessage="Name is required"/>
                         <p:outputLabel value="#{bundle.EditPolicyListLabel_enabled}" for="enabled" />
                         <p:selectBooleanCheckbox id="enabled" value="#{policyListController.selected.enabled}" />
-                        <p:outputLabel value="#{bundle.EditPolicyListLabel_name}" for="name" />
-                        <p:inputText id="name" value="#{policyListController.selected.name}" title="#{bundle.EditPolicyListTitle_name}" />
-                        <p:outputLabel value="#{bundle.EditPolicyListLabel_uid}" for="uid" />
-                        <p:inputText id="uid" value="#{policyListController.selected.uid}" title="#{bundle.EditPolicyListTitle_uid}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{policyListController.update}" value="#{bundle.Save}" update="display,:PolicyListListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PolicyListEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyListEditDialog.hide()"/>
