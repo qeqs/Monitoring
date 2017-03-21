@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package social_network_authentication;
 
 
@@ -13,14 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -45,10 +36,10 @@ public class VkAuthorization extends SocialNetworkAuthorization implements Seria
     RegistrationBean regBean;
 
     public VkAuthorization() {
-        clientId = "5914745";
-        clientSecret = "3bXhLpFxrfQLqapZ3qGz";
+        clientId = "5933225";
+        clientSecret = "mD4sT0rbqE6FxPDmqKTK";
        // redirectUri = "https://localhost:8443/VNFManagerApp-web/faces/authSocial/authVk.xhtml";
-        redirectUri = "https://185.5.251.73:28543/VNFManagerApp-web/faces/authSocial/authVk.xhtml";
+        redirectUri = "http://185.5.251.73:28080/Monitoring-web/faces/authSocial/authVk.xhtml";
         userInfoUrl = "https://api.vk.com/method/users.get";
         isError = false;
     }
@@ -63,14 +54,7 @@ public class VkAuthorization extends SocialNetworkAuthorization implements Seria
                 + "&scope=notify,status"
                 + "&redirect_uri=" + redirectUri
                 + "&response_type=code";
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            ec.redirect(plainUrl);
-        } catch (IOException ex) {
-            Logger.getLogger(VkAuthorization.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return "";
+        return plainUrl;
     }
 
     @Override

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package monitoringweb.beans.authentication;
 
 import java.io.IOException;
@@ -14,6 +9,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +24,14 @@ public class FacebookAuthController implements Serializable {
     FacebookAuthorization fbBean;
 
     public void authorize() {
-        fbBean.authorize();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    
+        String redirectUri = fbBean.authorize();
+        try {
+            ec.redirect(redirectUri);
+        } catch (IOException ex) {
+            Logger.getLogger(GoogleAuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected String authCode;
@@ -90,7 +93,7 @@ public class FacebookAuthController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(username, password);
-            context.getExternalContext().redirect("../ConfirmedArea/instance.xhtml");
+            context.getExternalContext().redirect("../menupage.xhtml");
         } catch (ServletException ex) {
             Logger.getLogger(FacebookAuthController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

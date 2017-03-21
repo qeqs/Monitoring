@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package monitoringweb.beans.authentication;
 
 import java.io.IOException;
@@ -14,6 +9,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +24,15 @@ public class VkAuthController implements Serializable {
     VkAuthorization vkBean;
 
     public void authorize() {
-        vkBean.authorize();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    
+        String redirectUri = vkBean.authorize();
+        try {
+            ec.redirect(redirectUri);
+        } catch (IOException ex) {
+            Logger.getLogger(GoogleAuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
     protected String authCode;
     protected String error;
     protected String error_reason;
@@ -81,7 +83,7 @@ public class VkAuthController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(username, password);
-            context.getExternalContext().redirect("../ConfirmedArea/instance.xhtml");
+            context.getExternalContext().redirect("../menupage.xhtml");
         } catch (ServletException ex) {
             Logger.getLogger(VkAuthController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

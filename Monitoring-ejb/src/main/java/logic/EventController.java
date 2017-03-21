@@ -22,6 +22,7 @@ public class EventController {
         return eventsRes;
     }
 
+
     public void storeEvent(Event event) {
         try {
             for (Listener listener : listeners) {

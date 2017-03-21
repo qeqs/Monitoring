@@ -38,7 +38,9 @@ public class EventListener implements Serializable {
     private Listener listener = new Listener() {
         @Override
         public void onStoreEvent(Event event) {
-            addMessage(event);
+            //JsfUtil.addMessage(event);
+
+          //  RequestContext.getCurrentInstance().update("GraphicsForm:graphPanel");
         }
 
         @Override
