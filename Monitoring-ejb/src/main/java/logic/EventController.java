@@ -13,7 +13,7 @@ import controllers.rmi.entities.Action;
 public class EventController {
 
     ArrayList<Listener> listeners = new ArrayList<>();
-
+   
     public void storeEvent(Event event) {
         try {
             for (Listener listener : listeners) {

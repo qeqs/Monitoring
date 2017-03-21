@@ -25,8 +25,9 @@ public class EventListener implements Serializable {
         @Override
         public void onStoreEvent(Event event) {
             //JsfUtil.addMessage(event);
-            //RequestContext.getCurrentInstance().update("growlEvents");
+           
             addMessage(event);
+          //  RequestContext.getCurrentInstance().update("GraphicsForm:graphPanel");
         }
 
         @Override
