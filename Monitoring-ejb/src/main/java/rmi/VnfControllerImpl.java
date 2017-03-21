@@ -55,6 +55,15 @@ public class VnfControllerImpl implements VnfControllerRemote {
             Logger.getLogger(VnfControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    @Override
+    public void delete(Vnf vnf){
+        if(vnf == null) return;
+        try {
+            schedulerController.delete(profileFacade.findProfileByVnf(vnf));
+        } catch (SchedulerException ex) {
+            Logger.getLogger(VnfControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public List<Vnf> getAllVnf() {
