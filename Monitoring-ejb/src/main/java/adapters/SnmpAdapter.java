@@ -52,8 +52,12 @@ public class SnmpAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(Meter meter, Date timestamp) {
+        if (meter.getOid() == null || meter.getOid().equals("")) {
+            return null;
+        }
         Measure measure = new Measure();
         try {
+
             start();
             measure.setValue((double) send(getTarget(), meter.getOid(), PDU.GET));
             measure.setTstamp(timestamp);
@@ -165,10 +169,10 @@ public class SnmpAdapter implements Adapter {
             if (event.getResponse().getErrorStatusText().equalsIgnoreCase("Success")) {
                 return event.getResponse().getVariableBindings().firstElement().getVariable().toInt();
             } else {
-                throw new IOException();
+                throw new IOException("No success in response(this is code error mesg)");
             }
         } else {
-            throw new IOException();
+            throw new IOException("NULL response (this is code error mesg)");
         }
     }
 
@@ -184,8 +188,9 @@ public class SnmpAdapter implements Adapter {
     }
 
     private Target getTarget() {
-        if(profile==null||profile.getIdSnmp()==null||profile.getIdSnmp().getTarget()==null)
-            System.err.println("PROFILE NULL"+profile);
+        if (profile == null || profile.getIdSnmp() == null || profile.getIdSnmp().getTarget() == null) {
+            System.err.println("PROFILE NULL " + profile);
+        }
         return getTarget(profile.getIdSnmp().getTarget());
     }
 

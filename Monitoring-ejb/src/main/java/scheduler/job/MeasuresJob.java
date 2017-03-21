@@ -27,11 +27,11 @@ public class MeasuresJob implements Job {
 
         JobDataMap jdm = jec.getMergedJobDataMap();
         try {
+            type = (AdapterType) jdm.get("type");
             adapter = (Adapter) jdm.get("adapter");
             meters = ((MetersFacade) jdm.get("meters")).findAll();
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
-            type = (AdapterType) jdm.get("type");
 
             for (Meter meter : meters) {
                 adapter.setProfile(profile);

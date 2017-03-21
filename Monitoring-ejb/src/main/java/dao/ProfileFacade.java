@@ -27,5 +27,10 @@ public class ProfileFacade extends AbstractFacade<Profile> {
                 .setParameter("vnf", vnf)
                 .getResultList().isEmpty();
     }
+    public Profile findProfileByVnf(Vnf vnf){
+        return (Profile) em.createNamedQuery("Profile.findByVnf")
+                .setParameter("vnf", vnf)
+                .getResultList().get(0);
+    }
 
 }
