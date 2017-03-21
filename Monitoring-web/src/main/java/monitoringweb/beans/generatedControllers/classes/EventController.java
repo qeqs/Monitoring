@@ -31,22 +31,31 @@ public class EventController implements Serializable {
     private List<Event> items = null;
     private Event selected;
     private List<String> listActions;
-
-    public List<String> getListActions() {
-        return listActions;
-    }
-
-    public void setListActions(List<String> listActions) {
-        this.listActions = listActions;
-    }
     private List<Severity> priorities;
 
     public EventController() {
-        listActions = new ArrayList();
-        listActions.add("CreateInstance");
-        listActions.add("DeleteInstance");
+      createListActions();
+      createPiorityList();
     }
 
+    private void createListActions(){
+        listActions = new ArrayList();
+        listActions.add("Create Instance");
+        listActions.add("Delete Instance");
+        
+    }
+    private void createPiorityList(){
+       priorities = new ArrayList();
+       priorities.add(Severity.CLEAR);
+       priorities.add(Severity.INFO);
+       priorities.add(Severity.MINOR);
+       priorities.add(Severity.UNKNOWN);
+       priorities.add(Severity.MEDIUM);
+       priorities.add(Severity.WARNING);
+       priorities.add(Severity.MAJOR);
+       priorities.add(Severity.CRITICAL);
+    }
+    
     public Event getSelected() {
         return selected;
     }
@@ -80,17 +89,7 @@ public class EventController implements Serializable {
          this.listActions = list;
     }
      
-      public List<Severity> getPriorities(){
-       priorities = new ArrayList();
-       priorities.add(Severity.CLEAR);
-       priorities.add(Severity.INFO);
-       priorities.add(Severity.MINOR);
-       priorities.add(Severity.UNKNOWN);
-       priorities.add(Severity.MEDIUM);
-       priorities.add(Severity.WARNING);
-       priorities.add(Severity.MAJOR);
-       priorities.add(Severity.CRITICAL);
-        
+      public List<Severity> getPriorities(){       
         return priorities;
     }
     
@@ -98,6 +97,13 @@ public class EventController implements Serializable {
          this.priorities = list;
     }
 
+    public List<String> getListActions() {
+        return listActions;
+    }
+
+    public void setListActions(List<String> listActions) {
+        this.listActions = listActions;
+    }
 
     public void create() {
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));
@@ -130,7 +136,6 @@ public class EventController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    selected.setAction(null);
                     getFacade().edit(selected);
                 } else {
                     getFacade().remove(selected);
