@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import org.snmp4j.CommunityTarget;
@@ -52,12 +54,13 @@ public class SnmpAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(Meter meter, Date timestamp) {
+        System.out.println("In snmp "+meter.getName());
         if (meter.getOid() == null || meter.getOid().equals("")) {
             return null;
         }
         Measure measure = new Measure();
         try {
-
+            
             start();
             measure.setValue((double) send(getTarget(), meter.getOid(), PDU.GET));
             measure.setTstamp(timestamp);
@@ -163,7 +166,7 @@ public class SnmpAdapter implements Adapter {
         pdu.add(new VariableBinding(new OID(oid)));
         pdu.setType(type);
 
-        ResponseEvent event = snmp.send(pdu, target, null);
+        ResponseEvent event =snmp.send(pdu, target, null);
 
         if (event != null) {
             if (event.getResponse().getErrorStatusText().equalsIgnoreCase("Success")) {
@@ -177,13 +180,13 @@ public class SnmpAdapter implements Adapter {
     }
 
     private Target getTarget(String ip) {
-        Address targetAddress = GenericAddress.parse(ip);
+        Address targetAddress = GenericAddress.parse("udp:"+ip+"/161");
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(profile.getIdSnmp().getCommunity()));
         target.setAddress(targetAddress);
         target.setRetries(SNMP_RETRIES);
         target.setTimeout(SNMP_TIMEOUT);
-        target.setVersion(SnmpConstants.version1);
+        target.setVersion(SnmpConstants.version2c);
         return target;
     }
 
@@ -193,13 +196,17 @@ public class SnmpAdapter implements Adapter {
         }
         return getTarget(profile.getIdSnmp().getTarget());
     }
-
-    private void start() throws IOException {
-        transport = new DefaultUdpTransportMapping();
-        snmp = new Snmp(transport);
-        transport.listen();
+    @PostConstruct
+    private void start()  {
+        try {
+            transport = new DefaultUdpTransportMapping();
+            snmp = new Snmp(transport);
+            transport.listen();
+        } catch (IOException ex) {
+            Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
+    @PreDestroy
     private void stop() throws IOException {
         try {
             if (transport != null) {
