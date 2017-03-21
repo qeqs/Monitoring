@@ -100,7 +100,7 @@ public class EventController implements Serializable {
 
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("EventCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
