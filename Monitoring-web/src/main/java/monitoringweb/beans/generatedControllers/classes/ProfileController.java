@@ -1,14 +1,12 @@
 package monitoringweb.beans.generatedControllers.classes;
 
 import controllers.rmi.entities.Profile;
-import controllers.rmi.entities.User;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.ProfileFacade;
 import dao.UsersFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,7 +19,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.servlet.http.HttpServletRequest;
 import scheduler.SchedulerController;
 
 @Named("profileController")
@@ -73,17 +70,8 @@ public class ProfileController implements Serializable {
         return selected;
     }
 
-    private List<User> prepareUserlist() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
-        User user = userdFacade.getUserByUsername(username);
-        List<User> list = new ArrayList();
-        list.add(user);
-        return list;
-    }
 
     public void create() {
-        selected.setUserList(prepareUserlist());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -91,7 +79,6 @@ public class ProfileController implements Serializable {
     }
 
     public void update() {
-        selected.setUserList(prepareUserlist());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProfileUpdated"));
 
     }
@@ -105,22 +92,8 @@ public class ProfileController implements Serializable {
     }
 
     public List<Profile> getItems() {
-
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
-
-        List<Profile> profiles = getFacade().findAll();
-        List<User> users;
-        items = new ArrayList<>();
-        for (Profile pr : profiles) {
-            users = pr.getUserList();
-            if (users != null) {
-                for (User usr : users) {
-                    if (usr.getUsername().equals(username)) {
-                        items.add(pr);
-                    }
-                }
-            }
+        if (items == null) {
+            items = getFacade().findAll();
         }
         return items;
     }
