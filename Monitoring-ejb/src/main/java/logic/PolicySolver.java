@@ -23,7 +23,7 @@ public class PolicySolver {
         }
         List<Policy> policies = profile.getIdPolicyList().getPolicyList();
         for (Policy policy : policies) {
-            if (policy.getEnabled() && policy.getIdPolicylist().getEnabled()) {
+            if (policy.getEnabled() && policy.getIdPolicylist().getEnabled() && policy.getIdMeter().equals(measure.getIdMeter())) {
                 double treshhold = policy.getTreshhold();
                 EventBuilder eventBuilder = new EventBuilder();
                 eventBuilder.createNewEvent()
