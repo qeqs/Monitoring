@@ -54,13 +54,13 @@ public class SnmpAdapter implements Adapter {
 
     @Override
     public Measure getMeasure(Meter meter, Date timestamp) {
-        System.out.println("In snmp "+meter.getName());
+        System.out.println("In snmp " + meter.getName());
         if (meter.getOid() == null || meter.getOid().equals("")) {
             return null;
         }
         Measure measure = new Measure();
         try {
-            
+
             start();
             measure.setValue((double) send(getTarget(), meter.getOid(), PDU.GET));
             measure.setTstamp(timestamp);
@@ -71,6 +71,7 @@ public class SnmpAdapter implements Adapter {
             System.err.println("Created snmp measure with value " + measure.getValue());
         } catch (IOException ex) {
             Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } finally {
             try {
                 stop();
@@ -166,21 +167,17 @@ public class SnmpAdapter implements Adapter {
         pdu.add(new VariableBinding(new OID(oid)));
         pdu.setType(type);
 
-        ResponseEvent event =snmp.send(pdu, target, null);
+        ResponseEvent event = snmp.send(pdu, target, null);
 
         if (event != null) {
-            if (event.getResponse().getErrorStatusText().equalsIgnoreCase("Success")) {
-                return event.getResponse().getVariableBindings().firstElement().getVariable().toInt();
-            } else {
-                throw new IOException("No success in response(this is code error mesg)");
-            }
+            return event.getResponse().getVariableBindings().firstElement().getVariable().toInt();
         } else {
             throw new IOException("NULL response (this is code error mesg)");
         }
     }
 
     private Target getTarget(String ip) {
-        Address targetAddress = GenericAddress.parse("udp:"+ip+"/161");
+        Address targetAddress = GenericAddress.parse("udp:" + ip + "/161");
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(profile.getIdSnmp().getCommunity()));
         target.setAddress(targetAddress);
@@ -196,8 +193,9 @@ public class SnmpAdapter implements Adapter {
         }
         return getTarget(profile.getIdSnmp().getTarget());
     }
+
     @PostConstruct
-    private void start()  {
+    private void start() {
         try {
             transport = new DefaultUdpTransportMapping();
             snmp = new Snmp(transport);
@@ -206,6 +204,7 @@ public class SnmpAdapter implements Adapter {
             Logger.getLogger(SnmpAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     @PreDestroy
     private void stop() throws IOException {
         try {
