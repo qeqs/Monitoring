@@ -4,7 +4,7 @@ values(0,'0','http://8.43.86.2:5000/v2.0','http://8.43.86.2:8777','facebook14712
 insert into snmp_settings(id_snmp,community,target) 
 values('0','public','localhost');
 
-insert into event(id_event,name,action,priority,description) values('0','testEvent',{''},'Medium','test'); 
+insert into event(id_event,name,action,priority,description) values('0','testEvent','create instanse','Medium','test'); 
 insert into meters(id_meters,type,unit,description,name) values('0','Cumulative','instance','test','testMeter'); 
 insert into meters(id_meters,type,unit,description,name,oid) values('1','Cumulative','date','testSnmp','testSnmpMeter','1.3.6.1.2.1.1.8.0'); 
 insert into policy_list(id_policylist,enabled,name) values('0',true,'testList');
