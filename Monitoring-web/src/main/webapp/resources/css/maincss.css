@@ -113,10 +113,10 @@ tr.jsfcrud_even_row {
 }
 .ui-widget-content {
     background: #FFFFFF;
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 .ui-widget {
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 .ui-layout-north {
     z-index: 20 !important;

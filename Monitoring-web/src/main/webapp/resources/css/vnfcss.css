@@ -1,0 +1,51 @@
+.ui-widget {
+    font-size: 14px !important;
+}
+.ui-layout-north {
+    z-index: 20 !important;
+    overflow: visible !important;;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+.ui-widget-header {
+    text-align: center;
+    text-transform: uppercase;
+}
+.ui-button {
+    margin-top: 10px !important;
+}
+.ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd {
+    border: none;
+}
+.ui-widget-header {
+    text-transform: none;
+}
+
+.ui-datagrid-content {
+   border: none;
+} 
+
+.ui-diagram-element {
+    border:0.1em dotted #E5E4E2; 
+    background-color: #EFEEEC;
+    width:11em; 
+    height:8.8em;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.ui-diagram-element:hover {
+    background-color: #C7C6C4;
+}
+
+.ui-username {
+    text-align: center;
+}
+
+.slot { 
+    background:#FF9900; 
+    width:200px; 
+    height:200px; 
+    display:block; 
+} 
