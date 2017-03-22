@@ -1,20 +1,25 @@
 package controllers.rmi.entities;
 
-
-
 public enum Action {
     CreateInstance {
         @Override
         public void execute(Profile profile) {
             
         }
-    },DeleteInstance {
+    }, 
+    DeleteInstance {
         @Override
         public void execute(Profile profile) {
+            
         }
+    },
+    None {
+        @Override
+        public void execute(Profile profile) {
+            
+        }
+
     };
-    
-    
-    
+
     public abstract void execute(Profile profile);
 }

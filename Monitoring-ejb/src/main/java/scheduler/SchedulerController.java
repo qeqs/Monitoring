@@ -61,6 +61,7 @@ public class SchedulerController {
             monitor.restart(profileFacade.findAll());            
         }
     }
+    
     public void delete(Profile profile) throws SchedulerException{
         MonitorTemplate temp = find(profile);
         monitors.remove(temp);        
