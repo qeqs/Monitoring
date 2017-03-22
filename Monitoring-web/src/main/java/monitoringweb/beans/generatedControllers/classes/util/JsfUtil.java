@@ -6,8 +6,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import logic.events.Event;
-import org.primefaces.context.RequestContext;
 
 public class JsfUtil {
 
@@ -74,7 +75,7 @@ public class JsfUtil {
             }
             FacesMessage facesMsg = new FacesMessage(severity, event.toString(), event.description());
             FacesContext.getCurrentInstance().addMessage("Event!", facesMsg);
-        } catch (Exception e) {            
+        } catch (Exception e) {
             addErrorMessage(e, event.toString());
         }
 
@@ -92,6 +93,26 @@ public class JsfUtil {
     public static Object getObjectFromRequestParameter(String requestParameterName, Converter converter, UIComponent component) {
         String theId = JsfUtil.getRequestParameter(requestParameterName);
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
+    }
+
+    public static HttpServletRequest getHttpServletRequest(final FacesContext facesContext) {
+        final Object request = facesContext.getExternalContext().getRequest();
+
+        if (request instanceof javax.servlet.http.HttpServletRequest) {
+            return (HttpServletRequest) request;
+        } else {
+            return null;
+        }
+    }
+
+    public static HttpSession getHttpSession(final FacesContext facesContext) {
+        final HttpServletRequest httpServletRequest = getHttpServletRequest(facesContext);
+
+        if (httpServletRequest != null) {
+            return httpServletRequest.getSession();
+        } else {
+            return null;
+        }
     }
 
     public static enum PersistAction {
