@@ -2,6 +2,7 @@ package monitoringweb.beans.generatedControllers.classes;
 
 import controllers.rmi.entities.Measure;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
