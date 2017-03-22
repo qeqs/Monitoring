@@ -43,9 +43,11 @@
                                            itemValue="#{item}"
                                            itemLabel="#{item.name}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="Enabled" for="enabled" />
+                        <p:selectBooleanCheckbox id="enabled" value="#{policyController.selected.enabled}"/>
                         
                     </p:panelGrid>
-                    <p:commandButton id="createBut" action="#{policyController.create}" value="#{bundle.Save}" update="display,:PoliciesForm" oncomplete="handleSubmit(args,'PolicyCreateDialog');"/>
+                    <p:commandButton id="createBut" action="#{policyController.create}" value="#{bundle.Save}" update="display,:PoliciesForm,:growl" oncomplete="handleSubmit(args,'PolicyCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PolicyCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

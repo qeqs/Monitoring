@@ -1,14 +1,12 @@
 package monitoringweb.beans.generatedControllers.classes;
 
 import controllers.rmi.entities.Profile;
-import controllers.rmi.entities.User;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil.PersistAction;
 import dao.ProfileFacade;
 import dao.UsersFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,8 +19,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.servlet.http.HttpServletRequest;
-import org.quartz.SchedulerException;
 import scheduler.SchedulerController;
 
 @Named("profileController")
@@ -73,38 +69,18 @@ public class ProfileController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-<<<<<<< HEAD
- 
-    private List<User> prepareUserlist(){
-        HttpServletRequest request = (
-                HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest(); 
-        String username = request.getRemoteUser(); 
-        User user = userdFacade.getUserByUsername(username); 
-        List<User> list = new ArrayList();
-        list.add(user);
-        return list;
-    }
-    public void create() {   
-        selected.setUsersList(prepareUserlist());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
-=======
+
 
     public void create() {
-        try {
-            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
-            schedulerController.createMonitor(selected);
-        } catch (SchedulerException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
->>>>>>> 3eb2a7c89decc19746a7e1957b13038c28c4d719
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        selected.setUsersList(prepareUserlist());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProfileUpdated"));
+
     }
 
     public void destroy() {
@@ -116,27 +92,9 @@ public class ProfileController implements Serializable {
     }
 
     public List<Profile> getItems() {
-
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String username = request.getRemoteUser();
-
-        List<Profile> profiles = getFacade().findAll();
-        List<User> users;
-        items = new ArrayList<>();
-        for (Profile pr : profiles) {
-            users = pr.getUsersList();
-            if (users != null) {
-                for (User usr : users) {
-                    if (usr.getUsername().equals(username)) {
-                        items.add(pr);
-                    }
-                }
-            }
+        if (items == null) {
+            items = getFacade().findAll();
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3eb2a7c89decc19746a7e1957b13038c28c4d719
         return items;
     }
 
@@ -146,8 +104,12 @@ public class ProfileController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);
+                    //если соберешься делать изменение расписания для сбора метрик, 
+                    //не забудь что этот метод ставит дефолт значения при сборе
+                    schedulerController.createMonitor(selected);
                 } else {
                     getFacade().remove(selected);
+                    schedulerController.delete(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

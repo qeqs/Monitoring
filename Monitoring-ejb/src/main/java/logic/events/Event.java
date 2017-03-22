@@ -5,7 +5,10 @@ import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Policy;
 import java.util.Date;
 import java.util.List;
-import rmi.Action;
+import controllers.rmi.entities.Action;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 public class Event {
 
@@ -62,5 +65,18 @@ public class Event {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return severity.toString() + ": " + origin.getIdEvent().getName();
+    }
+    
+    public String description(){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        return "Value: "+formatter.format(getMeasure().getValue())+"\n"
+                +"Treshold: "+getOrigin().getSign()+getOrigin().getTreshhold()+"\n"
+                +"Date: "+sdf.format(createdAt);
     }
 }

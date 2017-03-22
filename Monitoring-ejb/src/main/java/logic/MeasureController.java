@@ -8,6 +8,11 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.AccessTimeout;
+import javax.ejb.Timeout;
 
 @Singleton
 public class MeasureController {
@@ -25,24 +30,34 @@ public class MeasureController {
             listener.onStoreMeasure(measure);
         }
         measureFacade.create(measure);
-       // solver.solve(measure, profile);
+        try {
+            solver.solve(measure, profile);
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    public void clearMeasures(){
+
+    public void clearMeasures() {
         measureFacade.deleteAll();
     }
+
     @Deprecated
-    public void clearMeasures(User user){
+    public void clearMeasures(User user) {
         measureFacade.deleteAllByUser(user);
     }
-    public void clearMeasuresBefore(Date date){
+
+    public void clearMeasuresBefore(Date date) {
         measureFacade.deleteAllBeforeDate(date);
     }
-    public void clearMeasuresByProfile(Profile profile, Date date){
+
+    @Timeout
+    @AccessTimeout(value = 2, unit = TimeUnit.MINUTES)
+    public void clearMeasuresByProfile(Profile profile, Date date) {
         measureFacade.deleteAllByProfileAndDate(profile, date);
     }
+
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
-
 
 }

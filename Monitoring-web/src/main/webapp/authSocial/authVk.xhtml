@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:head></h:head>
+
+    <f:metadata>
+        <f:viewParam id="error" name="error" value="#{vkAuth.error}" />
+        <f:viewParam id="error_reason" name="error_reason" value="#{vkAuth.error_reason}" />
+        <f:viewParam id="error_description" name="error_description" value="#{vkAuth.error_description}" />
+        <f:viewAction action="#{vkAuth.takeCode()}" />
+    </f:metadata>
+
+    <h:body> 
+    </h:body>
+
+</html>

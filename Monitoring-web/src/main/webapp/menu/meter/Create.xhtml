@@ -13,16 +13,19 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{meterController.selected != null}">
                        
+                        <p:outputLabel value="#{bundle.CreateMeterLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{meterController.selected.name}" title="#{bundle.CreateMeterTitle_name}" required ="true" requiredMessage="Name is required"/>
                         <p:outputLabel value="#{bundle.CreateMeterLabel_type}" for="type" />
                         <p:inputText id="type" value="#{meterController.selected.type}" title="#{bundle.CreateMeterTitle_type}" />
                         <p:outputLabel value="#{bundle.CreateMeterLabel_unit}" for="unit" />
                         <p:inputText id="unit" value="#{meterController.selected.unit}" title="#{bundle.CreateMeterTitle_unit}" />
+                        <p:outputLabel value="OID" for="oid" />
+                        <p:inputText id="oid" value="#{meterController.selected.oid}" />
                         <p:outputLabel value="#{bundle.CreateMeterLabel_description}" for="description" />
                         <p:inputText id="description" value="#{meterController.selected.description}" title="#{bundle.CreateMeterTitle_description}" />
-                        <p:outputLabel value="#{bundle.CreateMeterLabel_name}" for="name" />
-                        <p:inputText id="name" value="#{meterController.selected.name}" title="#{bundle.CreateMeterTitle_name}" />
+                        
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{meterController.create}" value="#{bundle.Save}" update="display,:MetersForm:datalist" oncomplete="handleSubmit(args,'MeterCreateDialog');"/>
+                    <p:commandButton actionListener="#{meterController.create}" value="#{bundle.Save}" update="display,:MetersForm:datalist,:growl" oncomplete="handleSubmit(args,'MeterCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="MeterCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -4,7 +4,7 @@ import adapters.Adapter;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Meter;
 import controllers.rmi.entities.Profile;
-import java.util.Date;
+import dao.MetersFacade;
 import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -27,24 +27,24 @@ public class MeasuresJob implements Job {
 
         JobDataMap jdm = jec.getMergedJobDataMap();
         try {
+            type = (AdapterType) jdm.get("type");
             adapter = (Adapter) jdm.get("adapter");
-            meters = (List<Meter>) jdm.get("meters");
+            meters = ((MetersFacade) jdm.get("meters")).findAll();
             controller = (MeasureController) jdm.get("controller");
             profile = (Profile) jdm.get("profile");
-            type = (AdapterType) jdm.get("type");
-            boolean isSnmp = type == AdapterType.Snmp;
 
             for (Meter meter : meters) {
                 adapter.setProfile(profile);
-                if (isSnmp) {
-                    controller.storeMeasure(adapter.getMeasure(meter), profile);
-                }
-                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
+                Measure measure = adapter.getMeasure(meter);
+                if (measure != null) {
                     controller.storeMeasure(measure, profile);
                 }
+//                for (Measure measure : adapter.getMeasureList(meter, new Date())) {
+//                    controller.storeMeasure(measure, profile);
+//                }
             }
         } catch (Exception ex) {
-            System.err.println("ERROR MeasureJob "+ type);
+            System.err.println("ERROR MeasureJob " + type);
             //ex.printStackTrace();
         }
 

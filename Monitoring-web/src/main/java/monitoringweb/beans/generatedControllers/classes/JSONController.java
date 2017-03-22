@@ -157,6 +157,7 @@ public class JSONController implements Serializable {
         json.put("xAxis", createX());
         json.put("series", createSeries());
         json.put("plotOptions", createPlotOptions());
+        json.put("credits", createCredits());
     }
     
     public void changeValue()
@@ -253,6 +254,14 @@ public class JSONController implements Serializable {
         JSONObject jstitle=new JSONObject();
         jstitle.put("text", getTitle());
         jstitle.put("x", new Integer(-20));
+        return jstitle;
+    }
+    
+      private JSONObject createCredits() throws JSONException
+    {
+        JSONObject jstitle=new JSONObject();
+        jstitle.put("text", "Monitoring");
+        jstitle.put("href", "http://185.5.251.73:28080/Monitoring-web");
         return jstitle;
     }
     

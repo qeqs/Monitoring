@@ -22,4 +22,10 @@ public interface VnfControllerRemote {
      * @return
      */
     List<Vnf> getAllVnf();
+    
+    /**
+     * удаляет профиль связанный с этой схемой
+     * @param vnf
+     */
+    public void delete(Vnf vnf);
 }

@@ -6,6 +6,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import logic.events.Event;
 
 public class JsfUtil {
 
@@ -47,6 +50,37 @@ public class JsfUtil {
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
 
+    public static void addMessage(Event event) {
+        try {
+
+            FacesMessage.Severity severity;
+            switch (event.getSeverity()) {
+                case CLEAR:
+                    return;
+                case INFO:
+                case MINOR:
+                    severity = FacesMessage.SEVERITY_INFO;
+                    break;
+                case WARNING:
+                case MAJOR:
+                case UNKNOWN:
+                    severity = FacesMessage.SEVERITY_WARN;
+                    break;
+                case CRITICAL:
+                    severity = FacesMessage.SEVERITY_FATAL;
+                    break;
+                default:
+                    severity = FacesMessage.SEVERITY_ERROR;
+                    break;
+            }
+            FacesMessage facesMsg = new FacesMessage(severity, event.toString(), event.description());
+            FacesContext.getCurrentInstance().addMessage("Event!", facesMsg);
+        } catch (Exception e) {
+            addErrorMessage(e, event.toString());
+        }
+
+    }
+
     public static void addSuccessMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
@@ -59,6 +93,26 @@ public class JsfUtil {
     public static Object getObjectFromRequestParameter(String requestParameterName, Converter converter, UIComponent component) {
         String theId = JsfUtil.getRequestParameter(requestParameterName);
         return converter.getAsObject(FacesContext.getCurrentInstance(), component, theId);
+    }
+
+    public static HttpServletRequest getHttpServletRequest(final FacesContext facesContext) {
+        final Object request = facesContext.getExternalContext().getRequest();
+
+        if (request instanceof javax.servlet.http.HttpServletRequest) {
+            return (HttpServletRequest) request;
+        } else {
+            return null;
+        }
+    }
+
+    public static HttpSession getHttpSession(final FacesContext facesContext) {
+        final HttpServletRequest httpServletRequest = getHttpServletRequest(facesContext);
+
+        if (httpServletRequest != null) {
+            return httpServletRequest.getSession();
+        } else {
+            return null;
+        }
     }
 
     public static enum PersistAction {

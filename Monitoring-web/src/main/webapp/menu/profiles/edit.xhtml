@@ -48,7 +48,7 @@
                                            itemLabel="#{vnf.name}"/>
                         </p:selectOneMenu>
                              
-                    <p:commandButton actionListener="#{profileController.update}" value="#{bundle.Save}" update="display,:ProfileForm:datalist" oncomplete="handleSubmit(args, 'ProfileEditDialog');"/>
+                    <p:commandButton actionListener="#{profileController.update}" value="#{bundle.Save}" update="display,:ProfileForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProfileEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('ProfileEditDialog').hide()"/>
                     </p:panelGrid>
                 </h:panelGroup>

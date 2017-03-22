@@ -9,6 +9,7 @@ import scheduler.job.ExpiredMeasuresJob;
 import controllers.rmi.entities.Profile;
 import dao.MetersFacade;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import logic.MeasureController;
 import org.quartz.JobBuilder;
@@ -56,7 +57,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     private OpenStackAdapter restAdapter;
     private TestAdapter testAdapter;
     private SnmpAdapter snmpAdapter;
-
 
     public void setRestAdapter(OpenStackAdapter restAdapter) {
         this.restAdapter = restAdapter;
@@ -144,7 +144,6 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
             scheduler.scheduleJob(jobsMain.get(key), value);
         }
         scheduler.scheduleJob(jobExpired, expirationTrigger);
-
     }
 
     public void restart() throws SchedulerException {
@@ -153,7 +152,25 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
             scheduler.rescheduleJob(scheduler.getTriggersOfJob(JobKey.jobKey(type.name() + JOB_NAME, JOB_GROUP_NAME)).get(0).getKey(), mainTriggers.get(type));
         }
         scheduler.rescheduleJob(scheduler.getTriggersOfJob(JobKey.jobKey(EXPIRATION_JOB_NAME, EXPIRATION_JOB_GROUP_NAME)).get(0).getKey(), expirationTrigger);
+    }
 
+    public void restart(List<Profile> profiles) throws SchedulerException {
+        String id = this.profile.getIdProfile();
+        for (Profile p : profiles) {
+            if (p.getIdProfile().equals(id)) {
+                profile = p;
+            }
+        }
+        jobsMain.clear();
+        restart();
+    }
+
+    public void clear() throws SchedulerException {
+        for (Map.Entry<AdapterType, Trigger> entry : mainTriggers.entrySet()) {
+            scheduler.unscheduleJob(entry.getValue().getKey());
+        }
+
+        scheduler.unscheduleJob(expirationTrigger.getKey());
     }
 
     private void init() throws SchedulerException {
@@ -187,7 +204,7 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
                             .withIdentity(key.name() + JOB_NAME, JOB_GROUP_NAME)
                             .build();
                     jobMain.getJobDataMap().put("adapter", getAdapterImpl(key));
-                    jobMain.getJobDataMap().put("meters", metersFacade.findAll());
+                    jobMain.getJobDataMap().put("meters", metersFacade);
                     jobMain.getJobDataMap().put("profile", profile);
                     jobMain.getJobDataMap().put("controller", controller);
                     jobMain.getJobDataMap().put("type", key);
@@ -206,12 +223,12 @@ public class MonitorTemplate {//todo:думаю надо сделать этот
     }
 
     private Adapter getAdapterImpl(AdapterType type) {
-        
-        Adapter adapter=null;
-        switch(type){
-            case Rest:
-                adapter= restAdapter;
-                break;
+
+        Adapter adapter = null;
+        switch (type) {
+//            case Rest:
+//                adapter = restAdapter;
+//                break;
             case Snmp:
                 adapter = snmpAdapter;
                 break;

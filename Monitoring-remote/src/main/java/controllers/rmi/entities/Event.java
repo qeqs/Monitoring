@@ -3,7 +3,7 @@ package controllers.rmi.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.Column;
+import javax.persistence.Column;;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,10 +11,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+
 
 @Entity
 @Table(name = "event")
@@ -27,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Event.findByPriority", query = "SELECT e FROM Event e WHERE e.priority = :priority")
     , @NamedQuery(name = "Event.findByDescription", query = "SELECT e FROM Event e WHERE e.description = :description")})
 public class Event implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -40,7 +43,8 @@ public class Event implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "action")
-    private Serializable action;
+    @Size(max = 255)
+    private String action;
     @Size(max = 100)
     @Column(name = "priority")
     private String priority;
@@ -73,11 +77,11 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public Serializable getAction() {
+    public String getAction() {
         return action;
     }
 
-    public void setAction(Serializable action) {
+    public void setAction(String action) {
         this.action = action;
     }
 

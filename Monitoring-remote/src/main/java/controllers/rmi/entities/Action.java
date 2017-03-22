@@ -1,6 +1,6 @@
-package rmi;
+package controllers.rmi.entities;
 
-import controllers.rmi.entities.Profile;
+
 
 public enum Action {
     CreateInstance {
@@ -15,8 +15,6 @@ public enum Action {
     };
     
     
-    
-  
     
     public abstract void execute(Profile profile);
 }

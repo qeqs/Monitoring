@@ -12,14 +12,10 @@
             <h:form id="PolicyListViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{policyListController.selected != null}">
-                        <h:outputText value="#{bundle.ViewPolicyListLabel_idPolicylist}"/>
-                        <h:outputText value="#{policyListController.selected.idPolicylist}" title="#{bundle.ViewPolicyListTitle_idPolicylist}"/>
+                        <h:outputText value="#{bundle.ViewPolicyListLabel_name}"/>
+                        <h:outputText value="#{policyListController.selected.name}" title="#{bundle.ViewPolicyListTitle_name}"/> 
                         <h:outputText value="#{bundle.ViewPolicyListLabel_enabled}"/>
                         <p:selectBooleanCheckbox value="#{policyListController.selected.enabled}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewPolicyListLabel_name}"/>
-                        <h:outputText value="#{policyListController.selected.name}" title="#{bundle.ViewPolicyListTitle_name}"/>
-                        <h:outputText value="#{bundle.ViewPolicyListLabel_uid}"/>
-                        <h:outputText value="#{policyListController.selected.uid}" title="#{bundle.ViewPolicyListTitle_uid}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PolicyListViewDialog.hide()"/>
                 </h:panelGroup>

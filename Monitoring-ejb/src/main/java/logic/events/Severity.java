@@ -2,7 +2,7 @@
 package logic.events;
 
 public enum Severity {
-    UNKNOWN(-10), CLEAR(0), INFO(10), MINOR(20), WARNING(30), MAJOR(40), CRITICAL(50);
+    UNKNOWN(-10), CLEAR(0), INFO(10), MINOR(20),MEDIUM(25), WARNING(30), MAJOR(40), CRITICAL(50);
 
     private final int value;
 
@@ -18,6 +18,8 @@ public enum Severity {
                 return INFO;
             case 20:
                 return MINOR;
+                case 25:
+                return MEDIUM;
             case 30:
                 return WARNING;
             case 40:

@@ -16,13 +16,13 @@ import javax.ejb.Stateless;
 
 @Stateless
 @LocalBean
-public class TestAdapter implements Adapter{
+public class TestAdapter implements Adapter {
 
     @EJB
     private SettingsFacade settingsFacade;
     private Settings settings;
     private Profile profile;
-    
+
     @Override
     public Meter getMeter(String name) {
         Meter meter = new Meter();
@@ -35,21 +35,27 @@ public class TestAdapter implements Adapter{
 
     @Override
     public Measure getMeasure(Meter meter) {
-        return getMeasure(meter,new Timestamp(new Date().getTime()));
+        return getMeasure(meter, new Timestamp(new Date().getTime()));
     }
 
     @Override
     public Measure getMeasure(Meter meter, Date timestamp) {
+
         Random random = new Random(new Date().getTime());
         Measure measure = new Measure();
+            measure.setValue(75 - (Math.abs(random.nextDouble() * 100)) % 50);
+        if (meter.getName().equals("memory")) {
+            measure.setValue(500 + (random.nextDouble() * 100) % 4 - (random.nextDouble() * 100) % 4);
+        }
+        if (meter.getOid() != null && !meter.getOid().equals("")) {
+            return null;
+        }
         measure.setIdMeter(meter);
-        measure.setSource("test");
-        measure.setResource(String.valueOf(random.nextLong()));
+        measure.setSource("openstack");
+        measure.setResource(meter.getIdMeters());
         measure.setTstamp(timestamp);
-        measure.setValue(random.nextDouble()%100 + random.nextInt()%50);
         measure.setIdProfile(profile);
-        
-        
+
         return measure;
     }
 
@@ -68,7 +74,7 @@ public class TestAdapter implements Adapter{
     @Override
     public List<Measure> getMeasureList(Meter meter, Date timestamp) {
         ArrayList<Measure> list = new ArrayList<>();
-        for(int i = 0; i<new Random(new Date().getTime()).nextInt()%10;i++){
+        for (int i = 0; i < 1; i++) {
             list.add(getMeasure(meter, timestamp));
         }
         return list;
