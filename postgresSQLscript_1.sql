@@ -42,7 +42,7 @@ CREATE TABLE Event
 (
 id_event character(100),
 name character(100),
-action character(100)[],
+action character(255),
 priority character(100),
 description character(100),
 constraint PK_Event primary key (id_event)
