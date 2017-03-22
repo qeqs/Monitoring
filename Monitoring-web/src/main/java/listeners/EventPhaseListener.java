@@ -8,27 +8,32 @@ import javax.faces.event.PhaseListener;
 import logic.events.Event;
 import monitoringweb.beans.generatedControllers.classes.util.JsfUtil;
 
-public class EventPhaseListener implements PhaseListener{
+public class EventPhaseListener implements PhaseListener {
 
     FacesContext context;
+    int prevEvent;
+
     @Override
     public void afterPhase(PhaseEvent event) {
         context = event.getFacesContext();
         Event globEvent = (Event) JsfUtil.getHttpSession(context).getAttribute(EjbListener.ATTRIBUTE);
-        if(globEvent!=null)
-        addMessage(globEvent);
+
+        if (globEvent != null && !(globEvent.getMeasure().getValue().intValue() == prevEvent)) {
+            addMessage(globEvent);
+            prevEvent = globEvent.getMeasure().getValue().intValue();
+        }
     }
 
     @Override
     public void beforePhase(PhaseEvent event) {
-        
+
     }
 
     @Override
     public PhaseId getPhaseId() {
         return PhaseId.RESTORE_VIEW;
     }
-    
+
     public void addMessage(Event event) {
         FacesMessage.Severity severity;
         switch (event.getSeverity()) {
