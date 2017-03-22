@@ -9,4 +9,7 @@
             <var>bundle</var>
         </resource-bundle>
     </application>
+    <lifecycle>
+        <phase-listener>listeners.EventPhaseListener</phase-listener>
+    </lifecycle>
 </faces-config>

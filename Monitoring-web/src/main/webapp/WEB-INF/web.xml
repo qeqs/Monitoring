@@ -8,14 +8,17 @@
         <filter-name>html5-cors</filter-name>
         <filter-class>monitoringweb.beans.rest.swagger.HTML5CorsFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>html5-cors</filter-name>
         <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
+    <listener>
+        <description>ServletContextListener, HttpSessionListener, HttpSessionAttributeListener</description>
+        <listener-class>listeners.GlobalSessionListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>       
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -25,7 +28,6 @@
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-        
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>monitoringweb.beans.rest</param-value>
@@ -44,8 +46,6 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    
-    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>secureDomain</realm-name>
@@ -54,12 +54,11 @@
             <form-error-page>/faces/loginerror.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
     <security-constraint>
         <display-name>Main Pages</display-name>
         <web-resource-collection>
             <web-resource-name>Protected Area</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/faces/menu/*</url-pattern>
             <url-pattern>/faces/menupage.xhtml</url-pattern>
             <http-method>GET</http-method>
@@ -76,8 +75,4 @@
             <role-name>ADMIN</role-name>
         </auth-constraint>
     </security-constraint>
-    
-    
-   
-    
 </web-app>

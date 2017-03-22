@@ -6,6 +6,9 @@ import controllers.rmi.entities.Policy;
 import java.util.Date;
 import java.util.List;
 import controllers.rmi.entities.Action;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 public class Event {
 
@@ -66,13 +69,14 @@ public class Event {
 
     @Override
     public String toString() {
-        return severity.toString() + ": " + meter.getName() + " " + createdAt.toString();
+        return severity.toString() + ": " + origin.getIdEvent().getName();
     }
     
     public String description(){
-        return "Meter value: "+getMeasure().getValue()+"\n"
-                +"Source: "+getMeasure().getSource()+"\n"
-                +"Resource: "+getMeasure().getResource()+"\n"
-                +"Treshold: "+getOrigin().getSign()+getOrigin().getTreshhold();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        return "Value: "+formatter.format(getMeasure().getValue())+"\n"
+                +"Treshold: "+getOrigin().getSign()+getOrigin().getTreshhold()+"\n"
+                +"Date: "+sdf.format(createdAt);
     }
 }
