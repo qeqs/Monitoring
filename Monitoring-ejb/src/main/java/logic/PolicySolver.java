@@ -4,6 +4,7 @@ import dao.PolicyFacade;
 import controllers.rmi.entities.Measure;
 import controllers.rmi.entities.Policy;
 import controllers.rmi.entities.Profile;
+import dao.PolicyListFacade;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ import logic.events.EventBuilder;
 public class PolicySolver {
 
     @EJB
-    PolicyFacade policyFacade;
+    PolicyListFacade policyFacade;
     @EJB
     EventController controller;
 
@@ -21,7 +22,7 @@ public class PolicySolver {
         if (profile.getIdPolicyList() == null || profile.getIdPolicyList().getPolicyList() == null) {
             return;
         }
-        List<Policy> policies = profile.getIdPolicyList().getPolicyList();
+        List<Policy> policies = policyFacade.find(profile.getIdPolicyList().getIdPolicylist()).getPolicyList();
         for (Policy policy : policies) {
             if (policy.getEnabled() && policy.getIdPolicylist().getEnabled() && policy.getIdMeter().equals(measure.getIdMeter())) {
                 double treshhold = policy.getTreshhold();
