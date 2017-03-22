@@ -34,7 +34,7 @@
                          <p:commandButton id="viewSnmpButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewSnmpForm" oncomplete="PF('ViewSnmpDialog').show()"/>
                      </h:panelGrid>
                 </p:column>
-                <p:column headerText="Vnf">
+                <p:column headerText="Schema">
                     <h:panelGrid columns="2">
                         <h:outputText value="#{item.idVnf.name}"  /> 
                          <p:commandButton id="viewVnfButton" icon="ui-icon-search" action="#{profileController.setProfileForView(item)}" update=":ViewVnfForm" oncomplete="PF('ViewVnfDialog').show()"/>

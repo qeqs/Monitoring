@@ -91,7 +91,10 @@ public class JSONController implements Serializable {
           title.append("Monitoring");
         if(meter!=null){            
             title.append(" ");
-            title.append(meter.getName());
+            if (meter.getUnit().equals(""))
+               title.append(meter.getName());
+            else
+               title.append(meter.getName()).append(" (").append(meter.getUnit()).append(")");
         }
         if(profile!=null){
             title.append(" ");
@@ -299,6 +302,8 @@ public class JSONController implements Serializable {
         return x;
     
     }
+    
+    
     
     private JSONArray createSeries() throws JSONException{
         JSONArray series = new JSONArray();

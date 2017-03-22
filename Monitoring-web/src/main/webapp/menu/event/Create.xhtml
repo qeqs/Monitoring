@@ -24,16 +24,17 @@
                                            itemLabel="#{item}"/>
                         </p:selectOneMenu>
                         
-                        <p:outputLabel value="#{bundle.CreateEventLabel_description}" for="description" />
-                        <p:inputText id="description" value="#{eventController.selected.description}" title="#{bundle.CreateEventTitle_description}" />
-                        
-                        <p:outputLabel value="Priority" for="actions" />                    
+                        <p:outputLabel value="Actions" for="actions" />                    
                         <p:selectOneMenu id="actions" value="#{eventController.selected.action}">
                             <f:selectItems value="#{eventController.listActions}"
                                            var="item"
                                            itemValue="#{item}"
                                            itemLabel="#{item}"/>
                         </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateEventLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{eventController.selected.description}" title="#{bundle.CreateEventTitle_description}" />
+                        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{eventController.create}" value="#{bundle.Save}" update="display,:EventListForm:datalist,:growl" oncomplete="handleSubmit(args,'EventCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="EventCreateDialog.hide()"/>

@@ -40,6 +40,7 @@ public class EventController implements Serializable {
 
     private void createListActions(){
         listActions = new ArrayList();
+        listActions.add("None");
         listActions.add("Create Instance");
         listActions.add("Delete Instance");
         

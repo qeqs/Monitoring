@@ -50,8 +50,10 @@
                         <p:commandButton action="#{authController.logout()}" value="Logout" ajax="false" style="width: 99%"/>
                     </h:form>
                 </p:layoutUnit>
+               <p:poll interval="3" update="growlEvents" />  
             </h:form>
             <p:layoutUnit position="center">
+              
                 <ui:insert name="body"/>
             </p:layoutUnit>
         </p:layout>
