@@ -16,9 +16,9 @@
                         <p:inputText id="name" value="#{eventController.selected.name}" title="#{bundle.CreateEventTitle_name}" />
                         
                         
-                        <p:outputLabel value="#{bundle.CreateEventLabel_priority}" for="priority" />
+                        <p:outputLabel value="Priority" for="priority" />
                         <p:selectOneMenu id="priority" value="#{eventController.selected.priority}">
-                        <f:selectItems value="#{eventController.getPriorities()}"
+                        <f:selectItems value="#{eventController.priorities}"
                                            var="item"
                                            itemValue="#{item}"
                                            itemLabel="#{item}"/>
@@ -27,7 +27,7 @@
                         <p:outputLabel value="#{bundle.CreateEventLabel_description}" for="description" />
                         <p:inputText id="description" value="#{eventController.selected.description}" title="#{bundle.CreateEventTitle_description}" />
                         
-                        <p:outputLabel value="Priority" for="actions" />
+                        <p:outputLabel value="Priority" for="actions" />                    
                         <p:selectOneMenu id="actions" value="#{eventController.selected.action}">
                             <f:selectItems value="#{eventController.listActions}"
                                            var="item"

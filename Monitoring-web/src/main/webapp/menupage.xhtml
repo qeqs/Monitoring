@@ -11,10 +11,11 @@
 
     <h:head>
         <h:outputScript library="js" name="jsfcrud.js"/>
+        <h:outputStylesheet library="css" name="vnfcss.css"/>
     </h:head>
 
     <h:body>
-        <h:outputStylesheet library="css" name="maincss.css"/>
+         <h:outputStylesheet library="css" name="maincss.css"/>
         <p:growl id="growl" life="3000" />        
         <p:growl id="growlEvents" showDetail="true" life="5000" />  
         <p:layout fullPage="true" styleClass="headerstyle">
@@ -29,28 +30,31 @@
                                  </p:menubar>
                                 </p:layoutUnit >-->
                 <p:layoutUnit position="west" style="min-width:180px" >
-                    <p:menu styleClass="menuheader" style="min-width:180px" >
-                        <p:submenu label="My menu"  styleClass="menuheader">
+       
+                        <p:menu  style="min-width:180px" >
+                            <p:submenu label="My menu" >
                             <p:menuitem icon="ui-icon-document" value="Policies" outcome="/menu/policy/policies.xhtml" />
                             <p:menuitem icon="ui-icon-note" value="Groups of policies" outcome="/menu/policyList/List.xhtml" />
                             <p:menuitem value="Profiles" icon="ui-icon-newwin" outcome="/menu/profiles/viewProfiles.xhtml"/> 
                             <p:menuitem value="Graphics" icon="ui-icon-image" outcome="/menu/graphics/graphics.xhtml" /> 
                             <p:menuitem icon="ui-icon-gear" value="Openstack Settings" outcome="/menu/settings/ViewSettings.xhtml" />
                             <p:menuitem icon="ui-icon-gear" value="SNMP Settings" outcome="/menu/snmp/viewSnmp.xhtml" />
-                        </p:submenu> 
+                            </p:submenu> 
 
-                        <p:submenu label="Common menu"  styleClass="menuheader">
+                            <p:submenu label="Common menu"  >
                             <p:menuitem value="Events" outcome="/menu/event/Events.xhtml"  />
                             <p:menuitem value="Meters" outcome="/menu/meter/Meters.xhtml" />
-                        </p:submenu >             
-                    </p:menu>
-
+                            </p:submenu >             
+                        </p:menu>
+                    <h:form id="logoutForm">
+                        <p:commandButton action="#{authController.logout()}" value="Logout" ajax="false" style="width: 99%"/>
+                    </h:form>
                 </p:layoutUnit>
             </h:form>
             <p:layoutUnit position="center">
                 <ui:insert name="body"/>
             </p:layoutUnit>
         </p:layout>
-        
+
     </h:body>
 </html>

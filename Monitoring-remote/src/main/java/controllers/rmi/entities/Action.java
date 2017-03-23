@@ -16,7 +16,5 @@ public enum Action {
     
     
     
-  
-    
     public abstract void execute(Profile profile);
 }
