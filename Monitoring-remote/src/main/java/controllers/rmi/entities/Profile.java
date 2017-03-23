@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Profile.findAll", query = "SELECT p FROM Profile p")
     , @NamedQuery(name = "Profile.findByIdProfile", query = "SELECT p FROM Profile p WHERE p.idProfile = :idProfile")
-    , @NamedQuery(name = "Profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
+    , @NamedQuery(name = "Profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")
+    , @NamedQuery(name = "Profile.findByVnf", query = "SELECT p FROM Profile p WHERE p.idVnf = :vnf")})
 public class Profile implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,7 +59,7 @@ public class Profile implements Serializable {
     @JoinColumn(name = "id_vnf", referencedColumnName = "id")
     @ManyToOne
     private Vnf idVnf;
-    @OneToMany(mappedBy = "idProfile",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "idProfile", cascade = CascadeType.PERSIST)
     private List<Measure> measureList;
 
     public Profile() {
