@@ -70,7 +70,6 @@ public class ProfileController implements Serializable {
         return selected;
     }
 
-
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -92,9 +91,7 @@ public class ProfileController implements Serializable {
     }
 
     public List<Profile> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 
